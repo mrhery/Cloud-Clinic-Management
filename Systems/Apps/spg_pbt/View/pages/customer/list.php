@@ -2,8 +2,8 @@
     <div class="card-header">
        <span class="fa fa-list"></span> Users
 
-        <a href="<?= PORTAL ?>pengguna/add" class="btn btn-primary btn-sm float-right">
-            Create new User
+        <a href="<?= PORTAL ?>customers/add" class="btn btn-primary btn-sm float-right">
+            Add new Customer
         </a>
     </div>
 
@@ -13,8 +13,7 @@
                 <tr>
                     <th>Bil. </th>
                     <th class="text-center">Name </th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">Role </th>
+                    <th class="text-center">IC</th>
                     <th class="text-right">:::</th>
                 </tr>
             </thead>
@@ -26,19 +25,12 @@
                     <tr>
                         <td class="text-center"><?= $no++ ?></td>
                         <td class="text-center"><?= $user->u_name ?></td>
-                        <td class="text-center"><?= $user->u_email ?></td>
-                        <td class="text-center">
-                            <?php
-                            foreach (roles::getBy(['r_id' => $user->u_role]) as $role) {
-                                echo $role->r_name;
-                            }
-                            ?>
-                        </td>
+                        <td class="text-center">-</td>
                         <td class="text-right">
-                            <a href="<?= PORTAL ?>pengguna/edit/<?= $user->u_id ?>" class="btn btn-sm btn-warning">
+                            <a href="<?= PORTAL ?>customer/edit/<?= $user->u_id ?>" class="btn btn-sm btn-warning">
                                 Edit
                             </a>
-                            <a href="<?= PORTAL ?>pengguna/view/<?= $user->u_id ?>" class="btn btn-sm btn-success">
+                            <a href="<?= PORTAL ?>customer/view/<?= $user->u_id ?>" class="btn btn-sm btn-success">
                                 View
                             </a>
 
