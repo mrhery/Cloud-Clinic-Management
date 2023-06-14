@@ -1,0 +1,17 @@
+{
+  "databases": [
+    {
+      "host": "127.0.0.1",
+      "database": "cclinic",
+      "username": "root",
+      "password": ""
+    }
+  ],
+  "constants": [
+    {
+      "PORTAL": "http://localhost/Cloud-Clinic-Management/"
+    }
+  ],
+  "miscs": ["asset_loader.php"],
+  "headers": []
+}

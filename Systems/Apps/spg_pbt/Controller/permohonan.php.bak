@@ -1,0 +1,87 @@
+<?php
+
+switch (input::post("action")) {
+    case "add":
+	
+        if (
+            !empty(Input::post("name"))
+        ) 
+		{
+			$key = F::UniqKey();
+			
+			
+            $a = applications::insertInto([
+                "a_name"	=> 	Input::post("name"),
+                "a_email"	=> 	Input::post("email"),
+                "a_ic"		=> 	Input::post("ic"),
+                "a_alamat"	=> 	Input::post("alamat"),
+                "a_phone"	=> 	Input::post("phone"),
+                "a_time"	=> 	F::GetTime(),
+                "a_key"		=> 	$key,
+                "a_shop"	=> 	Input::post("shop_picked"),
+                "a_gambar"	=> 	Input::post("gambar"),
+                
+            ]);
+			
+			if($a){
+				$xz = applications::getBy(["a_key" => $key]);
+					
+				if(count($xz) > 0){
+					$xz = $xz[0];
+					
+					application_status::insertInto([
+						"as_application"  => $xz->a_id,
+						"as_user"		=>
+					]);
+					
+				}else{
+					//error
+					Alert::set("success", "Gagal mengambil maklumat gerai.");
+				}
+				
+			}else{
+				// error
+				Alert::set("success", "Gagal menyimpan data gerai.");
+			}
+
+            Alert::set("success", "Maklumat gerai telah disimpan.");
+        } 
+		else 
+		{
+            Alert::set("error", "Data Tidak Lengkap");
+        }
+        
+		break;
+
+    case "edit":
+	
+        if (true) 
+		{
+            applications::updateBy(
+				["a_id" => url::get(2)], 
+				[
+					"a_name"        => Input::post("name"),
+					"a_email"        => Input::post("email"),
+					"a_time"        => F::GetTime(),     
+            ]);
+
+            Alert::set("success", "Maklumat gerai telah disimpan.");
+        } 
+		else 
+		{
+            Alert::set("error", "Input Kawasan, No Fail & Alamat (No Lot, Jalan & Poskod) adalah wajib!");
+        }
+        
+		break;
+
+    case "delete":
+	
+        applications::deleteBy(["a_id" => url::get(2)]);
+
+        Alert::set("success", "Maklumat gerai telah dipadam.", 
+		[
+            "redirect"    => PORTAL . "permohonan"
+        ]);
+		
+        break;
+}

@@ -1,0 +1,53 @@
+<div class="card">
+	<div class="card-header">
+		Senarai Jabatan
+		
+		<a href="<?= PORTAL ?>settings/jabatan/add" class="float-right btn btn-primary btn-sm">
+			Tambah Jabatan
+		</a>
+	</div>
+	
+	<div class="card-body">
+		<table class="table table-fluid table-hover">
+			<thead>
+				<tr>
+                    <th class="text-center">No</th>
+					<th class="text-center">Code</th>
+					<th class="text-center"> Nama</th>
+					<th class="text-center"> Status</th>
+					<th class="text-right">:::</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<?php
+				$no = 1;
+				foreach(departments::list() as $de){
+				?>
+				<tr>
+					<td class="text-center"><?= $no++ ?></td>
+					<td class="text-center">
+						<?= $de->d_code ?>
+					</td>
+					<td class="text-center">
+						<?= $de->d_name ?>
+					</td>
+					<td class="text-center">
+						<?= $de->d_status==1 ? "ENABLE" : "DISABLE" ?>
+					</td>
+					<td class="text-right">						
+						<a href="<?= PORTAL ?>settings/jabatan/view/<?= $de->d_id ?>" class="btn btn-sm btn-primary">
+							Kemaskini
+						</a>
+						<a href="<?= PORTAL ?>settings/jabatan/delete/<?= $de->d_id ?>" class="btn btn-sm btn-danger">
+							Padam
+						</a>
+					</td>
+				</tr>
+				<?php
+				}
+			?>
+			</tbody>
+		</table>
+	</div>
+</div>

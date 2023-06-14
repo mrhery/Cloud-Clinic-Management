@@ -1,0 +1,32 @@
+<?php
+new Controller(["jabatan"]);
+Controller::alert();
+?>
+<div class="row">
+	<div class="col-md-12">
+	<?php
+		switch(url::get(2)){
+			case "":
+			case "list":
+				Page::Load("pages/jabatan/list");
+			break;
+			
+			case "edit":
+				Page::Load("pages/jabatan/edit");
+			break;
+			case "view":
+                Page::Load("pages/jabatan/view");
+			break;
+			case "delete":
+				Page::Load("pages/jabatan/delete");
+			break;
+			
+			case "add":
+				Page::Load("pages/jabatan/add");
+			break;
+		}
+	?>
+	</div>
+</div>	
+
+Department here
