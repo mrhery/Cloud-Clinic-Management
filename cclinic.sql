@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2023 at 05:34 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Jun 14, 2023 at 05:12 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,113 @@ SET time_zone = "+00:00";
 --
 -- Database: `cclinic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `a_id` int(11) NOT NULL,
+  `a_ukey` varchar(255) NOT NULL,
+  `a_customer` int(11) NOT NULL,
+  `a_clinic` int(11) NOT NULL,
+  `a_date` varchar(100) NOT NULL,
+  `a_time` int(15) NOT NULL,
+  `a_status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointment_status`
+--
+
+CREATE TABLE `appointment_status` (
+  `as_id` int(11) NOT NULL,
+  `as_appointment` int(11) NOT NULL,
+  `as_status` int(11) NOT NULL,
+  `as_message` varchar(1000) NOT NULL,
+  `as_date` varchar(100) NOT NULL,
+  `as_time` int(15) NOT NULL,
+  `as_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinic`
+--
+
+CREATE TABLE `clinic` (
+  `c_id` int(11) NOT NULL,
+  `c_ukey` varchar(255) NOT NULL,
+  `c_name` varchar(255) NOT NULL,
+  `c_address` text NOT NULL,
+  `c_phone` varchar(50) NOT NULL,
+  `c_email` varchar(255) NOT NULL,
+  `c_regno` varchar(100) NOT NULL,
+  `c_logo` varchar(255) NOT NULL,
+  `c_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinic_customer`
+--
+
+CREATE TABLE `clinic_customer` (
+  `cc_id` int(11) NOT NULL,
+  `cc_clinic` int(11) NOT NULL,
+  `cc_customer` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinic_user`
+--
+
+CREATE TABLE `clinic_user` (
+  `cu_id` int(11) NOT NULL,
+  `cu_clinic` int(11) NOT NULL,
+  `cu_user` int(11) NOT NULL,
+  `cu_role` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `c_id` int(11) NOT NULL,
+  `c_name` varchar(255) NOT NULL,
+  `c_ic` varchar(25) NOT NULL,
+  `c_phone` varchar(50) NOT NULL,
+  `c_email` varchar(100) NOT NULL,
+  `c_password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_record`
+--
+
+CREATE TABLE `customer_record` (
+  `cr_id` int(11) NOT NULL,
+  `cr_customer` int(11) NOT NULL,
+  `cr_clinic` int(11) NOT NULL,
+  `cr_user` int(11) NOT NULL,
+  `cr_date` varchar(50) NOT NULL,
+  `cr_time` int(15) NOT NULL,
+  `cr_title` varchar(500) NOT NULL,
+  `cr_description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -131,6 +238,48 @@ INSERT INTO `users` (`u_id`, `u_name`, `u_email`, `u_password`, `u_key`, `u_full
 --
 
 --
+-- Indexes for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`a_id`);
+
+--
+-- Indexes for table `appointment_status`
+--
+ALTER TABLE `appointment_status`
+  ADD PRIMARY KEY (`as_id`);
+
+--
+-- Indexes for table `clinic`
+--
+ALTER TABLE `clinic`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- Indexes for table `clinic_customer`
+--
+ALTER TABLE `clinic_customer`
+  ADD PRIMARY KEY (`cc_id`);
+
+--
+-- Indexes for table `clinic_user`
+--
+ALTER TABLE `clinic_user`
+  ADD PRIMARY KEY (`cu_id`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`c_id`);
+
+--
+-- Indexes for table `customer_record`
+--
+ALTER TABLE `customer_record`
+  ADD PRIMARY KEY (`cr_id`);
+
+--
 -- Indexes for table `departments`
 --
 ALTER TABLE `departments`
@@ -157,6 +306,48 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `appointment_status`
+--
+ALTER TABLE `appointment_status`
+  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `clinic`
+--
+ALTER TABLE `clinic`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `clinic_customer`
+--
+ALTER TABLE `clinic_customer`
+  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `clinic_user`
+--
+ALTER TABLE `clinic_user`
+  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customer_record`
+--
+ALTER TABLE `customer_record`
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `departments`
