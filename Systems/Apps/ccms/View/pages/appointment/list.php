@@ -120,9 +120,9 @@ if(empty($show)){
 					?>
 					</td>
 					<td class="text-right">
-						<button class="btn btn-sm btn-warning">
+						<a class="btn btn-sm btn-warning" href="<?= PORTAL ?>appointments/edit/<?= $a->a_ukey ?>">
 							<span class="fa fa-edit"></span> Edits
-						</button>	
+						</a>	
 					</td>
 				</tr>
 			<?php

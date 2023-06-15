@@ -57,7 +57,14 @@ if(!empty(Input::get("date"))){
 						<div class="card">
 							<div class="card-body bg-dark text-light">
 								<strong>Appointments</strong><br />
-								<h4 class="text-light">1000</h4>
+								<h4 class="text-light">
+								<?php
+									$b = strtotime("-3 days");
+									$a = strtotime("+3 days");
+									$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ?", [$b, $a])->results();
+									echo count($r);
+								?>
+								</h4>
 								Appointments This Week
 							</div>
 						</div>
@@ -167,14 +174,14 @@ calendar.render();
 $(document).on("click", ".fc-day", function(){
 	var selectedDate = $(this).data("date");
 	
-	$(".fc-day").removeClass("border-danger");
-	$(this).addClass("border-danger");
+	$(".fc-day").removeClass("bg-info");
+	$(this).addClass("bg-info");
 	
 	window.location = PORTAL + "dashboard?date=" + selectedDate;
 });
 
 setTimeout(function(){
-	$(".fc-day[data-date=$selectedDate]").addClass("border-danger");
+	$(".fc-day[data-date=$selectedDate]").addClass("bg-info");
 }, 1500);
 
 var chart = new CanvasJS.Chart("chartContainer", {
