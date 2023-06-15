@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2023 at 05:12 PM
+-- Generation Time: Jun 15, 2023 at 06:35 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.2.34
 
@@ -34,8 +34,20 @@ CREATE TABLE `appointments` (
   `a_clinic` int(11) NOT NULL,
   `a_date` varchar(100) NOT NULL,
   `a_time` int(15) NOT NULL,
-  `a_status` int(11) NOT NULL
+  `a_status` int(11) NOT NULL,
+  `a_reason` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`) VALUES
+(1, 'asd', 1, 1, '15-Jun-2023', 1686840540, 1, 'Covid Test asd'),
+(2, 'asdasdasd asd as', 1, 1, '16-Jun-2023', 1686840578, 1, 'Astma'),
+(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 0, '15-Jun-2023', 1686843660, 1, 'adasd'),
+(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 0, '24-Jun-2023', 1687621320, 0, 'fever'),
+(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 0, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf');
 
 -- --------------------------------------------------------
 
@@ -108,8 +120,19 @@ CREATE TABLE `customers` (
   `c_ic` varchar(25) NOT NULL,
   `c_phone` varchar(50) NOT NULL,
   `c_email` varchar(100) NOT NULL,
-  `c_password` varchar(255) NOT NULL
+  `c_password` varchar(255) NOT NULL,
+  `c_ukey` varchar(255) NOT NULL,
+  `c_address` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`c_id`, `c_name`, `c_ic`, `c_phone`, `c_email`, `c_password`, `c_ukey`, `c_address`) VALUES
+(1, 'Mr Hery', '1234567890', '1234567890', 'hery@herytechnology.com', '', '', ''),
+(2, 'asdasd', '123123', '', '', '', '3426e93cb58b3fc5790f7e261109fc6b3098643a6f36d6ab2e52ba471923df51', ''),
+(3, 'asdasdad', '12341234', '', '', '', '934297ece8454deba61f1211bda0c277a0d52bc168134cce15642e8991af4a9c', 'asdfasd');
 
 -- --------------------------------------------------------
 
@@ -311,7 +334,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `appointment_status`
@@ -341,7 +364,7 @@ ALTER TABLE `clinic_user`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `customer_record`
