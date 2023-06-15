@@ -11,4 +11,4 @@ require_once(__DIR__ . "/Systems/init.php");
 
 define("ASSET", __DIR__ . "/assets/");
 
-(new App("Cloud Clinic Management System - CCMS", "spg_pbt"))->run();
+(new App("Cloud Clinic Management System - CCMS", "ccms"))->run();
