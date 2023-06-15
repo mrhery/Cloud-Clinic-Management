@@ -24,6 +24,7 @@ $page->addTopTag('
 <!--<link rel="stylesheet" href="' . PORTAL . 'assets/vendor/chartjs/chart.min.css" />-->
 <link rel="stylesheet" href="' . PORTAL . 'assets/vendor/font-awesome/css/font-awesome.min.css" />
 <link rel="stylesheet" href="' . PORTAL . 'assets/vendor/bs-select/bs-select.css" />
+<link rel="stylesheet" href="' . PORTAL . 'assets/vendor/datatable/dataTables.min.css" />
 
 <script>
 	let PORTAL = "' . PORTAL . '";
@@ -40,7 +41,15 @@ $page->addBottomTag('
 <script src="' . PORTAL . 'assets/vendor/chartjs/chart.min.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
+<script src="' . PORTAL . 'assets/vendor/datatable/dataTables.min.js"></script>
 
+
+<script>
+$(".dataTable").DataTable();
+
+
+</script>
 ');
 
 if (!Session::exists("user")) {

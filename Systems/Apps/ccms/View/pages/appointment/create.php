@@ -14,13 +14,13 @@
 					<h4>Customer Info</h4>
 					
 					Name:
-					<input type="text" class="form-control" name="name" placeholder="Name" /><br />
+					<input type="text" class="form-control" name="name" placeholder="Name" required /><br />
 					
 					IC / Passport:
-					<input type="text" class="form-control" name="ic" placeholder="IC / Passport" /><br />
+					<input type="text" class="form-control" name="ic" placeholder="IC / Passport" required /><br />
 					
 					Address:
-					<textarea class="form-control" name="address" placeholder="Address"></textarea>
+					<textarea class="form-control" name="address" placeholder="Address"></textarea><br />
 					
 					Phone:
 					<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
@@ -33,7 +33,14 @@
 					<h4>Appointment Description</h4>
 					
 					Description:
-					<textarea class="form-control" name="description" placeholder="Description: Fever, cough, covid test, vaccine"></textarea><br />
+					<textarea class="form-control" name="reason" placeholder="Description: Fever, cough, covid test, vaccine"></textarea>
+					<br />
+					
+					Date:
+					<input type="date" name="date" class="form-control" value="<?= date("Y-m-d") ?>" /><br />
+					
+					Time:
+					<input type="time" name="time" class="form-control" value="<?= date("H:i") ?>" /><br />
 					
 					Status:
 					<select class="form-control" name="status">
@@ -47,6 +54,13 @@
 					<button class="btn btn-success">
 						<span class="fa fa-save"></span> Confirm & Save Appointment
 					</button>
+					
+				<?php
+					Controller::form("appointment",
+					[
+						"action"	=> "create"
+					]);
+				?>
 				</div>
 			</div>
 		</form>

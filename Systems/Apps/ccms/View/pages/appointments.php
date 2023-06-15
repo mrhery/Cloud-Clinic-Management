@@ -1,6 +1,9 @@
 <div class="row">
     <div class="col-md-12">
 	<?php
+		new Controller(["appointment"]);
+		Controller::alert();
+	
 		switch(url::get(1)){
 			case "":
 			case "list":
