@@ -4,7 +4,7 @@ new Controller(["login"]);
 <img class="lena-brand-logo" src="<?= PORTAL ?>assets/img/logo.png" width="50" alt="">
 
 <form class="form-signin" action="" method="POST">
-	<h1 class="h3 font-weight-normal">Welcome here 👋</h1>
+	<h1 class="h3 font-weight-normal">Cloud Clinic Management System (CCMS)</h1>
 	<p class="text-color-light">Log in to your account</p>
 	
 	<?php
@@ -32,14 +32,6 @@ new Controller(["login"]);
 		]);
 	?>
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-	
-	<div class="row">
-		<div class="col-md-12 col-sm-12 col-12">
-			<div class="checkbox mb-3">
-				<small>Don't have any account? <a href="signup.html">Create one now!</a></small>
-			</div>
-		</div>
-	</div>
 </form>
 
 <div class="lena-shape-bg">
