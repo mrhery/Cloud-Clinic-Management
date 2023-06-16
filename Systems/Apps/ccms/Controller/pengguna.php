@@ -2,76 +2,91 @@
 
 switch (input::post("action")) {
 	case "add":
+		if(!empty(Input::post("email")) && !empty(Input::post("password"))){
+			$ukey = F::Hashing(F::UniqId(24) . time());
+			
+			$data = [
+				"u_name"		=> Input::post("name"),
+				"u_password"    => Password::get(Input::post("password")),
+				"u_email"		=> Input::post("email"),
+				"u_phone"		=> Input::post("phone"),
+				"u_ic"			=> Input::post("ic"),
+				"u_alamat"		=> Input::post("alamat"),
+				"u_ukey"		=> $ukey
+			];
 
-
-		$data = [
-			"u_name"		=> Input::post("u_name"),
-			"u_password"    => Password::get("1234"),
-			"u_email"		=> Input::post("u_email"),
-			"u_phone"		=> Input::post("u_phone"),
-			"u_ic"			=> Input::post("u_ic"),
-			"u_alamat"		=> Input::post("u_alamat"),
-			"u_area"		=> Input::post("u_area"),
-			"u_state"		=> Input::post("u_state"),
-			"u_country"		=> Input::post("u_country"),
-			"u_postcode"	=> Input::post("u_postcode"),
-			"u_role"		=> Input::post("u_role")
-		];
-
-		if (!empty(Input::post("u_password"))) {
-			$data["u_password"] = Password::get(Input::post("u_password"));
-		}
-
-		if (file_exists($_FILES["u_picture"]["tmp_name"]) && is_uploaded_file($_FILES["u_picture"]["tmp_name"])) {
-			$fname = F::UniqKey() . "-" . F::URLSlugEncode($_FILES["u_picture"]["name"]);
-			if (move_uploaded_file($_FILES["u_picture"]["tmp_name"], ASSET . "images/profile/" . $fname)) {
-				$data["u_picture"] = $fname;
+			if (!empty(Input::post("password"))) {
+				$data["u_password"] = Password::get(Input::post("password"));
 			}
+
+			if (file_exists($_FILES["picture"]["tmp_name"]) && is_uploaded_file($_FILES["picture"]["tmp_name"])) {
+				$fname = F::UniqKey() . "-" . F::URLSlugEncode($_FILES["picture"]["name"]);
+				if (move_uploaded_file($_FILES["picture"]["tmp_name"], ASSET . "images/profile/" . $fname)) {
+					$data["u_picture"] = $fname;
+				}
+			}
+			
+			users::insertInto($data);
+			
+			if(!Session::get("admin")){
+				$data["u_role"] = 4;
+			}else{
+				$data["u_role"] = Input::post("role");
+			}
+			
+			$u = users::getBy(["u_ukey" => $ukey]);
+			
+			if(count($u) > 0){
+				$u = $u[0];
+				
+				$role = Input::post("role");
+				
+				if(!Session::get("admin")){
+					$role = "staff";
+					
+					clinic_user::insertInto([
+						"cu_user"	=> $u->u_id,
+						"cu_clinic"	=> Session::get("clinic")->c_id,
+						"cu_role"	=> $role
+					]);
+				}
+				
+				Alert::set("success", "User has been added.");
+			}else{
+				Alert::set("error", "Fail adding user information.");
+			}
+		}else{
+			new Alert("error", "Email and password is required.");
 		}
-
-		$a = users::insertInto($data);
-		if ($a) {
-			Alert::set("success", "Maklumat berjaya dikemaskini.");
-		} else {
-			Alert::set("error", "Sila Lengkapkan Maklumat yang Diperlukan!");
-		}
-
-
-		break;
+	break;
 
 	case "edit":
-
-
 		$data = [
-			"u_name"		=> Input::post("u_name"),
-			"u_email"		=> Input::post("u_email"),
-			"u_phone"		=> Input::post("u_phone"),
-			"u_ic"			=> Input::post("u_ic"),
-			"u_alamat"		=> Input::post("u_alamat"),
-			"u_area"		=> Input::post("u_area"),
-			"u_state"		=> Input::post("u_state"),
-			"u_country"		=> Input::post("u_country"),
-			"u_postcode"	=> Input::post("u_postcode"),
-			"u_role"		=> Input::post("u_role")
+			"u_name"		=> Input::post("name"),
+			"u_email"		=> Input::post("email"),
+			"u_phone"		=> Input::post("phone"),
+			"u_ic"			=> Input::post("ic"),
+			"u_alamat"		=> Input::post("alamat")
 		];
-
-		if (!empty(Input::post("u_password"))) {
-			$data["u_password"] = Password::get(Input::post("u_password"));
+		
+		if(Session::get("admin")){
+			$data["u_role"] = Input::post("role");
+		}
+		
+		if (!empty(Input::post("password"))) {
+			$data["u_password"] = Password::get(Input::post("password"));
 		}
 
-		if (file_exists($_FILES["u_picture"]["tmp_name"]) && is_uploaded_file($_FILES["u_picture"]["tmp_name"])) {
-			$fname = F::UniqKey() . "-" . F::URLSlugEncode($_FILES["u_picture"]["name"]);
-			if (move_uploaded_file($_FILES["u_picture"]["tmp_name"], ASSET . "images/profile/" . $fname)) {
+		if (file_exists($_FILES["picture"]["tmp_name"]) && is_uploaded_file($_FILES["picture"]["tmp_name"])) {
+			$fname = F::UniqKey() . "-" . F::URLSlugEncode($_FILES["picture"]["name"]);
+			if (move_uploaded_file($_FILES["picture"]["tmp_name"], ASSET . "images/profile/" . $fname)) {
 				$data["u_picture"] = $fname;
 			}
 		}
 
-		$a = users::updateBy(["u_id" => url::get(2)], $data);
-		if ($a) {
-			Alert::set("success", "Maklumat berjaya dikemaskini.");
-		} else {
-			Alert::set("error", "Sila Lengkapkan Maklumat yang Diperlukan!");
-		}
+		users::updateBy(["u_ukey" => url::get(2)], $data);
+		
+		Alert::set("success", "User information has been saved successfully.");
 
-		break;
+	break;
 }

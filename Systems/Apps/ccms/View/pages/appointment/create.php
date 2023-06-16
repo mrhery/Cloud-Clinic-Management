@@ -40,7 +40,7 @@
 					<input type="date" name="date" class="form-control" value="<?= date("Y-m-d") ?>" /><br />
 					
 					Time:
-					<input type="time" name="time" class="form-control" value="<?= date("H:i") ?>" /><br />
+					<input type="time" name="time" class="form-control" value="<?= date("H:i", F::GetTime()) ?>" /><br />
 					
 					Status:
 					<select class="form-control" name="status">
@@ -48,6 +48,9 @@
 						<option value="0">Pending</option>
 						<option value="2">Cancelled</option>
 					</select><br />
+					
+					Note:
+					<input type="text" class="form-control" name="note" placeholder="Notes" /><br />
 				</div>
 				
 				<div class="col-md-12 text-center">

@@ -304,7 +304,7 @@
 <!-- End of Sidebar -->
 
 <main role="main" class="open">
-    <div class="container-fluid pt-4 pl-4 pb-4">
+    <div class="container-fluid pt-1 pl-4 pb-4 mb-5">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-12">
                 <h1><?= $ssm->m_name ?></h1>

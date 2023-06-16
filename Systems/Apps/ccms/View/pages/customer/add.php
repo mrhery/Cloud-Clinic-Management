@@ -45,6 +45,10 @@ Controller::alert();
 							<button class="btn btn-sm btn-primary">
 								<span class="fa fa-save"></span> Save
 							</button>
+							
+						<?php
+							Controller::form("customer", ["action" => "create"]);
+						?>
 						</div>
 
 					</div>

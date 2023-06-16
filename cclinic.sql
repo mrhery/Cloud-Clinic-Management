@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2023 at 06:35 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Jun 16, 2023 at 06:53 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,19 +35,21 @@ CREATE TABLE `appointments` (
   `a_date` varchar(100) NOT NULL,
   `a_time` int(15) NOT NULL,
   `a_status` int(11) NOT NULL,
-  `a_reason` varchar(500) NOT NULL
+  `a_reason` varchar(500) NOT NULL,
+  `a_user` int(11) NOT NULL,
+  `a_createdDate` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`) VALUES
-(1, 'asd', 1, 1, '15-Jun-2023', 1686840540, 1, 'Covid Test asd'),
-(2, 'asdasdasd asd as', 1, 1, '16-Jun-2023', 1686840578, 1, 'Astma'),
-(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 0, '15-Jun-2023', 1686843660, 1, 'adasd'),
-(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 0, '24-Jun-2023', 1687621320, 0, 'fever'),
-(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 0, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf');
+INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`, `a_user`, `a_createdDate`) VALUES
+(1, 'asd', 1, 1, '15-Jun-2023', 1686840540, 1, 'Covid Test asd', 0, ''),
+(2, 'asdasdasd asd as', 1, 1, '16-Jun-2023', 1686926940, 0, 'Astma', 0, ''),
+(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 0, '15-Jun-2023', 1686843660, 1, 'adasd', 0, ''),
+(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 0, '24-Jun-2023', 1687621320, 0, 'fever', 0, ''),
+(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 0, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf', 0, '');
 
 -- --------------------------------------------------------
 
@@ -65,13 +67,20 @@ CREATE TABLE `appointment_status` (
   `as_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `appointment_status`
+--
+
+INSERT INTO `appointment_status` (`as_id`, `as_appointment`, `as_status`, `as_message`, `as_date`, `as_time`, `as_user`) VALUES
+(1, 2, 0, 'teting', '16-Jun-2023', 1686902672, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `clinic`
+-- Table structure for table `clinics`
 --
 
-CREATE TABLE `clinic` (
+CREATE TABLE `clinics` (
   `c_id` int(11) NOT NULL,
   `c_ukey` varchar(255) NOT NULL,
   `c_name` varchar(255) NOT NULL,
@@ -80,8 +89,18 @@ CREATE TABLE `clinic` (
   `c_email` varchar(255) NOT NULL,
   `c_regno` varchar(100) NOT NULL,
   `c_logo` varchar(255) NOT NULL,
-  `c_user` int(11) NOT NULL
+  `c_user` int(11) NOT NULL,
+  `c_owner` int(11) NOT NULL,
+  `c_disabled` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clinics`
+--
+
+INSERT INTO `clinics` (`c_id`, `c_ukey`, `c_name`, `c_address`, `c_phone`, `c_email`, `c_regno`, `c_logo`, `c_user`, `c_owner`, `c_disabled`) VALUES
+(1, '2de99521fb8204da4b9e1497aff933fc062e7b8ead5933ec85a7ec973c26994f', 'Clinic Pergigian Intelhost', 'asdadad adsad sads', '0187824900', 'intelhost2u@gmail.com', 'JMxxxa', '', 1, 12, 0),
+(2, '5554cf84b3b9d2e7326f1e5c9219a75d0bc84f8eb6b3f7fb1a0f874222ce45ff', 'Poliklinik Ahmed Taman Universitia', '', '', '', '', '', 14, 14, 0);
 
 -- --------------------------------------------------------
 
@@ -95,6 +114,13 @@ CREATE TABLE `clinic_customer` (
   `cc_customer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `clinic_customer`
+--
+
+INSERT INTO `clinic_customer` (`cc_id`, `cc_clinic`, `cc_customer`) VALUES
+(1, 2, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -105,8 +131,19 @@ CREATE TABLE `clinic_user` (
   `cu_id` int(11) NOT NULL,
   `cu_clinic` int(11) NOT NULL,
   `cu_user` int(11) NOT NULL,
-  `cu_role` int(11) NOT NULL
+  `cu_role` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clinic_user`
+--
+
+INSERT INTO `clinic_user` (`cu_id`, `cu_clinic`, `cu_user`, `cu_role`) VALUES
+(1, 1, 12, 'owner'),
+(2, 1, 1, 'admin'),
+(3, 1, 13, 'staff'),
+(4, 2, 14, 'owner'),
+(5, 2, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -132,7 +169,8 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`c_id`, `c_name`, `c_ic`, `c_phone`, `c_email`, `c_password`, `c_ukey`, `c_address`) VALUES
 (1, 'Mr Hery', '1234567890', '1234567890', 'hery@herytechnology.com', '', '', ''),
 (2, 'asdasd', '123123', '', '', '', '3426e93cb58b3fc5790f7e261109fc6b3098643a6f36d6ab2e52ba471923df51', ''),
-(3, 'asdasdad', '12341234', '', '', '', '934297ece8454deba61f1211bda0c277a0d52bc168134cce15642e8991af4a9c', 'asdfasd');
+(3, 'asdasdad', '12341234', '', '', '', '934297ece8454deba61f1211bda0c277a0d52bc168134cce15642e8991af4a9c', 'asdfasd'),
+(5, 'dfsdfsf', '234234243234', '', '', '', 'e06cd9636663fdf8b0c8e86add805ff8360663065d6231f9b4652adec9c0423e', ' ');
 
 -- --------------------------------------------------------
 
@@ -189,16 +227,16 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `m_status`, `m_description`, `m_short`, `m_icon`, `m_role`) VALUES
-(8, 0, 5, 'Staffs', 'pengguna', 'pengguna', 1, 'Manage staff informations', '', 'typcn typcn-user-outline', '0,6'),
-(9, 0, 100, 'Settings', 'settings', 'settings', 1, 'All System Settings', '', 'typcn typcn-cog-outline', '0,1,2'),
-(10, 9, 1, 'Menus', 'menus', 'menus', 1, 'Manage System Menus', 'MNU', '', '0,1,2'),
-(21, 9, 1, 'Rol Pengguna', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '0,1,2'),
-(23, 9, 1, 'Jabatan', 'jabatan', 'jabatan', 1, 'Data-data Jabatan', 'JAB', '', '0,1,2'),
-(24, 0, 1, 'Dashboard', 'dashboard', 'dashboard', 1, 'Review your business performance interactively', '', 'fa fa-dashboard', '0,6'),
-(25, 0, 4, 'Customers', 'customers', 'customers', 1, 'Manage all your customer\'s information', '', 'fa fa-users', '0,6'),
-(26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '0,6'),
-(27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available medical record base on customer information', '', 'fa fa-plus', '0,6'),
-(28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '0,6,8');
+(8, 0, 5, 'Staffs', 'pengguna', 'pengguna', 1, 'Manage staff informations', '', 'typcn typcn-user-outline', '1,2,4'),
+(9, 0, 100, 'Settings', 'settings', 'settings', 1, 'All System Settings', '', 'typcn typcn-cog-outline', '1'),
+(10, 9, 1, 'Menus', 'menus', 'menus', 1, 'Manage System Menus', 'MNU', '', '1'),
+(21, 9, 1, 'Rol Pengguna', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '1'),
+(23, 9, 1, 'Jabatan', 'jabatan', 'jabatan', 1, 'Data-data Jabatan', 'JAB', '', '1'),
+(24, 0, 1, 'Dashboard', 'dashboard', 'dashboard', 1, 'Review your business performance interactively', '', 'fa fa-dashboard', '1,2,3,4'),
+(25, 0, 4, 'Customers', 'customers', 'customers', 1, 'Manage all your customer\'s information', '', 'fa fa-users', '1,2,3,4'),
+(26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '1,2,4'),
+(27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available medical record base on customer information', '', 'fa fa-plus', '1,2,3,4'),
+(28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '1,2,4');
 
 -- --------------------------------------------------------
 
@@ -218,10 +256,10 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`r_id`, `r_name`, `r_menu`, `r_status`) VALUES
-(0, 'Admin', '', 1),
-(6, 'Users', '', 1),
-(7, 'Customers', '', 1),
-(8, 'Doctor', '', 1);
+(1, 'Admin', '', 1),
+(2, 'User', '', 1),
+(3, 'Customer', '', 1),
+(4, 'Staff', '', 1);
 
 -- --------------------------------------------------------
 
@@ -246,15 +284,19 @@ CREATE TABLE `users` (
   `u_postcode` varchar(255) NOT NULL,
   `u_country` varchar(255) NOT NULL,
   `u_state` varchar(255) NOT NULL,
-  `u_picture` varchar(255) NOT NULL
+  `u_picture` varchar(255) NOT NULL,
+  `u_ukey` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`u_id`, `u_name`, `u_email`, `u_password`, `u_key`, `u_full_name`, `u_ic`, `u_alamat`, `u_area`, `u_phone`, `u_admin`, `u_role`, `u_department`, `u_postcode`, `u_country`, `u_state`, `u_picture`) VALUES
-(1, 'hery', 'admin@admin', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', 'Ahmad Khairi Aiman', '121212121212', '0402 Jalan Pendidikan 3, Taman Universiti', '', '018-782 4900', 1, 0, 1, '', '', '', '0');
+INSERT INTO `users` (`u_id`, `u_name`, `u_email`, `u_password`, `u_key`, `u_full_name`, `u_ic`, `u_alamat`, `u_area`, `u_phone`, `u_admin`, `u_role`, `u_department`, `u_postcode`, `u_country`, `u_state`, `u_picture`, `u_ukey`) VALUES
+(1, 'Mr Hery', 'admin@admin', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', 'Ahmad Khairi Aiman', '123123456', '124 Jalan Cekal 14', '', '0187824900', 1, 1, 1, '', '', '', '0', 'abc123'),
+(12, 'Dr Hery', 'intelhost2u@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '324234', 'adsads', '', '123123', 0, 2, 0, '', '', '', '648be4c442285-broomx00wide.JPG', '69925a39ebeb43fc7ef5402b1a762d2760d7256eca910bd50f2b54f281476469'),
+(13, 'staff1', 'staff1@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 4, 0, '', '', '', '', 'def9c215a731e79c1210a16d989ecad181b241a70cae881bad3859fd4d766f1e'),
+(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 2, 0, '', '', '', '', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef');
 
 --
 -- Indexes for dumped tables
@@ -273,9 +315,9 @@ ALTER TABLE `appointment_status`
   ADD PRIMARY KEY (`as_id`);
 
 --
--- Indexes for table `clinic`
+-- Indexes for table `clinics`
 --
-ALTER TABLE `clinic`
+ALTER TABLE `clinics`
   ADD PRIMARY KEY (`c_id`);
 
 --
@@ -340,31 +382,31 @@ ALTER TABLE `appointments`
 -- AUTO_INCREMENT for table `appointment_status`
 --
 ALTER TABLE `appointment_status`
-  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `clinic`
+-- AUTO_INCREMENT for table `clinics`
 --
-ALTER TABLE `clinic`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `clinics`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `clinic_customer`
 --
 ALTER TABLE `clinic_customer`
-  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `clinic_user`
 --
 ALTER TABLE `clinic_user`
-  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `customer_record`
@@ -388,13 +430,13 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `r_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `r_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

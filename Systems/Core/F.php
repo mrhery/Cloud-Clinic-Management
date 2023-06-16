@@ -96,7 +96,7 @@ class F{
 	
 	public static function GetDate($time = 0, $full = false){
 		if($time < 1){
-			$time = time() + 28800;
+			$time = time() + 21600;
 		}else{
 			$time = time() + $time;
 		}
@@ -111,7 +111,7 @@ class F{
 	
 	public static function GetTime($date = ""){
 		if(empty($date)){
-			$time = time() + 28800;
+			$time = time() + 21600;
 		}else{
 			$time = strtotime($date);
 		}

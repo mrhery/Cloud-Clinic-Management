@@ -1,10 +1,10 @@
 <?php
-new Controller(["pengguna"]);
+new Controller(["customer"]);
 ?>
 <div class="row">
 	<div class="col-md-12">
 	<?php
-		// Controller::alert();
+		Controller::alert();
 		
 		switch(url::get(1)){
 			case "":

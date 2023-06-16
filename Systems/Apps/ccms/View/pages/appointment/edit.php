@@ -56,6 +56,9 @@
 						<option value="0" <?= $a->a_status == 0 ? "selected" : "" ?>>Pending</option>
 						<option value="2" <?= $a->a_status == 2 ? "selected" : "" ?>>Cancelled</option>
 					</select><br />
+					
+					Note:
+					<input type="text" class="form-control" name="note" placeholder="Notes for this update" /><br />
 				</div>
 				
 				<div class="col-md-12 text-center">
@@ -72,6 +75,58 @@
 				</div>
 			</div>
 		</form>
+		
+		<hr />
+		
+		<h2>Appointments Update Logs</h2>
+		
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th class="text-center" width="5%">No</th>
+					<th class="text-center" width="10%">Date</th>
+					<th class="text-center" width="10%">Status</th>
+					<th>Note</th>
+					<th class="text-center" width="10%">User</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			<?php
+				$no = 1;
+				foreach(appointment_status::getBy(["as_appointment" => $a->a_id], ["order" => "as_id DESC"]) as $as){
+				?>
+				<tr>
+					<td class="text-center"><?= $no++ ?></td>
+					<td class="text-center"><?= date("d-M-Y H:i:s\ ", $as->as_time) ?></td>
+					<td class="text-center">
+					<?php 
+						switch($as->as_status){
+							case 1: echo "Approved"; break;
+							case 0: echo "Pending"; break;
+							case 2: echo "Cancelled"; break;
+						} 
+					?>
+					</td>
+					<td><?= $as->as_message ?></td>
+					<td class="text-center">
+					<?php
+						$u = users::getBy(["u_id" => $as->as_user]);
+						
+						if(count($u) > 0){
+							$u = $u[0];
+							echo $u->u_name;
+						}else{
+							echo "-";
+						}
+					?>
+					</td>
+				</tr>
+				<?php
+				}
+			?>
+			</tbody>
+		</table>
 	<?php
 		}else{
 			new Alert("error", "Selected appointment is not exists.");

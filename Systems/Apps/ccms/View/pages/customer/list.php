@@ -18,10 +18,17 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
+            <?php
                 $no = 1;
-                foreach (customers::list() as $c) {
-                ?>
+				
+				if(Session::get("admin")){
+					$q = customers::list();
+				}else{
+					$q = DB::conn()->query("SELECT * FROM customers WHERE c_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
+				}
+				
+                foreach ($q as $c) {
+            ?>
                     <tr>
                         <td class="text-center"><?= $no++ ?></td>
                         <td class="text-center"><?= $c->c_name ?></td>
