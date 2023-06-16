@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th width="5%">No </th>
-                    <th class="text-center">Name </th>
+                    <th>Name </th>
                     <th class="text-center">IC</th>
                     <th class="text-right" width="5%">:::</th>
                 </tr>
@@ -31,11 +31,11 @@
             ?>
                     <tr>
                         <td class="text-center"><?= $no++ ?></td>
-                        <td class="text-center"><?= $c->c_name ?></td>
+                        <td><?= $c->c_name ?></td>
                         <td class="text-center"><?= $c->c_ic ?></td>
                         <td class="text-right">
                             <a href="<?= PORTAL ?>customers/edit/<?= $c->c_ukey ?>" class="btn btn-sm btn-warning">
-                                Edit
+                                <span class="fa fa-edit"></span> Edit
                             </a>
                         </td>
                     </tr>

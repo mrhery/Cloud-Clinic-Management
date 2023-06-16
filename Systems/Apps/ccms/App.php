@@ -106,7 +106,21 @@ if (!Session::exists("user")) {
 
 		die();
 	}
+	
 	switch ($mpage) {
+		case "change":
+			$c = clinics::getBy(["c_ukey" => url::get(1), "c_id" => function($cl){
+				return "$cl IN (SELECT cu_clinic FROM clinic_user WHERE cu_user = '". Session::get("user")->u_id ."')";
+			}]);
+			
+			if(count($c) > 0){
+				$c = $c[0];
+				
+				Session::set("clinic", $c);
+			}
+			header("Location: " . PORTAL);
+		break;
+		
 		case "profil":
 			$page->setMainMenu("widgets/header.php");
 			$page->title = " Profil Saya " . APP_NAME;

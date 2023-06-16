@@ -38,4 +38,31 @@ switch(Input::post("action")){
 			}
 		}
 	break;
+	
+	case "update":
+		if(!empty(Input::post("name")) && !empty(Input::post("ic"))){
+			if(Session::get("admin")){
+				$c = customers::getBy(["c_ukey" => url::get(2)]);
+			}else{
+				$c = DB::conn()->query("SELECT * FROM customers WHERE c_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?) AND c_ukey = ?", [Session::get("clinic")->c_id, url::get(2)])->results();
+			}
+			
+			if(count($c) > 0){
+				$c = $c[0];
+				
+				customers::updateBy(["c_id" => $c->c_id], [
+					"c_name"		=> Input::post("name"),
+					"c_ic"			=> Input::post("ic"),
+					"c_email"		=> Input::post("email"),
+					"c_phone"		=> Input::post("phone"),
+					"c_address"		=> Input::post("address"),
+					"c_email"		=> Input::post("email")
+				]);
+				
+				Alert::set("success", "Customer information has been added.");
+			}else{
+				Alert::set("error", "Customer IC has been registered before.");
+			}
+		}
+	break;
 }

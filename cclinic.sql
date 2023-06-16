@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2023 at 06:53 AM
+-- Generation Time: Jun 16, 2023 at 10:22 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -47,9 +47,9 @@ CREATE TABLE `appointments` (
 INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`, `a_user`, `a_createdDate`) VALUES
 (1, 'asd', 1, 1, '15-Jun-2023', 1686840540, 1, 'Covid Test asd', 0, ''),
 (2, 'asdasdasd asd as', 1, 1, '16-Jun-2023', 1686926940, 0, 'Astma', 0, ''),
-(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 0, '15-Jun-2023', 1686843660, 1, 'adasd', 0, ''),
-(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 0, '24-Jun-2023', 1687621320, 0, 'fever', 0, ''),
-(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 0, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf', 0, '');
+(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '15-Jun-2023', 1686843660, 1, 'adasd', 0, ''),
+(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '24-Jun-2023', 1687621320, 0, 'fever', 0, ''),
+(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf', 0, '');
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,8 @@ CREATE TABLE `clinics` (
 
 INSERT INTO `clinics` (`c_id`, `c_ukey`, `c_name`, `c_address`, `c_phone`, `c_email`, `c_regno`, `c_logo`, `c_user`, `c_owner`, `c_disabled`) VALUES
 (1, '2de99521fb8204da4b9e1497aff933fc062e7b8ead5933ec85a7ec973c26994f', 'Clinic Pergigian Intelhost', 'asdadad adsad sads', '0187824900', 'intelhost2u@gmail.com', 'JMxxxa', '', 1, 12, 0),
-(2, '5554cf84b3b9d2e7326f1e5c9219a75d0bc84f8eb6b3f7fb1a0f874222ce45ff', 'Poliklinik Ahmed Taman Universitia', '', '', '', '', '', 14, 14, 0);
+(2, '5554cf84b3b9d2e7326f1e5c9219a75d0bc84f8eb6b3f7fb1a0f874222ce45ff', 'Poliklinik Ahmed Taman Universiti', '', '', 'asdads@ads', '', '', 14, 14, 0),
+(3, '060356720881168c5275c41f202c312cb793e3dfefa72d2400c88f8aa28abb3b', 'Poliklinik Ahmed Taman Tun Aminah', '', '234243243', 'zads@asdads', 'asdsd', '', 1, 14, 0);
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,9 @@ INSERT INTO `clinic_user` (`cu_id`, `cu_clinic`, `cu_user`, `cu_role`) VALUES
 (2, 1, 1, 'admin'),
 (3, 1, 13, 'staff'),
 (4, 2, 14, 'owner'),
-(5, 2, 1, 'admin');
+(5, 2, 1, 'admin'),
+(6, 3, 14, 'owner'),
+(7, 3, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -167,10 +170,10 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`c_id`, `c_name`, `c_ic`, `c_phone`, `c_email`, `c_password`, `c_ukey`, `c_address`) VALUES
-(1, 'Mr Hery', '1234567890', '1234567890', 'hery@herytechnology.com', '', '', ''),
+(1, 'Mr Hery', '1234567890', '1234567890', 'hery@herytechnology.com', '', 'abc123', ''),
 (2, 'asdasd', '123123', '', '', '', '3426e93cb58b3fc5790f7e261109fc6b3098643a6f36d6ab2e52ba471923df51', ''),
 (3, 'asdasdad', '12341234', '', '', '', '934297ece8454deba61f1211bda0c277a0d52bc168134cce15642e8991af4a9c', 'asdfasd'),
-(5, 'dfsdfsf', '234234243234', '', '', '', 'e06cd9636663fdf8b0c8e86add805ff8360663065d6231f9b4652adec9c0423e', ' ');
+(5, 'dfsdfsfasd', '234234243234', '', '', '', 'e06cd9636663fdf8b0c8e86add805ff8360663065d6231f9b4652adec9c0423e', ' ');
 
 -- --------------------------------------------------------
 
@@ -188,6 +191,13 @@ CREATE TABLE `customer_record` (
   `cr_title` varchar(500) NOT NULL,
   `cr_description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer_record`
+--
+
+INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `cr_date`, `cr_time`, `cr_title`, `cr_description`) VALUES
+(3, 5, 2, 14, '16-Jun-2023', 1686922942, 'hahahah', 'hthththth');
 
 -- --------------------------------------------------------
 
@@ -296,7 +306,7 @@ INSERT INTO `users` (`u_id`, `u_name`, `u_email`, `u_password`, `u_key`, `u_full
 (1, 'Mr Hery', 'admin@admin', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', 'Ahmad Khairi Aiman', '123123456', '124 Jalan Cekal 14', '', '0187824900', 1, 1, 1, '', '', '', '0', 'abc123'),
 (12, 'Dr Hery', 'intelhost2u@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '324234', 'adsads', '', '123123', 0, 2, 0, '', '', '', '648be4c442285-broomx00wide.JPG', '69925a39ebeb43fc7ef5402b1a762d2760d7256eca910bd50f2b54f281476469'),
 (13, 'staff1', 'staff1@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 4, 0, '', '', '', '', 'def9c215a731e79c1210a16d989ecad181b241a70cae881bad3859fd4d766f1e'),
-(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 2, 0, '', '', '', '', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef');
+(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 2, 0, '', '', '', '648c1614affd3-logo-heryit.png', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef');
 
 --
 -- Indexes for dumped tables
@@ -388,7 +398,7 @@ ALTER TABLE `appointment_status`
 -- AUTO_INCREMENT for table `clinics`
 --
 ALTER TABLE `clinics`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `clinic_customer`
@@ -400,19 +410,19 @@ ALTER TABLE `clinic_customer`
 -- AUTO_INCREMENT for table `clinic_user`
 --
 ALTER TABLE `clinic_user`
-  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `customer_record`
 --
 ALTER TABLE `customer_record`
-  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `departments`

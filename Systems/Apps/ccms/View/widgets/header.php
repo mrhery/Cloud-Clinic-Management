@@ -28,72 +28,26 @@
         </div>
     </div>
 </div>
-<!-- End of Search overlay -->
-<!-- Navbar -->
+
 <nav class="navbar lena-navbar lena-navbar lena-full fixed-top  flex-md-nowrap p-0 shadow-sm open">
     <a class="navbar-brand  sidebar-toggle-item" href="#">
         <span class="typcn typcn-th-menu lena-theme-toggle-bar  d-none d-md-inline-flex "></span>
     </a>
 
     <ul class="navbar-nav d-none d-md-inline-flex">
-
-        <li class="nav-item text-nowrap dropdown">
-            <!-- <a class="nav-link" href="#" role="button" id="lenaBellDropdown" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false">
-                     <span class="typcn typcn-bell typcn-lena">
-                   </span>
-            </a> -->
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right slideIn" aria-labelledby="unaBellDropdown">
-                <div class="dropdown-menu-header">
-                    3 New Notifications
-                </div>
-                <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-12">
-                                <div class="lena-normal-text text-danger"><i class="fa fa-exclamation-triangle m-r-5"></i>Server overload
-                                    <div class="lena-small-text float-right">2h ago</div>
-                                </div>
-                                <div class="lena-light-text lena-truncate-text">The servers are overloaded. Immediate
-                                    action needed.
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-12">
-                                <div class="lena-normal-text text-success"><i class="fa fa-check m-r-5"></i>Monthly
-                                    reports sent
-                                    <div class="lena-small-text float-right">4h ago</div>
-                                </div>
-                                <div class="lena-light-text lena-truncate-text">Scheduled monthy reports are sent
-                                    successfully.
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-12">
-                                <div class="lena-normal-text text-warning"><i class="fa fa-info-circle m-r-5"></i>
-                                    Pending invitations
-                                    <div class="lena-small-text float-right">5h ago</div>
-                                </div>
-                                <div class="lena-light-text lena-truncate-text">There are <strong>7</strong> pending
-                                    invitiations.
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="dropdown-menu-footer">
-                    <a href="#" class="text-muted">Show all notifications</a>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item text-nowrap dropdown">
-
+	<?php
+		if(Session::get("clinic")){
+	?>
+		<li class="nav-item text-nowrap  emerald-settings-btn dropdown">
+			<div class="my-2">
+				<small>viewed as <strong><?= Session::get("clinic")->c_name ?></strong></small>
+			</div>
+		</li>
+	<?php
+		}
+		
+		/*
+		<li class="nav-item text-nowrap dropdown">
             <a class="nav-link" href="#" role="button" id="lenaCountryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="<?= PORTAL ?>assets/img/us.png" width="20" height="20" class="circle-shape mini outlined float-right shadow m-t-5" alt="">
             </a>
@@ -105,10 +59,12 @@
             </div>
 
         </li>
+		*/
+		?>
         <li class="nav-item text-nowrap emerald-settings-btn dropdown">
             <a class="nav-link" href="#" role="button" id="lenaSettingsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="mr-2 float-left m-t-5">
-                    <?php
+				<?php
                     $u = Session::get("user")->u_id;
                     $gud = users::getBy(["u_id" => $u]);
 
@@ -118,14 +74,19 @@
                         echo "No data found!";
                     }
                     echo $gud->u_name;
-                    ?>
+				?>
                 </div>
                 <img src="<?= PORTAL ?>assets/images/profile/<?= $gud->u_picture ?>" width="30" height="30" class="circle-shape small outlined float-right shadow" alt="">
             </a>
             <div class="dropdown-menu dropdown-menu-right lena-profile-dropdown slideIn" aria-labelledby="lenaSettingsDropdown">
-                <a class="dropdown-item lena-normal-text" href="<?= PORTAL ?>profil">Profile</a>
-                <a class="dropdown-item lena-normal-text" href="<?= PORTAL ?>tutorial">Tutorial</a>
-                <a class="dropdown-item lena-normal-text" href="<?= PORTAL ?>help">Help</a>
+			<?php
+				foreach(clinic_user::getBy(["cu_user" => Session::get("user")->u_id]) as $cu){
+					$c = clinics::getBy(["c_id" => $cu->cu_clinic])[0];
+			?>
+                <a class="dropdown-item lena-normal-text <?= Session::get("clinic")->c_id == $c->c_id ? "bg-dark text-light" : "" ?>" href="<?= PORTAL ?>change/<?= $c->c_ukey ?>"><?= $c->c_name ?></a>
+			<?php
+				}
+			?>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item lena-normal-text" href="<?= PORTAL ?>logout">Logout</a>
             </div>

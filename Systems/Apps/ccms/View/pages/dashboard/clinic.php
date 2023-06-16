@@ -1,6 +1,5 @@
 <?php
 
-
 $date = date("d-M-Y");
 
 if(!empty(Input::get("date"))){
@@ -29,7 +28,7 @@ if(!empty(Input::get("date"))){
 						<div class="card">
 							<div class="card-body bg-success text-light">
 								<strong>Patients</strong><br />
-								<h4 class="text-light"><?= count(customers::list()) ?></h4>
+								<h4 class="text-light"><?= count(customers::list(["where" => "c_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = '". Session::get("clinic")->c_id ."')"])) ?></h4>
 								Total Patients
 							</div>
 						</div>
@@ -39,7 +38,7 @@ if(!empty(Input::get("date"))){
 						<div class="card">
 							<div class="card-body bg-danger text-light">
 								<strong>Appointments</strong><br />
-								<h4 class="text-light"><?= count(appointments::getBy(["a_date" => date("d-M-Y")])) ?></h4>
+								<h4 class="text-light"><?= count(appointments::getBy(["a_date" => date("d-M-Y"), "a_clinic" => Session::get("clinic")->c_id])) ?></h4>
 								Appointments Today
 							</div>
 						</div>
@@ -49,7 +48,7 @@ if(!empty(Input::get("date"))){
 						<div class="card">
 							<div class="card-body bg-primary text-light">
 								<strong>Appointments</strong><br />
-								<h4 class="text-light"><?= count(appointments::getBy(["a_date" => date("d-M-Y", strtotime("+1 day"))])) ?></h4>
+								<h4 class="text-light"><?= count(appointments::getBy(["a_date" => date("d-M-Y", strtotime("+1 day")), "a_clinic" => Session::get("clinic")->c_id])) ?></h4>
 								Appointments Tomorrow
 							</div>
 						</div>
@@ -63,7 +62,7 @@ if(!empty(Input::get("date"))){
 								<?php
 									$b = strtotime("-3 days");
 									$a = strtotime("+3 days");
-									$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ?", [$b, $a])->results();
+									$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ? AND a_clinic = ?", [$b, $a, Session::get("clinic")->c_id])->results();
 									echo count($r);
 								?>
 								</h4>
@@ -94,7 +93,7 @@ if(!empty(Input::get("date"))){
 							<tbody>
 							<?php
 								$no = 1;
-								foreach(appointments::getBy(["a_date" => $date]) as $a){
+								foreach(appointments::getBy(["a_date" => $date, "a_clinic" => Session::get("clinic")->c_id]) as $a){
 								?>
 								<tr>
 									<td class="text-center"><?= $no++ ?></td>
@@ -176,14 +175,14 @@ calendar.render();
 $(document).on("click", ".fc-day", function(){
 	var selectedDate = $(this).data("date");
 	
-	$(".fc-day").removeClass("border-danger");
-	$(this).addClass("border-danger");
+	$(".fc-day").removeClass("bg-info");
+	$(this).addClass("bg-info");
 	
 	window.location = PORTAL + "dashboard?date=" + selectedDate;
 });
 
 setTimeout(function(){
-	$(".fc-day[data-date=$selectedDate]").addClass("border-danger");
+	$(".fc-day[data-date=$selectedDate]").addClass("bg-info");
 }, 1500);
 
 var chart = new CanvasJS.Chart("chartContainer", {

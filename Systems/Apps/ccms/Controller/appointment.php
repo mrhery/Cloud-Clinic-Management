@@ -25,10 +25,15 @@ switch(Input::post("action")){
 				$c = $c[0];
 				
 				if(!Session::get("admin")){
-					clinic_customer::insertInto([
+					if(count(clinic_customer::getBy([
 						"cc_clinic"		=> Session::get("clinic")->c_id,
 						"cc_customer"	=> $c->c_id
-					]);
+					])) < 1){
+						clinic_customer::insertInto([
+							"cc_clinic"		=> Session::get("clinic")->c_id,
+							"cc_customer"	=> $c->c_id
+						]);
+					}
 				}
 				
 				$akey = hash("sha256", uniqid() . $c->c_ukey);
@@ -41,7 +46,8 @@ switch(Input::post("action")){
 					"a_status"		=> Input::post("status"),
 					"a_reason"		=> Input::post("reason"),
 					"a_createdDate"	=> F::GetDate(),
-					"a_user"		=> Session::get("user")->u_id
+					"a_user"		=> Session::get("user")->u_id,
+					"a_clinic"		=> Session::get("clinic")->c_id
 				]);
 				
 				$a = appointments::getBy(["a_ukey" => $akey]);

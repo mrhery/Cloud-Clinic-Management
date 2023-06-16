@@ -64,36 +64,63 @@ if(empty($show)){
 				
 				switch($show){
 					case "today":
-						$r = appointments::getBy(["a_date" => date("d-M-Y")]);
+						$r = Session::get("admin") ? appointments::getBy(["a_date" => date("d-M-Y")]) : appointments::getBy(["a_date" => date("d-M-Y"), "a_clinic" => Session::get("clinic")->c_id]);
 					break;
 					
 					case "now":
 						$b = strtotime("-2 hours");
 						$a = strtotime("+2 hours");
 						
-						$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ?", [$b, $a])->results();
+						if(Session::get("admin")){
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ?", [$b, $a])->results();
+						}else{
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ? AND a_clinic = ?", [$b, $a, Session::get("clinic")->c_id])->results();
+						}
 					break;
 					
 					case "tomorrow":
-						$r = appointments::getBy(["a_date" => date("d-M-Y", strtotime("+1 day"))]);
+						if(Session::get("admin")){
+							$r = appointments::getBy(["a_date" => date("d-M-Y", strtotime("+1 day"))]);
+						}else{
+							$r = appointments::getBy(["a_date" => date("d-M-Y", strtotime("+1 day")), "a_clinic" => Session::get("clinic")->c_id]);
+						}
+						
 					break;
 					
 					case "week":
 						$b = strtotime("-3 days");
 						$a = strtotime("+3 days");
-						$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ?", [$b, $a])->results();
+						
+						if(Session::get("admin")){
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ?", [$b, $a])->results();
+						}else{
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_time > ? AND a_time < ? AND a_clinic = ?", [$b, $a, Session::get("clinic")->c_id])->results();
+						}
 					break;
 					
 					case "month":
-						$r = DB::conn()->query("SELECT * FROM appointments WHERE a_date LIKE ?", ["%" . date("M-Y") . "%"])->results();
+						if(Session::get("admin")){
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_date LIKE ?", ["%" . date("M-Y") . "%"])->results();
+						}else{
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_date LIKE ? AND a_clinic = ?", ["%" . date("M-Y") . "%", Session::get("clinic")->c_id])->results();
+						}
 					break;
 					
 					case "year":
-						$r = DB::conn()->query("SELECT * FROM appointments WHERE a_date LIKE ?", ["%" . date("-Y") . "%"])->results();
+						if(Session::get("admin")){
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_date LIKE ?", ["%" . date("-Y") . "%"])->results();
+						}else{
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_date LIKE ? AND a_clinic = ?", ["%" . date("-Y") . "%", Session::get("clinic")->c_id])->results();
+						}
 					break;
 					
 					case "pending":
-						$r = appointments::getBy(["a_status" => 0]);	
+						if(Session::get("admin")){
+							$r = appointments::getBy(["a_status" => 0]);
+						}else{
+							$r = appointments::getBy(["a_status" => 0, "a_clinic" => Session::get("clinic")->c_id]);
+						}
+							
 					break;
 				}
 				

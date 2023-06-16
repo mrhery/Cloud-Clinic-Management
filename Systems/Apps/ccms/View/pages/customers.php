@@ -4,7 +4,7 @@ new Controller(["customer"]);
 <div class="row">
 	<div class="col-md-12">
 	<?php
-		Controller::alert();
+		echo Controller::alert();
 		
 		switch(url::get(1)){
 			case "":

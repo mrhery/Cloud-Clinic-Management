@@ -223,6 +223,8 @@ trait Modelv2{
 		
 		$x = DB::conn()->query($sql, $vss);
 		
+		// echo $sql;
+		
 		if($s){
 			$datas = [];
 			foreach($x->results() as $values){

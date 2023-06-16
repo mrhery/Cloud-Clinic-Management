@@ -20,7 +20,7 @@
 					<input type="text" class="form-control" name="ic" placeholder="IC / Passport" /><br />
 					
 					Address:
-					<textarea class="form-control" name="address" placeholder="Address"></textarea>
+					<textarea class="form-control" name="address" placeholder="Address"></textarea><br />
 					
 					Phone:
 					<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
@@ -32,6 +32,9 @@
 				<div class="col-md-6 mb-2">
 					<h4>Treatment Description</h4>
 					
+					Title:
+					<input type="text" class="form-control" name="title" placeholder="Title" /><br />
+					
 					Description:
 					<textarea class="form-control" name="description" placeholder="Description: Fever, cough, covid test, vaccine"></textarea><br />
 					
@@ -41,6 +44,9 @@
 					<button class="btn btn-success">
 						<span class="fa fa-save"></span> Confirm & Save Record
 					</button>
+				<?php
+					Controller::form("medical-record", ["action" => "create"]);
+				?>
 				</div>
 			</div>
 		</form>
