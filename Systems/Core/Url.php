@@ -4,6 +4,8 @@ class Url{
 	public static function get($type){
 		$arr = explode("/", ROUTE);
 		
+		// echo $type;
+		
 		if(count($arr) > 0){
 			switch($type){
 				case "main":
@@ -24,7 +26,15 @@ class Url{
 				break;
 				
 				default:
-					return isset($arr[$type]) ? $arr[$type] : "";
+					if((int)$type == 0 && empty($arr[$type])){
+						return "index";
+					}
+					
+					if(isset($arr[$type])){
+						return $arr[$type];
+					}else{
+						return "";
+					}
 				break;
 			}
 		}else{
