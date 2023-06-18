@@ -80,10 +80,13 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right lena-profile-dropdown slideIn" aria-labelledby="lenaSettingsDropdown">
 			<?php
+				$curr_clinic = (Session::get("clinic") ? Session::get("clinic")->c_id : "");
 				foreach(clinic_user::getBy(["cu_user" => Session::get("user")->u_id]) as $cu){
 					$c = clinics::getBy(["c_id" => $cu->cu_clinic])[0];
+					
+					
 			?>
-                <a class="dropdown-item lena-normal-text <?= Session::get("clinic")->c_id == $c->c_id ? "bg-dark text-light" : "" ?>" href="<?= PORTAL ?>change/<?= $c->c_ukey ?>"><?= $c->c_name ?></a>
+                <a class="dropdown-item lena-normal-text <?= ($curr_clinic == $c->c_id) ? "bg-dark text-light" : "" ?>" href="<?= PORTAL ?>change/<?= $c->c_ukey ?>"><?= $c->c_name ?></a>
 			<?php
 				}
 			?>

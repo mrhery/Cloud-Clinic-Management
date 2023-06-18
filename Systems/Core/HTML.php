@@ -139,7 +139,7 @@ class html{
 		return $str;
 	}
 	
-	public static function form($settings = array(), $route, $elements = null){
+	public static function form($settings = array(), $route = "", $elements = null){
 		$str = "<form ";
 		
 		foreach($settings as $setting => $val){
@@ -162,7 +162,7 @@ class html{
 		return $str;
 	}
 	
-	public static function input($input = "text", $name, $settings = null){
+	public static function input($input = "text", $name = "", $settings = null){
 		$label		= (isset($settings["label"]) ? $settings["label"] : "");
 		$id			= (isset($settings["id"]) ? $settings["id"] : "");
 		$value		= (isset($settings["value"]) ? $settings["value"] : "");
