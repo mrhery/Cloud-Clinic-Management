@@ -27,8 +27,7 @@ $page->addTopTag('
 <link rel="stylesheet" href="' . PORTAL . 'assets/vendor/datatable/dataTables.min.css" />
 
 <script>
-	let PORTAL = "' . PORTAL . '";
-	
+let PORTAL = "' . PORTAL . '";
 </script>
 
 
@@ -47,8 +46,6 @@ $page->addBottomTag('
 
 <script>
 $(".dataTable").DataTable();
-
-
 </script>
 ');
 
@@ -170,10 +167,6 @@ if (!Session::exists("user")) {
 	if ($mpage == "index") {
 		$mpage = "dashboard";
 	}
-
-
-
-
 
 	if ($mpage == "logout") {
 		session_destroy();
