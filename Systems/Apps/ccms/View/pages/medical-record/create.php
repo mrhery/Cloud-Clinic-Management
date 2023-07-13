@@ -10,6 +10,28 @@
 	<div class="card-body">
 		<form action="" method="POST">
 			<div class="row">
+				<div class="col-md-12">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#home">Patient Information</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#menu1">Current Diagnose</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#menu2">History</a>
+						</li>
+					</ul>
+					
+					<div class="tab-content">
+						<div class="tab-pane container active" id="home">...</div>
+						<div class="tab-pane container fade" id="menu1">...</div>
+						<div class="tab-pane container fade" id="menu2">...</div>
+					</div>
+				</div>
 				<div class="col-md-6 mb-2">
 					<h4>Customer Info</h4>
 					
