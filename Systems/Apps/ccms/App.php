@@ -50,8 +50,6 @@ $(".dataTable").DataTable();
 ');
 
 if (!Session::exists("user")) {
-
-
 	switch (url::get(0)) {
 		case "login":
 		case "index":
