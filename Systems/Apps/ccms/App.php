@@ -76,27 +76,15 @@ if (!Session::exists("user")) {
 
 	if ($mpage == "webservice") {
 
-		// switch (url::get(1)) {
-			// case "permohonan":
-				// Page::Load("pages/permohonan/webservice");
-				// break;
-
-			// case "dashboards":
-				// Page::Load("pages/dashboards/webservice");
-				// break;
-
-			// case "dashboard":
-				// Page::Load("pages/dashboards/webservice");
-				// break;
-
-			// case "cagaran":
-				// Page::Load("pages/permohonan/cagaran/webservice");
-				// break;
-
-			// case "pindah-milik":
-				// Page::Load("pages/permohonan/pindah_milik/webservice");
-				// break;
-		// }
+		switch (url::get(1)) {
+			case "prescriptions":
+				Page::Load("webservice/prescriptions");
+				break;
+			
+			case "customers":
+				Page::Load("webservice/customers");
+				break;
+		}
 
 
 		die();

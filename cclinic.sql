@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2023 at 10:22 AM
+-- Generation Time: Jul 14, 2023 at 12:45 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -120,7 +120,8 @@ CREATE TABLE `clinic_customer` (
 --
 
 INSERT INTO `clinic_customer` (`cc_id`, `cc_clinic`, `cc_customer`) VALUES
-(1, 2, 5);
+(1, 2, 5),
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -189,15 +190,20 @@ CREATE TABLE `customer_record` (
   `cr_date` varchar(50) NOT NULL,
   `cr_time` int(15) NOT NULL,
   `cr_title` varchar(500) NOT NULL,
-  `cr_description` text NOT NULL
+  `cr_description` text NOT NULL,
+  `cr_illness` text NOT NULL,
+  `cr_examination` text NOT NULL,
+  `cr_investigation` text NOT NULL,
+  `cr_diagnosis` text NOT NULL,
+  `cr_plan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `customer_record`
 --
 
-INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `cr_date`, `cr_time`, `cr_title`, `cr_description`) VALUES
-(3, 5, 2, 14, '16-Jun-2023', 1686922942, 'hahahah', 'hthththth');
+INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `cr_date`, `cr_time`, `cr_title`, `cr_description`, `cr_illness`, `cr_examination`, `cr_investigation`, `cr_diagnosis`, `cr_plan`) VALUES
+(3, 5, 2, 14, '16-Jun-2023', 1686922942, 'hahahah', 'hthththth', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -211,6 +217,30 @@ CREATE TABLE `departments` (
   `d_code` varchar(100) NOT NULL,
   `d_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `i_id` int(11) NOT NULL,
+  `i_name` varchar(255) NOT NULL,
+  `i_description` text NOT NULL,
+  `i_code` varchar(100) NOT NULL,
+  `i_clinic` int(11) NOT NULL,
+  `i_quantity` int(11) NOT NULL,
+  `i_type` varchar(10) NOT NULL,
+  `i_price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`i_id`, `i_name`, `i_description`, `i_code`, `i_clinic`, `i_quantity`, `i_type`, `i_price`) VALUES
+(1, 'Paracetamol 650', 'ubat tahan sakit', 'PARA650MG', 1, 100, 'product', 0);
 
 -- --------------------------------------------------------
 
@@ -243,7 +273,7 @@ INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `
 (21, 9, 1, 'Rol Pengguna', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '1'),
 (23, 9, 1, 'Jabatan', 'jabatan', 'jabatan', 1, 'Data-data Jabatan', 'JAB', '', '1'),
 (24, 0, 1, 'Dashboard', 'dashboard', 'dashboard', 1, 'Review your business performance interactively', '', 'fa fa-dashboard', '1,2,3,4'),
-(25, 0, 4, 'Customers', 'customers', 'customers', 1, 'Manage all your customer\'s information', '', 'fa fa-users', '1,2,3,4'),
+(25, 0, 4, 'Patients', 'customers', 'customers', 1, 'Manage all your customer\'s information', '', 'fa fa-users', '1,2,3,4'),
 (26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '1,2,4'),
 (27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available medical record base on customer information', '', 'fa fa-plus', '1,2,3,4'),
 (28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '1,2,4');
@@ -361,6 +391,12 @@ ALTER TABLE `departments`
   ADD PRIMARY KEY (`d_id`);
 
 --
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`i_id`);
+
+--
 -- Indexes for table `menus`
 --
 ALTER TABLE `menus`
@@ -404,7 +440,7 @@ ALTER TABLE `clinics`
 -- AUTO_INCREMENT for table `clinic_customer`
 --
 ALTER TABLE `clinic_customer`
-  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `clinic_user`
@@ -429,6 +465,12 @@ ALTER TABLE `customer_record`
 --
 ALTER TABLE `departments`
   MODIFY `d_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `menus`

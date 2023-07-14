@@ -3,31 +3,47 @@
 switch(Input::post("action")){
 	case "create":
 		if(!empty(Input::post("name")) && !empty(Input::post("ic"))){
-			
-			if(Session::get("admin")){
-				$c = customers::getBy(["c_ic" => Input::post("ic")]);
-			}else{
-				$c = customers::getBy(["c_ic" => Input::post("ic"), "c_id" => function($cl){
-					return "$cl IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = '". Session::get("clinic")->c_id ."')";
-				}]);
-			}
+			$c = customers::getBy(["c_ic" => Input::post("ic")]);
 			
 			if(count($c) > 0){
 				$c = $c[0];
+				$cc = clinic_customer::getBy(["cc_clinic" => Session::get("clinic")->c_id, "cc_customer" => $c->c_id]);
 				
-				customer_record::insertInto([
-					"cr_customer" 		=> $c->c_id,
-					"cr_date"			=> F::GetDate(),
-					"cr_time"			=> F::GetTime(),
-					"cr_user"			=> Session::get("user")->u_id,
-					"cr_title"			=> Input::post("title"),
-					"cr_description"	=> Input::post("description"),
-					"cr_clinic"			=> Session::get("clinic")->c_id
+				if(count($cc) < 1){
+					clinic_customer::insertInto(["cc_clinic" => Session::get("clinic")->c_id, "cc_customer" => $c->c_id]);					
+				}
+				
+				HTML::script('
+					window.location = "'. PORTAL .'medical-record/create?ic='. $c->c_ic .'"
+				');
+			}else{
+				$ukey = hash("sha256", uniqid() . "-" . uniqid());
+				
+				customers::insertInto([
+					"c_name"	=> Input::post("name"),
+					"c_ic"		=> Input::post("ic"),
+					"c_phone"	=> Input::post("phone"),
+					"c_email"	=> Input::post("email"),
+					"c_ukey"	=> $ukey,
+					"c_address"	=> Input::post("address")
 				]);
 				
-				Alert::set("success", "Appointment record has been created.");
-			}else{
-				Alert::set("error", "Fail registering customer's information.");
+				$c = customers::getBy(["c_ukey" => $ukey]);
+				
+				if(count($c) > 0){
+					$c = $c[0];
+					
+					clinic_customer::insertInto([
+						"cc_clinic"		=> Session::get("clinic")->c_id,
+						"cc_customer"	=> $c->c_id
+					]);
+					
+					HTML::script('
+						window.location = "'. PORTAL .'medical-record/create?ic='. $c->c_ic .'"
+					');
+				}else{
+					Alert::set("error", "Customer name and IC Number is required.");
+				}
 			}
 		}else{
 			Alert::set("error", "Customer name and IC Number is required.");
