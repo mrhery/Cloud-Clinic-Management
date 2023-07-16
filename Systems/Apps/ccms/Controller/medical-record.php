@@ -38,8 +38,10 @@ switch(Input::post("action")){
 						"cc_customer"	=> $c->c_id
 					]);
 					
+					$doc = "doc-" . F::UniqId(16);
+					
 					HTML::script('
-						window.location = "'. PORTAL .'medical-record/create?ic='. $c->c_ic .'"
+						window.location = "'. PORTAL .'medical-record/create?ic='. $c->c_ic .'&doc='. $doc .'"
 					');
 				}else{
 					Alert::set("error", "Customer name and IC Number is required.");

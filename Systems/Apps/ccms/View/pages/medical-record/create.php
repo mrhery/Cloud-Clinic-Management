@@ -3,6 +3,20 @@ $c = customers::getBy(["c_ic" => Input::get("ic")]);
 
 if(count($c) > 0){
 	$c = $c[0];
+	
+	$doc = Input::get("doc");
+	
+	if(empty($doc)){
+		$doc = "doc-" . date("Ymd") . Session::get("clinic")->c_id . "-" . F::UniqId(6);
+	}
+	
+	$d = customer_record::getBy(["cr_key" => $doc, "cr_clinic" => Session::get("clinic")->c_id, "cr_customer" => $c->c_id]);
+	
+	if(count($d) > 0){
+		$d = $d[0];
+	}else{
+		$d = null;
+	}
 }else{
 	$c = null;
 }
@@ -157,22 +171,103 @@ if(count($c) > 0){
 					if(!is_null($c)){
 				?>
 					<div class="tab-pane fade mt-2" id="menu1">
-						<h4>Clinical Notes</h4>
+					<?php
+						if(!is_null($d)){
+						?>
+						<h4>
+							Clinical Notes
+						</h4>
+						
+						<small id="saved-status">(last saved at <?= date("d M Y H:i:s\ ", $d->cr_time) ?>)</small><br >
+						<hr />
 						
 						Underlying Illness / Remarks:
-						<textarea class="form-control" id="illness" Placeholder="Userlying Illness..."></textarea><br />
+						<textarea class="form-control" id="illness" Placeholder="Underlying Illness..."><?= $d->cr_illness ?></textarea><br />
+						
+						History of Presenting Illness / Examination:
+						<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."><?= $d->cr_examination ?></textarea><br />
+						
+						Investigations:
+						<textarea class="form-control" id="investigation" Placeholder="Investigations..."><?= $d->cr_investigation ?></textarea><br />
+						
+						Diagnosis:
+						<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."><?= $d->cr_diagnosis ?></textarea><br />
+						
+						Plans:
+						<textarea class="form-control" id="plan" Placeholder="Plans..."><?= $d->cr_plan ?></textarea><br />
+						
+						Prescriptions: 
+						<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
+							<span class="fa fa-plus"></span> Add Prescription
+						</button>
+						
+						<table class="table table-hover table-fluid table-bordered mt-2">
+							<thead>
+								<tr>
+									<th>Details</th>
+									<th class="text-center" width="10%">Quantity</th>
+									<th class="text-center" width="25%">Frequency / Duration</th>
+									<th class="text-center" width="20%">Remarks</th>
+									<th class="text-center" width="5%">::</th>
+								</tr>
+							</thead>
+							
+							<tbody id="list-pres">
+							<?php
+								$rps = record_prescription::getBy(["rp_record" => $d->cr_id]);
+								
+								foreach($rps as $rp){
+									$i = items::getBy(["i_id" => $rp->rp_item]);
+									
+									if(count($i) > 0){
+										$i = $i[0];
+									}else{
+										$i = null;
+									}
+								?>
+								<tr id="pres-<?= $rp->rp_id ?>" data-id="<?= $rp->rp_id ?>">
+									<td>
+										<?= is_null($i) ? "<i>Item not found</i>" : $i->i_name ?>
+										<input type="hidden" value="<?= is_null($i) ? "" : $i->i_key ?>" class="pres-<?= $rp->rp_id ?>-id" />
+									</td>
+									<td class="text-center pres-<?= $rp->rp_id ?>-quantity" contenteditable="true"><?= $rp->rp_quantity ?></td>
+									<td class="text-center pres-<?= $rp->rp_id ?>-freq" contenteditable="true"><?= $rp->rp_frequency ?></td>
+									<td class="text-center pres-<?= $rp->rp_id ?>-remarks" contenteditable="true"><?= $rp->rp_remarks ?></td>
+									<td class="text-center">
+										<button class="btn btn-sm btn-danger del-prescription" type="button">
+											<span class="fa fa-trash"></span>
+										</button>
+									</td>
+								</tr>
+								<?php
+								}
+							?>
+							</tbody>
+						</table>
+						<?php
+						}else{
+						?>
+						<h4>
+							Clinical Notes
+						</h4>
+						
+						<small id="saved-status">(not saved yet - <?= $doc ?>)</small><br >
+						<hr />
+						
+						Underlying Illness / Remarks:
+						<textarea class="form-control" id="illness" Placeholder="Underlying Illness..."></textarea><br />
 						
 						History of Presenting Illness / Examination:
 						<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."></textarea><br />
 						
 						Investigations:
-						<textarea class="form-control" name="investigation" Placeholder="Investigations..."></textarea><br />
+						<textarea class="form-control" id="investigation" Placeholder="Investigations..."></textarea><br />
 						
 						Diagnosis:
-						<textarea class="form-control" name="diagnosis" Placeholder="Diagnosis..."></textarea><br />
+						<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."></textarea><br />
 						
 						Plans:
-						<textarea class="form-control" name="plan" Placeholder="Plans..."></textarea><br />
+						<textarea class="form-control" id="plan" Placeholder="Plans..."></textarea><br />
 						
 						Prescriptions: 
 						<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
@@ -193,6 +288,10 @@ if(count($c) > 0){
 							<tbody id="list-pres">
 							</tbody>
 						</table>
+						<?php
+						}
+					?>
+						
 					
 					</div>
 					
@@ -251,6 +350,8 @@ if(count($c) > 0){
 				<div id="search-pres-box" style="display: none;"></div>
 				<br />
 				
+				<input type="hidden" id="pres-add-id" />
+				
 				Quantity:
 				<input type="text" id="pres-add-quantity" class="form-control" value="1" /><br />
 				
@@ -273,9 +374,79 @@ if(count($c) > 0){
 </div>
 
 <?php
+if(!isset($doc)){
+	$doc = "doc-" . date("Ymd") . Session::get("clinic")->c_id . "-" . F::UniqId(6);
+}
+
 
 Page::append(<<<SCRIPT
 <script>
+function update_note(){
+	var illness = $("#illness").val();
+	var examination = $("#examination").val();
+	var investigation = $("#investigation").val();
+	var diagnosis = $("#diagnosis").val();
+	var plan = $("#plan").val();
+	
+	var prescriptions = [];
+	
+	$("#list-pres").children("tr").each(function(){
+		var id = $(this).data("id");
+		var iid = $(".pres-" + id + "-id").val();
+		var quantity = $(".pres-" + id + "-quantity").text();
+		var freq = $(".pres-" + id + "-freq").text();
+		var remarks = $(".pres-" + id + "-remarks").text();
+		
+		prescriptions.push({
+			item: iid,
+			quantity: quantity,
+			freq: freq,
+			remarks: remarks
+		});
+	});
+	
+	// console.log({
+			// action: "update",
+			// doc: "$doc",
+			// illness: illness,
+			// examination: examination,
+			// investigation: investigation,
+			// diagnosis: diagnosis,
+			// plan: plan,
+			// prescription: JSON.stringify(prescriptions)
+		// });
+	
+	$.ajax({
+		url: PORTAL + "webservice/records",
+		method: "POST",
+		data: {
+			action: "update",
+			doc: "$doc",
+			illness: illness,
+			examination: examination,
+			investigation: investigation,
+			diagnosis: diagnosis,
+			plan: plan,
+			prescription: JSON.stringify(prescriptions)
+		},
+		dataType: "text"
+	}).done(function(res){
+		// console.log(res);
+		
+		var o = JSON.parse(res);
+		
+		if(o.status == "success"){
+			$("#saved-status").text("(last saved at "+ o.data +")");
+		}else{
+			alert(o.message);
+		}
+	});
+}
+
+$("#illness, #examination, #investigation, #diagnosis, #plan").on("keyup", function(){
+	update_note();
+});
+
 $("#search-ic").on("keyup", function(){
 	var skey = $(this).val();
 	$("#ic-search-list").show();
@@ -289,7 +460,7 @@ $("#search-ic").on("keyup", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		console.log(res);
+		// console.log(res);
 		
 		var o = JSON.parse(res);
 		
@@ -311,7 +482,7 @@ $("#search-ic").on("keyup", function(){
 $(document).on("click", ".ic-list-item", function(){
 	var ic = $(this).data("ic");
 	
-	window.location = PORTAL + "medical-record/create?ic=" + ic;
+	window.location = PORTAL + "medical-record/create?ic=" + ic + "&doc=$doc";
 });
 
 $("#add-to-list-pres").on("click", function(){
@@ -319,15 +490,19 @@ $("#add-to-list-pres").on("click", function(){
 	var quantity = $("#pres-add-quantity").val();
 	var freq = $("#pres-add-freq").val();
 	var remarks = $("#pres-add-remarks").val();
+	var iid = $("#pres-add-id").val();
+	
+	var rid = Math.ceil(Math.random() * 10000);
 	
 	$("#list-pres").append('\
-		<tr>\
+		<tr id="pres-'+ rid +'" data-id="'+ rid +'">\
 			<td>\
 				'+ name +'\
+				<input type="hidden" class="pres-'+ rid +'-id" value="'+ iid +'" />\
 			</td>\
-			<td class="text-center" contenteditable="true">'+ quantity +'</td>\
-			<td class="text-center" contenteditable="true">'+ freq +'</td>\
-			<td class="text-center" contenteditable="true">'+ remarks +'</td>\
+			<td class="text-center pres-'+ rid +'-quantity" contenteditable="true">'+ quantity +'</td>\
+			<td class="text-center pres-'+ rid +'-freq" contenteditable="true">'+ freq +'</td>\
+			<td class="text-center pres-'+ rid +'-remarks" contenteditable="true">'+ remarks +'</td>\
 			<td class="text-center">\
 				<button class="btn btn-sm btn-danger del-prescription" type="button">\
 					<span class="fa fa-trash"></span>\
@@ -340,10 +515,14 @@ $("#add-to-list-pres").on("click", function(){
 	$("#pres-add-quantity").val("1");
 	$("#pres-add-freq").val("");
 	$("#pres-add-remarks").val("");
+	
+	update_note();
 });
 
 $(document).on("click", ".del-prescription", function(){
 	$(this).parent("td").parent("tr").remove();
+	
+	update_note();
 });
 
 $("#pres-add-name").on("keyup", function(){
@@ -360,7 +539,7 @@ $("#pres-add-name").on("keyup", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		console.log(res);
+		// console.log(res);
 		var o = JSON.parse(res);
 		
 		if(o.status == "success"){
@@ -369,7 +548,7 @@ $("#pres-add-name").on("keyup", function(){
 			if(o.data.length > 0){
 				o.data.forEach(function(p){
 					$("#search-pres-box").append('\
-						<div class="search-pres-item" data-name="'+ p.name +'">\
+						<div class="search-pres-item" data-name="'+ p.name +'" data-id="'+ p.id +'">\
 							<strong>'+ p.name +'</strong><br />\
 							Available Quantity Balance: '+ p.quantity +'\
 						</div>\
@@ -386,6 +565,7 @@ $(document).on("click", ".search-pres-item", function(){
 	$("#search-pres-box").hide();
 	
 	$("#pres-add-name").val($(this).data("name"));
+	$("#pres-add-id").val($(this).data("id"));
 });
 </script>
 SCRIPT

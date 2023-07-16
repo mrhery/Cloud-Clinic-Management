@@ -84,6 +84,10 @@ if (!Session::exists("user")) {
 			case "customers":
 				Page::Load("webservice/customers");
 				break;
+				
+			case "records":
+				Page::Load("webservice/records");
+				break;
 		}
 
 
