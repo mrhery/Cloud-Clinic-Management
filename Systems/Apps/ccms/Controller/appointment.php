@@ -2,6 +2,7 @@
 
 switch(Input::post("action")){
 	case "create":
+	// die("asdasdasd");
 		if(!empty(Input::post("name")) && !empty(Input::post("ic"))){
 			
 			$c = customers::getBy(["c_ic" => Input::post("ic")]);
@@ -20,6 +21,9 @@ switch(Input::post("action")){
 				
 				$c = customers::getBy(["c_ukey" => $ukey]);
 			}
+			
+			// print_r($c);
+			// die();
 			
 			if(count($c) > 0){
 				$c = $c[0];
@@ -74,6 +78,8 @@ switch(Input::post("action")){
 		}else{
 			Alert::set("error", "Customer name and IC Number is required.");
 		}
+		
+		// die();
 	break;
 	
 	case "update":

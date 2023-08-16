@@ -16,35 +16,37 @@ if(empty($show)){
 	
 	<div class="card-body">
 		<div class="mb-3">
-			<a class="btn btn-sm btn-<?= $show == "today" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=today">
+			<a class="btn btn-sm btn-<?= $show == "today" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=today">
 				Today
 			</a>
 			
-			<a class="btn btn-sm btn-<?= $show == "now" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=now">
+			<a class="btn btn-sm btn-<?= $show == "now" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=now">
 				Now
 			</a>
 			
-			<a class="btn btn-sm btn-<?= $show == "tomorrow" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=tomorrow">
+			<a class="btn btn-sm btn-<?= $show == "tomorrow" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=tomorrow">
 				Tomorrow
 			</a>
 			
-			<a class="btn btn-sm btn-<?= $show == "week" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=week">
+			<a class="btn btn-sm btn-<?= $show == "week" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=week">
 				This Week
 			</a>
 			
-			<a class="btn btn-sm btn-<?= $show == "month" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=month">
+			<a class="btn btn-sm btn-<?= $show == "month" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=month">
 				This Month
 			</a>
 			
-			<a class="btn btn-sm btn-<?= $show == "year" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=year">
+			<a class="btn btn-sm btn-<?= $show == "year" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=year">
 				This Year
 			</a>
 			
-			<a class="btn btn-sm btn-<?= $show == "pending" ? "dark" : "secondary" ?>" href="<?= PORTAL ?>appointments?show=pending">
+			<a class="btn btn-sm btn-<?= $show == "pending" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=pending">
 				Pending
 			</a>
 			
-			
+			<a class="btn btn-sm btn-<?= $show == "all" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=all">
+				All
+			</a>
 		</div>
 		
 		<table class="table dataTable table-hover">
@@ -114,13 +116,20 @@ if(empty($show)){
 						}
 					break;
 					
+					case "all":
+						if(Session::get("admin")){
+							$r = DB::conn()->query("SELECT * FROM appointments")->results();
+						}else{
+							$r = DB::conn()->query("SELECT * FROM appointments WHERE a_clinic = ?", [Session::get("clinic")->c_id])->results();
+						}
+					break;
+					
 					case "pending":
 						if(Session::get("admin")){
 							$r = appointments::getBy(["a_status" => 0]);
 						}else{
 							$r = appointments::getBy(["a_status" => 0, "a_clinic" => Session::get("clinic")->c_id]);
-						}
-							
+						}	
 					break;
 				}
 				

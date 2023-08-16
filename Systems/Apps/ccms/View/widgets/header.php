@@ -139,11 +139,22 @@
 <nav id="lena-sidebar" class="sidebar lena-sidebar lena-light lena-full open">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
-            <li class="m-b-20">
-                <a class="nav-link" href="#">
-                    <img src="assets/img/logo.png" class="lena-normal-logo" width="50" alt="">
-                    <img src="assets/img/logo-small.png" class="lena-small-logo" width="20" alt="">
+            <li class="text-center">
+                <a class="nav-link" href="<?= PORTAL ?>">
+                    <img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-normal-logo" style="width: 100%;" />
+                    <img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-small-logo" style="width: 100%;" />
                 </a>
+				
+				<h4>Clininc CMS</h4>
+				
+				Hi, <strong><?= Session::get("user")->u_name ?></strong>!<br />
+				
+				<small>
+					<a href="<?= PORTAL ?>logout" class="text-danger">
+						<span class="fa fa-sign-out text-danger"></span> Logout
+					</a>
+				</small>
+				<hr />
             </li>
             <?php
 

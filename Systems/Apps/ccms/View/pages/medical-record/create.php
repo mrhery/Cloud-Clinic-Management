@@ -298,12 +298,12 @@ if(count($c) > 0){
 					<div class="tab-pane fade mt-2" id="menu2">
 						<h4>History</h4>
 						
-						<table class="table table-hover table-fluid table-bordered">
+						<table class="table table-hover table-fluid table-bordered dataTable">
 							<thead>
 								<tr>
 									<th class="text-center" width="15%">Date</th>
 									<th class="text-center" width="20%">Dr / User</th>
-									<th class="text-center">Details</th>
+									<th class="">Details</th>
 								</tr>
 							</thead>
 							
@@ -312,6 +312,7 @@ if(count($c) > 0){
 								$crs = customer_record::getBy(["cr_customer" => $c->c_id, "cr_clinic" => Session::get("clinic")->c_id], ["order" => "cr_id DESC", "limit" => 10]);
 								
 								foreach($crs as $cr){
+									
 								?>
 								<tr>
 									<td class="text-center" width="15%">
@@ -319,7 +320,7 @@ if(count($c) > 0){
 									<?= date("H:i:s\ ", $cr->cr_time) ?>
 									</td>
 									<td class="text-center" width="20%">Dr / User</td>
-									<td class="text-center">Details</td>
+									<td class=""><?= $cr->cr_illness ?></td>
 								</tr>
 								<?php
 								}
@@ -374,9 +375,59 @@ if(count($c) > 0){
 </div>
 
 <?php
-if(!isset($doc)){
-	$doc = "doc-" . date("Ymd") . Session::get("clinic")->c_id . "-" . F::UniqId(6);
-}
+Page::append(<<<HTML
+<script>
+$("#search-ic").on("keyup", function(){
+	var skey = $(this).val();
+	$("#ic-search-list").show();
+	
+	$.ajax({
+		url: PORTAL + "webservice/customers",
+		method: "POST",
+		data: {
+			action: "search",
+			skey: skey
+		},
+		dataType: "text"
+	}).done(function(res){
+		
+		var o = JSON.parse(res);
+		
+		if(o.status == "success"){
+			$("#ic-search-list").html("");
+			
+			o.data.forEach(function(c){
+				$("#ic-search-list").append('\
+					<div class="ic-list-item" data-ic="'+ c.ic +'">\
+						<strong>'+ c.name +' ('+ c.ic +')</strong><br />\
+						'+ c.phone +' <br /> '+ c.email +'\
+					</div>\
+				');
+			});
+		}
+	});
+});
+
+$(document).on("click", ".ic-list-item", function(){
+	var ic = $(this).data("ic");
+	
+	window.location = PORTAL + "medical-record/create?ic=" + ic + "&doc=$doc";
+});
+</script>
+HTML
+);
+
+if(!is_null($c)){
+	if(!isset($doc)){
+		$doc = "doc-" . date("Ymd") . Session::get("clinic")->c_id . "-" . F::UniqId(6);
+		
+		Page::append(<<<HTML
+<script>
+
+</script>	
+HTML
+);
+	}
 
 
 Page::append(<<<SCRIPT
@@ -427,11 +478,12 @@ function update_note(){
 			investigation: investigation,
 			diagnosis: diagnosis,
 			plan: plan,
-			prescription: JSON.stringify(prescriptions)
+			prescription: JSON.stringify(prescriptions),
+			customer: "$c->c_ukey"
 		},
 		dataType: "text"
 	}).done(function(res){
-		// console.log(res);
+		console.log(res);
 		
 		var o = JSON.parse(res);
 		
@@ -445,44 +497,6 @@ function update_note(){
 
 $("#illness, #examination, #investigation, #diagnosis, #plan").on("keyup", function(){
 	update_note();
-});
-
-$("#search-ic").on("keyup", function(){
-	var skey = $(this).val();
-	$("#ic-search-list").show();
-	
-	$.ajax({
-		url: PORTAL + "webservice/customers",
-		method: "POST",
-		data: {
-			action: "search",
-			skey: skey
-		},
-		dataType: "text"
-	}).done(function(res){
-		// console.log(res);
-		
-		var o = JSON.parse(res);
-		
-		if(o.status == "success"){
-			$("#ic-search-list").html("");
-			
-			o.data.forEach(function(c){
-				$("#ic-search-list").append('\
-					<div class="ic-list-item" data-ic="'+ c.ic +'">\
-						<strong>'+ c.name +' ('+ c.ic +')</strong><br />\
-						'+ c.phone +' <br /> '+ c.email +'\
-					</div>\
-				');
-			});
-		}
-	});
-});
-
-$(document).on("click", ".ic-list-item", function(){
-	var ic = $(this).data("ic");
-	
-	window.location = PORTAL + "medical-record/create?ic=" + ic + "&doc=$doc";
 });
 
 $("#add-to-list-pres").on("click", function(){
@@ -570,3 +584,4 @@ $(document).on("click", ".search-pres-item", function(){
 </script>
 SCRIPT
 );
+}
