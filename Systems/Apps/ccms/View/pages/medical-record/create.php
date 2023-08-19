@@ -71,7 +71,6 @@ if(count($c) > 0){
 	<div class="card-body">
 		<div class="row">
 			<div class="col-md-12">
-				<!-- Nav tabs -->
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#home"><span class="fa fa-user"></span> Patient Information</a>
@@ -304,6 +303,7 @@ if(count($c) > 0){
 									<th class="text-center" width="15%">Date</th>
 									<th class="text-center" width="20%">Dr / User</th>
 									<th class="">Details</th>
+									<th class="text-right" width="10%">:::</th>
 								</tr>
 							</thead>
 							
@@ -312,15 +312,26 @@ if(count($c) > 0){
 								$crs = customer_record::getBy(["cr_customer" => $c->c_id, "cr_clinic" => Session::get("clinic")->c_id], ["order" => "cr_id DESC", "limit" => 10]);
 								
 								foreach($crs as $cr){
+									$u = users::getBy(["u_id" => $cr->cr_user]);	
 									
+									if(count($u) > 0){
+										$u = $u[0];
+									}else{
+										$u = null;
+									}
 								?>
 								<tr>
 									<td class="text-center" width="15%">
 									<?= $cr->cr_date ?><br />
 									<?= date("H:i:s\ ", $cr->cr_time) ?>
 									</td>
-									<td class="text-center" width="20%">Dr / User</td>
+									<td class="text-center" width="20%"><?= !is_null($u) ? $u->u_name : "NIL" ?></td>
 									<td class=""><?= $cr->cr_illness ?></td>
+									<td class="text-right">
+										<a href="#show-record" data-toggle="modal" class="btn btn-sm btn-warning show-record" data-doc="<?= $cr->cr_key ?>" data-customer="<?= $c->c_ukey ?>">
+											<span class="fa fa-eye"></span> View
+										</a>
+									</td>
 								</tr>
 								<?php
 								}
@@ -332,6 +343,23 @@ if(count($c) > 0){
 					}
 				?>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="show-record">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title"><span class="fa fa-eye"></span> View Record</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			
+			<div class="modal-body" id="record-content"></div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -377,6 +405,25 @@ if(count($c) > 0){
 <?php
 Page::append(<<<HTML
 <script>
+$(".show-record").on("click", function(){
+	$("#record-content").html("");
+	var doc = $(this).data("doc");
+	var cus = $(this).data("customer");
+	
+	$.ajax({
+		url: PORTAL + "webservice/records",
+		method: "POST",
+		data: {
+			action: "view",
+			doc: doc,
+			customer: cus
+		},
+		dataType: "text"
+	}).done(function(res){
+		$("#record-content").html(res);
+	});
+});
+
 $("#search-ic").on("keyup", function(){
 	var skey = $(this).val();
 	$("#ic-search-list").show();

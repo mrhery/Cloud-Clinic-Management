@@ -14,6 +14,7 @@
                     <th width="5%">No </th>
                     <th>Name </th>
                     <th class="text-center">IC</th>
+					<th class="text-center" width="10%">No. of Records</th>
                     <th class="text-right" width="8%">:::</th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                         <td class="text-center"><?= $no++ ?></td>
                         <td><?= $c->c_name ?></td>
                         <td class="text-center"><?= $c->c_ic ?></td>
+                        <td class="text-center"><?= count(customer_record::getBy(["cr_customer" => $c->c_id])) ?></td>
                         <td class="text-right">
                             <a href="<?= PORTAL ?>medical-record/view/<?= $c->c_ukey ?>" class="btn btn-sm btn-warning">
                                 <span class="fa fa-eye"></span> View

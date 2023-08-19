@@ -32,12 +32,12 @@
 	<?php
 		if(!isset($_GET["ic"])){
 		?>
-		<h4>Customer Info</h4>
+		<h4>Patient Info</h4>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="card mb-2">
 					<div class="card-header">
-						<span class="fa fa-search"></span> Search Customer
+						<span class="fa fa-search"></span> Search Patient
 					</div>
 					
 					<div class="card-body">
@@ -58,11 +58,11 @@
 		<form action="" method="POST">
 			<div class="row">
 				<div class="col-md-6 mb-2">
-					<h4>Customer Info</h4>
+					<h4>Patient Info</h4>
 					
 					<div class="card mb-3">
 						<div class="card-header">
-							<span class="fa fa-search"></span> Search Customer
+							<span class="fa fa-search"></span> Search Patient
 						</div>
 						
 						<div class="card-body">
