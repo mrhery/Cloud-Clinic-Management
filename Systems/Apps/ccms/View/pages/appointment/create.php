@@ -1,16 +1,16 @@
 <style>
 #ic-search-list {
 	display: none;
-	position: absolute; 
-	background-color: #363636; 
-	width: 95%; 
+	position: absolute;
+	background-color: #363636;
+	width: 95%;
 	overflow-y: auto;
 }
 
 .ic-list-item {
-	color: white; 
-	padding: 10px; 
-	cursor: pointer; 
+	color: white;
+	padding: 10px;
+	cursor: pointer;
 	font-size: 9pt;
 }
 
@@ -50,7 +50,6 @@
 				</div>
 			</div>
 		</div>
-		
 		<?php
 		}else{
 			$c = customers::getBy(["c_ic" => Input::get("ic")]);
@@ -163,8 +162,6 @@
 		<?php
 		}
 	?>
-		
-		
 	</div>
 </div>
 
