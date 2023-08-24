@@ -112,7 +112,7 @@ if(count($c) > 0){
 							<div class="col-md-8">
 							<?php
 								if(!is_null($c)){
-								?>
+							?>
 								<a href="<?= PORTAL ?>medical-record/create" class="btn btn-sm btn-danger mb-3">
 									<span class="fa fa-close"></span> Reset
 								</a><br />
@@ -131,9 +131,9 @@ if(count($c) > 0){
 								
 								Email:
 								<input type="email" class="form-control" name="email" placeholder="example@abc.com" value="<?= $c->c_email ?>" disabled /><br />
-								<?php
+							<?php
 								}else{
-								?>
+							?>
 								<form action="" method="POST">
 									Name:
 									<input type="text" class="form-control" name="name" placeholder="Name" /><br />
@@ -153,14 +153,13 @@ if(count($c) > 0){
 									<button class="btn btn-success btn-sm">
 										<span class="fa fa-save"></span> Add new Patient
 									</button>
-									<?php
-										Controller::form("medical-record", ["action" => "create"]);
-									?>
-								</form>
 								<?php
+										Controller::form("medical-record", ["action" => "create"]);
+								?>
+								</form>
+							<?php
 								}
 							?>
-								
 							</div>
 						</div>
 					</div>
@@ -252,8 +251,7 @@ if(count($c) > 0){
 						<small id="saved-status">(not saved yet - <?= $doc ?>)</small><br >
 						<hr />
 						
-						<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" id="list-attachment">
-							
+						<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" id="list-attachment">							
 							<div style="border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; margin-bottom: 10px; float: left;">
 								<label for="upload-attachment" style="width: 100%; height: 100%; position: absolute; text-align: center; top: 50%; left: 50%;  transform: translate(-50%, -50%); cursor: pointer;">	
 									<input id="upload-attachment" onchange="upload_attachment()" type="file" name="attachment[]" accept="image/*" multiple style="visibility: hidden;" />
@@ -263,9 +261,7 @@ if(count($c) > 0){
 										Upload File(s)
 									</div>
 								</label>
-							</div>
-							
-							
+							</div>							
 						</div>
 						
 						Underlying Illness / Remarks:
@@ -580,15 +576,15 @@ function update_note(){
 	});
 	
 	// console.log({
-			// action: "update",
-			// doc: "$doc",
-			// illness: illness,
-			// examination: examination,
-			// investigation: investigation,
-			// diagnosis: diagnosis,
-			// plan: plan,
-			// prescription: JSON.stringify(prescriptions)
-		// });
+		// action: "update",
+		// doc: "$doc",
+		// illness: illness,
+		// examination: examination,
+		// investigation: investigation,
+		// diagnosis: diagnosis,
+		// plan: plan,
+		// prescription: JSON.stringify(prescriptions)
+	// });
 	
 	$.ajax({
 		url: PORTAL + "webservice/records",
