@@ -1,6 +1,99 @@
 <?php
 
 switch(Input::post("action")){
+	case "update_image":
+		if(!empty(Input::post("doc"))){
+			$crs = customer_record::getBy(["cr_key" => Input::post("doc"), "cr_clinic" => Session::get("clinic")->c_id]);
+			
+			if(count($crs) > 0){
+				$cr = $crs[0];
+				
+				if(strlen(Input::post("data")) > 0){
+					$fname = F::UniqKey("record_");
+				
+					$path = ASSET . "records/" . $cr->cr_key . "/";
+					
+					if(!is_dir($path)){
+						mkdir($path, 0777, true);
+					}
+					
+					$o = fopen($path . $fname, "w+");
+					fwrite($o, Input::post("data"));
+					fclose($o);
+					
+					record_file::insertInto([
+						"rf_record"	=> $cr->cr_id,
+						"rf_file"	=> $fname
+					]);
+				}
+				
+				die(json_encode([
+					"status"	=> "success",
+					"data"		=> date("d M Y H:i:s\ ")
+				]));
+			}else{
+				$c = customers::getBy(["c_ukey" => Input::post("customer")]);
+				
+				if(count($c) > 0){
+					$c = $c[0];
+					customer_record::insertInto([
+						"cr_key"			=> Input::post("doc"),
+						"cr_illness"		=> Input::post("illness"),
+						"cr_examination"	=> Input::post("examination"),
+						"cr_investigation"	=> Input::post("investigation"),
+						"cr_diagnosis"		=> Input::post("diagnosis"),
+						"cr_plan"			=> Input::post("plan"),
+						"cr_time"			=> F::GetTime(),
+						"cr_user"			=> Session::get("user")->u_id,
+						"cr_clinic"			=> Session::get("clinic")->c_id,
+						"cr_date"			=> F::GetDate(),
+						"cr_customer"		=> $c->c_id
+					]);
+					
+					$cr = customer_record::getBy(["cr_key" => Input::post("doc"), "cr_clinic" => Session::get("clinic")->c_id]);
+					
+					if(count($cr) > 0){
+						$cr = $cr[0];
+						
+						if(strlen(Input::post("data")) > 0){
+							$fname = F::UniqKey("record_");
+						
+							$path = ASSET . "records/" . $cr->cr_key . "/";
+							
+							if(!is_dir($path)){
+								mkdir($path, 0777, true);
+							}
+							
+							$o = fopen($path . $fname, "w+");
+							fwrite($o, Input::post("data"));
+							fclose($o);
+							
+							record_file::insertInto([
+								"rf_record"	=> $cr->cr_id,
+								"rf_file"	=> $fname
+							]);
+						}
+					}
+					
+					die(json_encode([
+						"status"	=> "success",
+						"data"		=> date("d M Y H:i:s\ ")
+					]));
+				}
+			}
+			
+			die(json_encode([
+				"status"	=> "error",
+				"data"		=> date("d M Y H:i:s\ ")
+			]));
+		}else{
+			die(json_encode([
+				"status"	=> "error",
+				"message"	=> "Doc number is not available."
+			]));
+		}
+	break;
+	
 	case "view":
 		$doc = Input::post("doc");
 		$customer = Input::post("customer");
@@ -30,6 +123,25 @@ switch(Input::post("action")){
 			
 			<small id="saved-status">(not saved yet - <?= $cr->cr_key ?>)</small><br >
 			<hr />
+			
+			<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;">				
+			<?php
+				$path = ASSET . "records/" . $cr->cr_key . "/";
+				foreach(record_file::getBy(["rf_record" => $cr->cr_id]) as $rf){
+					if(file_exists($path . $rf->rf_file)){
+						$bin = file_get_contents($path . $rf->rf_file);
+				?>
+					<div 
+						class="attachment-file" 
+						style="margin-bottom: 10px; border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; overflow: hidden; float: left;"
+					>
+						<img src="<?= $bin ?>" style="height: auto; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+					</div>
+				<?php
+					}
+				}
+			?>
+			</div>
 			
 			Underlying Illness / Remarks:
 			<textarea class="form-control" id="illness" Placeholder="" disabled><?= $cr->cr_illness ?></textarea><br />

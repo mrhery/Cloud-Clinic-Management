@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2023 at 04:28 AM
+-- Generation Time: Aug 24, 2023 at 06:21 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -49,7 +49,8 @@ INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`
 (2, 'asdasdasd asd as', 1, 1, '16-Jun-2023', 1686926940, 0, 'Astma', 0, ''),
 (3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '15-Jun-2023', 1686843660, 1, 'adasd', 0, ''),
 (4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '24-Jun-2023', 1687621320, 0, 'fever', 0, ''),
-(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf', 0, '');
+(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf', 0, ''),
+(6, '2c9688e4bf270ab7b2b950ec0fec26b4e54776dccaad5f1bb892c55fa0e75a40', 1, 1, '18-Aug-2023', 1692376980, 1, 'demam', 1, '17-Aug-2023');
 
 -- --------------------------------------------------------
 
@@ -72,7 +73,8 @@ CREATE TABLE `appointment_status` (
 --
 
 INSERT INTO `appointment_status` (`as_id`, `as_appointment`, `as_status`, `as_message`, `as_date`, `as_time`, `as_user`) VALUES
-(1, 2, 0, 'teting', '16-Jun-2023', 1686902672, 1);
+(1, 2, 0, 'teting', '16-Jun-2023', 1686902672, 1),
+(2, 6, 1, '', '17-Aug-2023', 1692290628, 1);
 
 -- --------------------------------------------------------
 
@@ -204,8 +206,17 @@ CREATE TABLE `customer_record` (
 --
 
 INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `cr_date`, `cr_time`, `cr_title`, `cr_description`, `cr_illness`, `cr_examination`, `cr_investigation`, `cr_diagnosis`, `cr_plan`, `cr_key`) VALUES
-(3, 5, 2, 14, '16-Jun-2023', 1686922942, 'hahahah', 'hthththth', '', '', '', '', '', ''),
-(10, 0, 1, 1, '16-Jul-2023', 1689503815, '', '', 'nut allergic', 'demam', 'lepas makan kambing', 'tekanan darah tinggi', 'kurang makan', 'doc-202307161-5EJ190');
+(3, 5, 2, 14, '16-Jun-2023', 1686922942, 'hahahah', 'hthththth', '', '', '', '', '', 'addd'),
+(10, 1, 1, 1, '16-Jul-2023', 1689503815, '', '', 'nut allergic', 'demam', 'lepas makan kambing', 'tekanan darah tinggi', 'kurang makan', 'doc-202307161-5EJ190'),
+(11, 1, 1, 1, '19-Aug-2023', 1692435365, '', '', 'testing', 'asd', 'asd', 'asd', 'asd', 'doc-202308191-qKM112'),
+(12, 1, 1, 1, '23-Aug-2023', 1692800937, '', '', '', '', '', '', '', 'doc-202308231-gwO407'),
+(13, 1, 1, 1, '24-Aug-2023', 1692870962, '', '', '', '', '', '', '', 'doc-202308241-B4l438'),
+(14, 1, 1, 1, '24-Aug-2023', 1692871199, '', '', '', '', '', '', '', 'doc-202308241-Q1f738'),
+(15, 1, 1, 1, '24-Aug-2023', 1692871228, '', '', '', '', '', '', '', 'doc-202308241-jN4212'),
+(16, 1, 1, 1, '24-Aug-2023', 1692871698, '', '', '', '', '', '', '', 'doc-202308241-9GI095'),
+(17, 1, 1, 1, '24-Aug-2023', 1692872086, '', '', '', '', '', '', '', 'doc-202308241-5qY534'),
+(18, 1, 1, 1, '24-Aug-2023', 1692872101, '', '', '', '', '', '', '', 'doc-202308241-nKx703'),
+(19, 1, 1, 1, '24-Aug-2023', 1692872238, '', '', '', '', '', '', '', 'doc-202308241-Lya183');
 
 -- --------------------------------------------------------
 
@@ -281,6 +292,29 @@ INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `
 (26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '1,2,4'),
 (27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available medical record base on customer information', '', 'fa fa-plus', '1,2,3,4'),
 (28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '1,2,4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `record_file`
+--
+
+CREATE TABLE `record_file` (
+  `rf_id` int(11) NOT NULL,
+  `rf_record` int(11) NOT NULL,
+  `rf_file` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `record_file`
+--
+
+INSERT INTO `record_file` (`rf_id`, `rf_record`, `rf_file`) VALUES
+(1, 15, 'record_64e6d5dca53fa'),
+(2, 16, 'record_64e6d7b240556'),
+(3, 17, 'record_64e6d936a8aec'),
+(4, 18, 'record_64e6d945f3964'),
+(5, 19, 'record_64e6d9ce2f985');
 
 -- --------------------------------------------------------
 
@@ -431,6 +465,12 @@ ALTER TABLE `menus`
   ADD PRIMARY KEY (`m_id`);
 
 --
+-- Indexes for table `record_file`
+--
+ALTER TABLE `record_file`
+  ADD PRIMARY KEY (`rf_id`);
+
+--
 -- Indexes for table `record_prescription`
 --
 ALTER TABLE `record_prescription`
@@ -456,13 +496,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `appointment_status`
 --
 ALTER TABLE `appointment_status`
-  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `clinics`
@@ -492,7 +532,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer_record`
 --
 ALTER TABLE `customer_record`
-  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -511,6 +551,12 @@ ALTER TABLE `items`
 --
 ALTER TABLE `menus`
   MODIFY `m_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `record_file`
+--
+ALTER TABLE `record_file`
+  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `record_prescription`

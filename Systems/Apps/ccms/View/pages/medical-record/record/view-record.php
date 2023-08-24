@@ -52,6 +52,26 @@
 						<small id="saved-status">(not saved yet - <?= $cr->cr_key ?>)</small><br >
 						<hr />
 						
+						<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;">				
+						<?php
+							$path = ASSET . "records/" . $cr->cr_key . "/";
+							foreach(record_file::getBy(["rf_record" => $cr->cr_id]) as $rf){
+								if(file_exists($path . $rf->rf_file)){
+									$bin = file_get_contents($path . $rf->rf_file);
+							?>
+								<div 
+									class="attachment-file" 
+									style="margin-bottom: 10px; border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; overflow: hidden; float: left;"
+								>
+									<img src="<?= $bin ?>" style="height: auto; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+								</div>
+							<?php
+								}
+							}
+						?>
+						</div>
+			
+						
 						Underlying Illness / Remarks:
 						<textarea class="form-control" id="illness" Placeholder="" disabled><?= $cr->cr_illness ?></textarea><br />
 						
@@ -113,3 +133,30 @@
 	?>
 	</div>
 </div>
+
+<div id="image-viewer" style="display: none; position:fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050; background-color: rgba(0, 0, 0, 0.8)">
+	<img id="image-viewer-image" src="" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); height: auto; max-height: 100%; width: auto; max-width: 100%;" />
+</div>
+
+<button id="image-viewer-close" style="display: none; position:fixed; top: 10px; right: 10px; z-index: 1051;" class="btn btn-outline-danger">
+	<span class="fa fa-close"></span> Close
+</button>
+
+<?php
+Page::append(<<<HTML
+<script>
+$(document).on("click", ".attachment-file", function(){
+	var src = $(this).children("img").attr("src");
+	$("#image-viewer").show();
+	$("#image-viewer-image").prop("src", src);
+	$("#image-viewer-close").show();
+});
+
+$(document).on("click", "#image-viewer-close", function(){
+	$("#image-viewer").hide();
+	$("#image-viewer-image").prop("src", null);
+	$("#image-viewer-close").hide();
+});
+</script>
+HTML
+);

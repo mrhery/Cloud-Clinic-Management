@@ -113,7 +113,6 @@ if(count($c) > 0){
 							<?php
 								if(!is_null($c)){
 								?>
-								
 								<a href="<?= PORTAL ?>medical-record/create" class="btn btn-sm btn-danger mb-3">
 									<span class="fa fa-close"></span> Reset
 								</a><br />
@@ -253,6 +252,22 @@ if(count($c) > 0){
 						<small id="saved-status">(not saved yet - <?= $doc ?>)</small><br >
 						<hr />
 						
+						<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" id="list-attachment">
+							
+							<div style="border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; margin-bottom: 10px; float: left;">
+								<label for="upload-attachment" style="width: 100%; height: 100%; position: absolute; text-align: center; top: 50%; left: 50%;  transform: translate(-50%, -50%); cursor: pointer;">	
+									<input id="upload-attachment" onchange="upload_attachment()" type="file" name="attachment[]" accept="image/*" multiple style="visibility: hidden;" />
+									
+									<div style="">
+										<span class="fa fa-plus"></span><br />
+										Upload File(s)
+									</div>
+								</label>
+							</div>
+							
+							
+						</div>
+						
 						Underlying Illness / Remarks:
 						<textarea class="form-control" id="illness" Placeholder="Underlying Illness..."></textarea><br />
 						
@@ -290,8 +305,6 @@ if(count($c) > 0){
 						<?php
 						}
 					?>
-						
-					
 					</div>
 					
 					<div class="tab-pane fade mt-2" id="menu2">
@@ -402,28 +415,17 @@ if(count($c) > 0){
 	</div>
 </div>
 
+<div id="image-viewer" style="display: none; position:fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050; background-color: rgba(0, 0, 0, 0.8)">
+	<img id="image-viewer-image" src="" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); height: auto; max-height: 100%; width: auto; max-width: 100%;" />
+</div>
+
+<button id="image-viewer-close" style="display: none; position:fixed; top: 10px; right: 10px; z-index: 1051;" class="btn btn-outline-danger">
+	<span class="fa fa-close"></span> Close
+</button>
+
 <?php
 Page::append(<<<HTML
 <script>
-$(".show-record").on("click", function(){
-	$("#record-content").html("");
-	var doc = $(this).data("doc");
-	var cus = $(this).data("customer");
-	
-	$.ajax({
-		url: PORTAL + "webservice/records",
-		method: "POST",
-		data: {
-			action: "view",
-			doc: doc,
-			customer: cus
-		},
-		dataType: "text"
-	}).done(function(res){
-		$("#record-content").html(res);
-	});
-});
-
 $("#search-ic").on("keyup", function(){
 	var skey = $(this).val();
 	$("#ic-search-list").show();
@@ -479,6 +481,80 @@ HTML
 
 Page::append(<<<SCRIPT
 <script>
+$(document).on("click", ".attachment-file", function(){
+	var src = $(this).children("img").attr("src");
+	$("#image-viewer").show();
+	$("#image-viewer-image").prop("src", src);
+	$("#image-viewer-close").show();
+});
+
+$(document).on("click", "#image-viewer-close", function(){
+	$("#image-viewer").hide();
+	$("#image-viewer-image").prop("src", null);
+	$("#image-viewer-close").hide();
+});
+
+function upload_attachment(){
+	var files = $("#upload-attachment")[0].files;
+	
+	for(var i = 0; i < files.length; i++){
+		var file = files[i];
+		
+		load_file(file);
+	}
+}
+
+function load_file(file){
+	var reader = new FileReader();
+	reader.readAsDataURL(file);
+	
+	reader.onload = function () {
+		console.log(reader.result);
+		
+		$("#list-attachment").append('\
+		<div class="attachment-file" style="margin-bottom: 10px; border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; overflow: hidden; float: left;">\
+			<img src="'+ reader.result +'" style="height: auto; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />\
+		</div>');
+		
+		$.ajax({
+			url: PORTAL + "webservice/records",
+			method: "POST",
+			data: {
+				action: "update_image",
+				doc: "$doc",
+				customer: "$c->c_ukey",
+				data: reader.result
+			},
+			dataType: "text"
+		}).done(function(res){
+			console.log(res);
+		});
+	};
+	
+	reader.onerror = function (error) {
+		console.log('Error: ', error);
+	};
+}
+
+$(".show-record").on("click", function(){
+	$("#record-content").html("");
+	var doc = $(this).data("doc");
+	var cus = $(this).data("customer");
+	
+	$.ajax({
+		url: PORTAL + "webservice/records",
+		method: "POST",
+		data: {
+			action: "view",
+			doc: doc,
+			customer: cus
+		},
+		dataType: "text"
+	}).done(function(res){
+		$("#record-content").html(res);
+	});
+});
+
 function update_note(){
 	var illness = $("#illness").val();
 	var examination = $("#examination").val();
