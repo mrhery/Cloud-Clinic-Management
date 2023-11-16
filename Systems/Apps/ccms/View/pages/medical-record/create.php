@@ -254,7 +254,7 @@ if(count($c) > 0){
 						<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" id="list-attachment">							
 							<div style="border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; margin-bottom: 10px; float: left;">
 								<label for="upload-attachment" style="width: 100%; height: 100%; position: absolute; text-align: center; top: 50%; left: 50%;  transform: translate(-50%, -50%); cursor: pointer;">	
-									<input id="upload-attachment" onchange="upload_attachment()" type="file" name="attachment[]" accept="image/*" multiple style="visibility: hidden;" />
+									<input id="upload-attachment" onchange="upload_attachment()" type="file" name="attachment[]" accept="image/*,application/pdf" multiple style="visibility: hidden;" />
 									
 									<div style="">
 										<span class="fa fa-plus"></span><br />
@@ -500,37 +500,48 @@ function upload_attachment(){
 	}
 }
 
-function load_file(file){
-	var reader = new FileReader();
-	reader.readAsDataURL(file);
-	
-	reader.onload = function () {
-		console.log(reader.result);
+function load_file(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = function () {
+        console.log('reader.result',reader.result);
+
+        var isPdf = file.type === 'application/pdf';
+
+        $("#list-attachment").append('\
+            <div class="attachment-file" style="margin-bottom: 10px; border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; overflow: hidden; float: left;">\
+                ' + (isPdf ? '<a href= + +reader.result" target="_blank" > <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAB+CAMAAADyU9RSAAAAn1BMVEX////tHCQAAADsAABYWFj96OjsAw2kpKTV1dX4wsP3srP2qqrtGCDtEx2goKDe3t7wVFXuLTP1nZ5fX1/CwsL+8/L719jzjI7uMznsBBTyc3OgFRuZEhfziIr2HSV3DhIeHh5ECApKSkr84eLwWlxxAAAREREmJibMzMybAAegCxLuJCupFRs6BwgxAADawcHvRknzgIHxamy+goPfpKUTNIuKAAADbklEQVRoge3ba3ebIAAGYAmVzghrks4LbulN261zbZO0//+3zaggeCdCzlnn+82D4UHCzfbEsnguFyfn5xdLORO4xULdm8TdKXuTOHVvGqfsFdzDhWKu707zCu5KrY1ZrtnzPSl5Bac+xK6rDlVpqwZOxdPBKXhauPGeHm70eNHDjfY0cWPnny5u5P6gjRv3fPq4UZ5GbvE0PB90ciPmn15u0NPMDXm6uQFPO9c/XrRz/fNBP9e7vhjg+jwTXI9nhOv+/sxwnePTENc1/4xxX/9l7uK83K9vnbk0wPXkauZmbub+Y85+NsU9+82SmPw2xf2ADS8G5Lsx7obWvDglNwY5QiQv04BJDkjeUTPLiZ4NMs0wBwj7/mxy1ExzAMM411CuGecKz4YYFNyfl/v7+9c3W2PeXrMqX74XXO4tIWC5OYYijaF5lRxArrVE4GyZuZk7ncNQDKK4owxRUquMwkYQlu5ocnjnCFm62xCydQDgtVgSrCCkorZ3mtlJXpMjq8ZK5KaQcbUSJxJAtGlZxVZEmbOsALZz2RJ4gPo5y4UdnFUtgho5a4u6OMuB+jlvjbs41tXTOC8bV75d1YlEzo9toc6QSJxXxR7N+fnESWJ+KXAehGS18Xh3Iolz05BHqruXy9tFmWBTiQOYwB33UixyG4h5FDkAy8fzQixxxw8fxJ4WOdCREZzfyfGyYnDq4coxcRyadQ7tWU8DLHGEFsGqHN2xGuWhIt9rrUXOOURldmQ8B7OjDQzZgHdaOByywRLi1nm3QaM5exsEG4d/8kBauDVrzPExpnFyfGkRM84ltI3jnbmb3JlS9vKOwDg2jjR8d0K8qLbfsZGZsOtUH+e5aXlLY5q75XU+aaqJsN8WCVbjJ0K+sNu+G4lnFYnDmI2UZW1VKWd54/A0uCNkB66qrMbxh7MOFGhaxMQIHCao0ry8SSa5NAnkrdckJ8euHR4Mc+VCfCYuKis4C2cnjXOmOc5bpnyiTOPiQc7zgxBWG3Z1ElPgcBgUieo7f5Y04NlGKyq/T5GkLEqaDe3kAO5YgPJQIaTeHtL3yS7OZGZOL+dW7+35H7Ca7/NTkleJ+KVr2fy1/f3x9vb28aPlhf7kfORVvvPrWJi2n/q/JDM3czM3czM3czNnilP/+cMkTvnHHX15GOQMZOY+BfcXpu52yGEhs/AAAAAASUVORK5CYII=" style="height: 70px; width: 70px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />' : '<img src="' + reader.result + '" style="height: auto; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" /></a>') + '\
+            </div>');
 		
-		$("#list-attachment").append('\
-		<div class="attachment-file" style="margin-bottom: 10px; border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; overflow: hidden; float: left;">\
-			<img src="'+ reader.result +'" style="height: auto; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />\
-		</div>');
-		
-		$.ajax({
-			url: PORTAL + "webservice/records",
-			method: "POST",
-			data: {
-				action: "update_image",
-				doc: "$doc",
-				customer: "$c->c_ukey",
-				data: reader.result
-			},
-			dataType: "text"
-		}).done(function(res){
-			console.log(res);
-		});
-	};
-	
-	reader.onerror = function (error) {
-		console.log('Error: ', error);
-	};
+        if (isPdf) {
+            // Handle PDF file upload, e.g., display PDF-specific actions
+            console.log('PDF file uploaded');
+        } else {
+            // Handle other file types
+            console.log('Image file uploaded');
+        }
+
+        $.ajax({
+            url: PORTAL + "webservice/records",
+            method: "POST",
+            data: {
+                action: "update_image",
+                doc: "$doc",
+                customer: "$c->c_ukey",
+                data: reader.result
+            },
+            dataType: "text"
+        }).done(function (res) {
+            console.log(res);
+        });
+    };
+
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
 }
+
 
 $(".show-record").on("click", function(){
 	$("#record-content").html("");
