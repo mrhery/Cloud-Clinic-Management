@@ -70,6 +70,12 @@ if (!Session::exists("user")) {
 			$page->loadPage("404");
 			$page->render();
 			break;
+		
+		// case "decode":
+			// header("Content-Type: image/png");
+			// echo base64_decode("iVBORw0KGgoAAAANSUhEUgAAAG4AAAB+CAMAAADyU9RSAAAAn1BMVEX////tHCQAAADsAABYWFj96OjsAw2kpKTV1dX4wsP3srP2qqrtGCDtEx2goKDe3t7wVFXuLTP1nZ5fX1/CwsL+8/L719jzjI7uMznsBBTyc3OgFRuZEhfziIr2HSV3DhIeHh5ECApKSkr84eLwWlxxAAAREREmJibMzMybAAegCxLuJCupFRs6BwgxAADawcHvRknzgIHxamy+goPfpKUTNIuKAAADbklEQVRoge3ba3ebIAAGYAmVzghrks4LbulN261zbZO0//+3zaggeCdCzlnn+82D4UHCzfbEsnguFyfn5xdLORO4xULdm8TdKXuTOHVvGqfsFdzDhWKu707zCu5KrY1ZrtnzPSl5Bac+xK6rDlVpqwZOxdPBKXhauPGeHm70eNHDjfY0cWPnny5u5P6gjRv3fPq4UZ5GbvE0PB90ciPmn15u0NPMDXm6uQFPO9c/XrRz/fNBP9e7vhjg+jwTXI9nhOv+/sxwnePTENc1/4xxX/9l7uK83K9vnbk0wPXkauZmbub+Y85+NsU9+82SmPw2xf2ADS8G5Lsx7obWvDglNwY5QiQv04BJDkjeUTPLiZ4NMs0wBwj7/mxy1ExzAMM411CuGecKz4YYFNyfl/v7+9c3W2PeXrMqX74XXO4tIWC5OYYijaF5lRxArrVE4GyZuZk7ncNQDKK4owxRUquMwkYQlu5ocnjnCFm62xCydQDgtVgSrCCkorZ3mtlJXpMjq8ZK5KaQcbUSJxJAtGlZxVZEmbOsALZz2RJ4gPo5y4UdnFUtgho5a4u6OMuB+jlvjbs41tXTOC8bV75d1YlEzo9toc6QSJxXxR7N+fnESWJ+KXAehGS18Xh3Iolz05BHqruXy9tFmWBTiQOYwB33UixyG4h5FDkAy8fzQixxxw8fxJ4WOdCREZzfyfGyYnDq4coxcRyadQ7tWU8DLHGEFsGqHN2xGuWhIt9rrUXOOURldmQ8B7OjDQzZgHdaOByywRLi1nm3QaM5exsEG4d/8kBauDVrzPExpnFyfGkRM84ltI3jnbmb3JlS9vKOwDg2jjR8d0K8qLbfsZGZsOtUH+e5aXlLY5q75XU+aaqJsN8WCVbjJ0K+sNu+G4lnFYnDmI2UZW1VKWd54/A0uCNkB66qrMbxh7MOFGhaxMQIHCao0ry8SSa5NAnkrdckJ8euHR4Mc+VCfCYuKis4C2cnjXOmOc5bpnyiTOPiQc7zgxBWG3Z1ElPgcBgUieo7f5Y04NlGKyq/T5GkLEqaDe3kAO5YgPJQIaTeHtL3yS7OZGZOL+dW7+35H7Ca7/NTkleJ+KVr2fy1/f3x9vb28aPlhf7kfORVvvPrWJi2n/q/JDM3czM3czM3czNnilP/+cMkTvnHHX15GOQMZOY+BfcXpu52yGEhs/AAAAAASUVORK5CYII=");
+			// die();
+		// break;
 	}
 } else {
 	$mpage = url::get(0);
@@ -140,6 +146,47 @@ if (!Session::exists("user")) {
 			$page->title = " Contact Us " . APP_NAME;
 			$page->loadPage("pages/help/help");
 			$page->render();
+			die();
+			break;
+		
+		case "file_viewer":
+			$x = DB::conn()->query("SELECT * FROM record_file WHERE (rf_fileid = ? OR rf_file = ?) AND rf_record IN (SELECT cr_id FROM customer_record WHERE cr_clinic = ?)", [
+				url::get(1),
+				url::get(1),
+				Session::get("clinic")->c_id
+			])->Results();
+
+			if(count($x) > 0){
+				$rf = $x[0];
+				$cr = customer_record::getBy(["cr_id" => $rf->rf_record])[0];
+				
+				if(file_exists(ASSET . "records/" . $cr->cr_key . "/" . $rf->rf_file)){
+					$file = file_get_contents(ASSET . "records/" . $cr->cr_key . "/" . $rf->rf_file);
+					
+					$fs = explode(";", $file);
+					
+					if(count($fs) > 1){
+						$type = str_replace("data:", "", $fs[0]);
+						$ext = explode("/", $type)[1];
+						$name = $rf->rf_file . "." . $ext;
+						
+						header("Content-Type: $type");
+						header('Content-Disposition: inline; filename="'. (empty($rf->rf_original_name) ? $name : $rf->rf_original_name) .'"');
+						
+						echo base64_decode(str_replace("data:$type;base64,", "", $file));
+						die();
+					}else{
+						
+					}					
+				}else{
+					header("HTTP/1.1 404 Not Found");
+					die("File not found");
+				}
+			}else{
+				header("HTTP/1.1 404 Not Found");
+				die("Path is incorrect");
+			}
+			
 			die();
 			break;
 	}

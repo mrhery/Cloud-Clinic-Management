@@ -23,7 +23,9 @@ switch(Input::post("action")){
 					
 					record_file::insertInto([
 						"rf_record"	=> $cr->cr_id,
-						"rf_file"	=> $fname
+						"rf_file"	=> $fname,
+						"rf_fileid"	=> Input::post("ufid"),
+						"rf_original_name"	=> Input::post("name"),
 					]);
 				}
 				
@@ -70,14 +72,17 @@ switch(Input::post("action")){
 							
 							record_file::insertInto([
 								"rf_record"	=> $cr->cr_id,
-								"rf_file"	=> $fname
+								"rf_file"	=> $fname,
+								"rf_fileid"	=> Input::post("ufid"),
+								"rf_original_name"	=> Input::post("name"),
 							]);
 						}
 					}
 					
 					die(json_encode([
 						"status"	=> "success",
-						"data"		=> date("d M Y H:i:s\ ")
+						"data"		=> date("d M Y H:i:s\ "),
+						""
 					]));
 				}
 			}

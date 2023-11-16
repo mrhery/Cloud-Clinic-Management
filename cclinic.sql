@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2023 at 06:21 AM
+-- Generation Time: Nov 16, 2023 at 09:04 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -216,7 +216,15 @@ INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `
 (16, 1, 1, 1, '24-Aug-2023', 1692871698, '', '', '', '', '', '', '', 'doc-202308241-9GI095'),
 (17, 1, 1, 1, '24-Aug-2023', 1692872086, '', '', '', '', '', '', '', 'doc-202308241-5qY534'),
 (18, 1, 1, 1, '24-Aug-2023', 1692872101, '', '', '', '', '', '', '', 'doc-202308241-nKx703'),
-(19, 1, 1, 1, '24-Aug-2023', 1692872238, '', '', '', '', '', '', '', 'doc-202308241-Lya183');
+(19, 1, 1, 1, '24-Aug-2023', 1692872238, '', '', '', '', '', '', '', 'doc-202308241-Lya183'),
+(20, 1, 1, 1, '16-Nov-2023', 1700140756, '', '', 'dfsdf', 'sdfsdf', 'sdfsdf', 'sdfsdf', 'sdfs', 'doc-202311161-exS168'),
+(21, 1, 1, 1, '16-Nov-2023', 1700141811, '', '', 'test pdf hery', 'huhuhu', '', '', '', 'doc-202311161-6VN116'),
+(22, 1, 1, 1, '16-Nov-2023', 1700141914, '', '', '', '', '', '', '', 'doc-202311161-EhG905'),
+(23, 1, 1, 1, '16-Nov-2023', 1700141958, '', '', '', '', '', '', '', 'doc-202311161-5xF978'),
+(24, 1, 1, 1, '16-Nov-2023', 1700142029, '', '', '', '', '', '', '', 'doc-202311161-6ok493'),
+(25, 1, 1, 1, '16-Nov-2023', 1700143278, '', '', '', '', '', '', '', 'doc-202311161-OVZ700'),
+(26, 1, 1, 1, '16-Nov-2023', 1700143368, '', '', '', '', '', '', '', 'doc-202311161-940646'),
+(27, 1, 1, 1, '16-Nov-2023', 1700143389, '', '', '', '', '', '', '', 'doc-202311161-3kJ018');
 
 -- --------------------------------------------------------
 
@@ -302,19 +310,45 @@ INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `
 CREATE TABLE `record_file` (
   `rf_id` int(11) NOT NULL,
   `rf_record` int(11) NOT NULL,
-  `rf_file` varchar(255) NOT NULL
+  `rf_file` varchar(255) NOT NULL,
+  `rf_fileid` varchar(100) NOT NULL,
+  `rf_original_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `record_file`
 --
 
-INSERT INTO `record_file` (`rf_id`, `rf_record`, `rf_file`) VALUES
-(1, 15, 'record_64e6d5dca53fa'),
-(2, 16, 'record_64e6d7b240556'),
-(3, 17, 'record_64e6d936a8aec'),
-(4, 18, 'record_64e6d945f3964'),
-(5, 19, 'record_64e6d9ce2f985');
+INSERT INTO `record_file` (`rf_id`, `rf_record`, `rf_file`, `rf_fileid`, `rf_original_name`) VALUES
+(1, 15, 'record_64e6d5dca53fa', '', ''),
+(2, 16, 'record_64e6d7b240556', '', ''),
+(3, 17, 'record_64e6d936a8aec', '', ''),
+(4, 18, 'record_64e6d945f3964', '', ''),
+(5, 19, 'record_64e6d9ce2f985', '', ''),
+(6, 20, 'record_6555c2529a962', '', ''),
+(7, 20, 'record_6555c25d660b3', '', ''),
+(8, 20, 'record_6555c25d6d433', '', ''),
+(9, 20, 'record_6555c25d73934', '', ''),
+(10, 20, 'record_6555c25d77d61', '', ''),
+(11, 21, 'record_6555c6842ec65', 'file_77705921', ''),
+(12, 21, 'record_6555c6843412a', '', ''),
+(13, 21, 'record_6555c684377f3', '', ''),
+(14, 21, 'record_6555c6843d0cf', '', ''),
+(15, 21, 'record_6555c6883f0d7', '', ''),
+(16, 22, 'record_6555c6fa3c4ed', 'file_82831000', ''),
+(17, 23, 'record_6555c726bb0b2', 'file_72639054', ''),
+(18, 23, 'record_6555c726bef87', '', ''),
+(19, 23, 'record_6555c732b7cef', '', ''),
+(20, 24, 'record_6555c76d82d9d', 'file_92048124', ''),
+(21, 24, 'record_6555c76d8bf5d', 'file_37170130', ''),
+(22, 24, 'record_6555c76d8ed1c', 'file_89621030', ''),
+(23, 24, 'record_6555c770b46c3', 'file_20808550', 'invoice.pdf'),
+(24, 25, 'record_6555cc4e2a631', 'file_85082664', 'asdadasdadsa.JPG'),
+(25, 25, 'record_6555cc50c06c9', 'file_39323803', 'CT0128999-V_BIS_INFO.pdf'),
+(26, 26, 'record_6555cca82eaed', 'file_69907648', 'asdadasdadsa.JPG'),
+(27, 26, 'record_6555ccaa08f5e', 'file_97886745', '3610293669.pdf'),
+(28, 27, 'record_6555ccbd9418f', 'file_76154111', 'asdadasdadsa.JPG'),
+(29, 27, 'record_6555ccbf6ccd4', 'file_98843057', '3610293669.pdf');
 
 -- --------------------------------------------------------
 
@@ -338,7 +372,8 @@ CREATE TABLE `record_prescription` (
 
 INSERT INTO `record_prescription` (`rp_id`, `rp_item`, `rp_quantity`, `rp_remarks`, `rp_record`, `rp_frequency`, `rp_time`) VALUES
 (28, 1, '1', 'bb', 10, 'aa', 1689503815),
-(29, 2, '1', 'uu', 10, 'yy', 1689503816);
+(29, 2, '1', 'uu', 10, 'yy', 1689503816),
+(30, 1, '10', 'a', 20, '1', 1700140756);
 
 -- --------------------------------------------------------
 
@@ -532,7 +567,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer_record`
 --
 ALTER TABLE `customer_record`
-  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -556,13 +591,13 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `record_file`
 --
 ALTER TABLE `record_file`
-  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `record_prescription`
 --
 ALTER TABLE `record_prescription`
-  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `roles`
