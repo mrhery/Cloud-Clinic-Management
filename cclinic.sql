@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2023 at 09:04 AM
+-- Generation Time: Dec 07, 2023 at 12:00 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -254,16 +254,39 @@ CREATE TABLE `items` (
   `i_quantity` int(11) NOT NULL,
   `i_type` varchar(10) NOT NULL,
   `i_price` double NOT NULL,
-  `i_key` varchar(255) NOT NULL
+  `i_key` varchar(255) NOT NULL,
+  `i_user` int(11) NOT NULL,
+  `i_sku` varchar(255) NOT NULL,
+  `i_tag` varchar(255) NOT NULL,
+  `i_cost` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`i_id`, `i_name`, `i_description`, `i_code`, `i_clinic`, `i_quantity`, `i_type`, `i_price`, `i_key`) VALUES
-(1, 'Paracetamol 650', 'ubat tahan sakit', 'PARA650MG', 1, 100, 'product', 0.5, 'a'),
-(2, 'Panadol', 'panadol la', 'panadol', 1, 100, 'product', 0.3, 'b');
+INSERT INTO `items` (`i_id`, `i_name`, `i_description`, `i_code`, `i_clinic`, `i_quantity`, `i_type`, `i_price`, `i_key`, `i_user`, `i_sku`, `i_tag`, `i_cost`) VALUES
+(1, 'Paracetamol 650', 'ubat tahan sakit', 'PARA650MG', 1, 100, 'product', 0.5, 'a', 0, '', '', 0),
+(2, 'Panadol', 'panadol la', 'panadol', 1, 100, 'product', 0.3, 'b', 0, '', '', 0),
+(3, 'testaaa', '', '', 1, 0, 'product', 0, 'item_65719e06246b9', 1, '', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_inventory`
+--
+
+CREATE TABLE `item_inventory` (
+  `ii_id` int(11) NOT NULL,
+  `ii_item` int(11) NOT NULL,
+  `ii_date` varchar(100) NOT NULL,
+  `ii_time` int(15) NOT NULL,
+  `ii_quantity` int(11) NOT NULL,
+  `ii_description` int(11) NOT NULL,
+  `ii_cost` double NOT NULL,
+  `ii_user` int(11) NOT NULL,
+  `ii_clinic` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -293,13 +316,13 @@ INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `
 (8, 0, 5, 'Staffs', 'pengguna', 'pengguna', 1, 'Manage staff informations', '', 'typcn typcn-user-outline', '1,2,4'),
 (9, 0, 100, 'Settings', 'settings', 'settings', 1, 'All System Settings', '', 'typcn typcn-cog-outline', '1'),
 (10, 9, 1, 'Menus', 'menus', 'menus', 1, 'Manage System Menus', 'MNU', '', '1'),
-(21, 9, 1, 'Rol Pengguna', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '1'),
-(23, 9, 1, 'Jabatan', 'jabatan', 'jabatan', 1, 'Data-data Jabatan', 'JAB', '', '1'),
+(21, 9, 1, 'USer Roles', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '1'),
 (24, 0, 1, 'Dashboard', 'dashboard', 'dashboard', 1, 'Review your business performance interactively', '', 'fa fa-dashboard', '1,2,3,4'),
 (25, 0, 4, 'Patients', 'customers', 'customers', 1, 'Manage all your customer\'s information', '', 'fa fa-users', '1,2,3,4'),
 (26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '1,2,4'),
 (27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available medical record base on customer information', '', 'fa fa-plus', '1,2,3,4'),
-(28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '1,2,4');
+(28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '1,2,4'),
+(29, 0, 8, 'Inventories', 'inventories', 'inventories', 1, 'Manage your clinic inventories', '', 'fa fa-cubes', '1,2,4');
 
 -- --------------------------------------------------------
 
@@ -494,6 +517,12 @@ ALTER TABLE `items`
   ADD PRIMARY KEY (`i_id`);
 
 --
+-- Indexes for table `item_inventory`
+--
+ALTER TABLE `item_inventory`
+  ADD PRIMARY KEY (`ii_id`);
+
+--
 -- Indexes for table `menus`
 --
 ALTER TABLE `menus`
@@ -579,13 +608,19 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `item_inventory`
+--
+ALTER TABLE `item_inventory`
+  MODIFY `ii_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `m_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `m_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `record_file`
