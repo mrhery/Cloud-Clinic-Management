@@ -157,7 +157,7 @@ if(empty($show)){
 					</td>
 					<td class="text-right">
 						<a class="btn btn-sm btn-warning" href="<?= PORTAL ?>appointments/edit/<?= $a->a_ukey ?>">
-							<span class="fa fa-edit"></span> Edits
+							<span class="fa fa-edit"></span> Edit
 						</a>	
 					</td>
 				</tr>
