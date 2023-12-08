@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2023 at 12:00 PM
+-- Generation Time: Dec 08, 2023 at 12:00 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -45,12 +45,12 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`, `a_user`, `a_createdDate`) VALUES
-(1, 'asd', 1, 1, '15-Jun-2023', 1686840540, 1, 'Covid Test asd', 0, ''),
-(2, 'asdasdasd asd as', 1, 1, '16-Jun-2023', 1686926940, 0, 'Astma', 0, ''),
-(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '15-Jun-2023', 1686843660, 1, 'adasd', 0, ''),
-(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '24-Jun-2023', 1687621320, 0, 'fever', 0, ''),
-(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '22-Jun-2023', 1687448580, 0, 'sdfsdfsdf', 0, ''),
-(6, '2c9688e4bf270ab7b2b950ec0fec26b4e54776dccaad5f1bb892c55fa0e75a40', 1, 1, '18-Aug-2023', 1692376980, 1, 'demam', 1, '17-Aug-2023');
+(1, 'asd', 1, 1, '08-Dec-2023', 1686840540, 1, 'Covid Test asd', 0, ''),
+(2, 'asdasdasd asd as', 1, 1, '08-Dec-2023', 1686926940, 0, 'Astma', 0, ''),
+(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '08-Dec-2023', 1686843660, 1, 'adasd', 0, ''),
+(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '08-Dec-2023', 1687621320, 0, 'fever', 0, ''),
+(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '08-Dec-2023', 1687448580, 0, 'sdfsdfsdf', 0, ''),
+(6, '2c9688e4bf270ab7b2b950ec0fec26b4e54776dccaad5f1bb892c55fa0e75a40', 1, 1, '08-Dec-2023', 1692376980, 1, 'demam', 1, '17-Aug-2023');
 
 -- --------------------------------------------------------
 
@@ -75,6 +75,36 @@ CREATE TABLE `appointment_status` (
 INSERT INTO `appointment_status` (`as_id`, `as_appointment`, `as_status`, `as_message`, `as_date`, `as_time`, `as_user`) VALUES
 (1, 2, 0, 'teting', '16-Jun-2023', 1686902672, 1),
 (2, 6, 1, '', '17-Aug-2023', 1692290628, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+CREATE TABLE `clients` (
+  `c_id` int(11) NOT NULL,
+  `c_name` varchar(255) NOT NULL,
+  `c_regno` varchar(255) NOT NULL,
+  `c_address` varchar(255) NOT NULL,
+  `c_phone` varchar(100) NOT NULL,
+  `c_email` varchar(100) NOT NULL,
+  `c_is_personal` int(11) NOT NULL,
+  `c_clinic` int(11) NOT NULL,
+  `c_date` varchar(100) NOT NULL,
+  `c_time` int(15) NOT NULL,
+  `c_user` int(11) NOT NULL,
+  `c_key` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`c_id`, `c_name`, `c_regno`, `c_address`, `c_phone`, `c_email`, `c_is_personal`, `c_clinic`, `c_date`, `c_time`, `c_user`, `c_key`) VALUES
+(1, 'Intellingent Mental Arithmetic Sdn Bhd', 'IMA-1234', 'No 23A Jalan Kebudayaan 16, Taman Universiti, 81300 Johor Bahru, Johor', '+607-521 1178', '', 0, 1, '08-Dec-2023', 0, 1, 'client_001'),
+(2, 'Intelligent Hosting Sdn Bhd', 'IH-1234', 'No 23A Jalan Kebudayaan 16, Taman Universiti, 81300 Johor Bahru, Johor', '+607-521 1178', '', 0, 1, '08-Dec-2023', 0, 1, 'client_002'),
+(3, 'Hery Intelligent Technology', 'HIT-1234', 'No 0402 Jalan Pendidikan 3, Taman Universiti, 81300 Johor Bahru, Johor', '+6018-782 4900', '', 0, 1, '07-Dec-2023', 0, 1, 'client_003');
 
 -- --------------------------------------------------------
 
@@ -266,9 +296,7 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`i_id`, `i_name`, `i_description`, `i_code`, `i_clinic`, `i_quantity`, `i_type`, `i_price`, `i_key`, `i_user`, `i_sku`, `i_tag`, `i_cost`) VALUES
-(1, 'Paracetamol 650', 'ubat tahan sakit', 'PARA650MG', 1, 100, 'product', 0.5, 'a', 0, '', '', 0),
-(2, 'Panadol', 'panadol la', 'panadol', 1, 100, 'product', 0.3, 'b', 0, '', '', 0),
-(3, 'testaaa', '', '', 1, 0, 'product', 0, 'item_65719e06246b9', 1, '', '', 0);
+(5, 'Panadol A', '', '', 1, 200, 'product', 0, 'item_6572eded67c1f', 1, '', '', 0.5);
 
 -- --------------------------------------------------------
 
@@ -282,11 +310,18 @@ CREATE TABLE `item_inventory` (
   `ii_date` varchar(100) NOT NULL,
   `ii_time` int(15) NOT NULL,
   `ii_quantity` int(11) NOT NULL,
-  `ii_description` int(11) NOT NULL,
+  `ii_description` varchar(255) NOT NULL,
   `ii_cost` double NOT NULL,
   `ii_user` int(11) NOT NULL,
   `ii_clinic` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `item_inventory`
+--
+
+INSERT INTO `item_inventory` (`ii_id`, `ii_item`, `ii_date`, `ii_time`, `ii_quantity`, `ii_description`, `ii_cost`, `ii_user`, `ii_clinic`) VALUES
+(6, 5, '08-Dec-2023', 1702052429, 200, 'Try beli', 0.5, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -313,16 +348,77 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `m_status`, `m_description`, `m_short`, `m_icon`, `m_role`) VALUES
-(8, 0, 5, 'Staffs', 'pengguna', 'pengguna', 1, 'Manage staff informations', '', 'typcn typcn-user-outline', '1,2,4'),
+(8, 30, 5, 'Staffs', 'pengguna', 'pengguna', 1, 'Manage staff informations', 'STA', 'typcn typcn-user-outline', '1,2,4'),
 (9, 0, 100, 'Settings', 'settings', 'settings', 1, 'All System Settings', '', 'typcn typcn-cog-outline', '1'),
 (10, 9, 1, 'Menus', 'menus', 'menus', 1, 'Manage System Menus', 'MNU', '', '1'),
 (21, 9, 1, 'USer Roles', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '1'),
 (24, 0, 1, 'Dashboard', 'dashboard', 'dashboard', 1, 'Review your business performance interactively', '', 'fa fa-dashboard', '1,2,3,4'),
-(25, 0, 4, 'Patients', 'customers', 'customers', 1, 'Manage all your customer\'s information', '', 'fa fa-users', '1,2,3,4'),
+(25, 30, 4, 'Patients', 'customers', 'customers', 1, 'Manage all your customer\'s information', 'PAT', 'fa fa-users', '1,2,3,4'),
 (26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '1,2,4'),
 (27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available medical record base on customer information', '', 'fa fa-plus', '1,2,3,4'),
 (28, 0, 6, 'Clinic', 'Clinic', 'Clinic', 1, 'Manage you clinic information', '', 'fa fa-building', '1,2,4'),
-(29, 0, 8, 'Inventories', 'inventories', 'inventories', 1, 'Manage your clinic inventories', '', 'fa fa-cubes', '1,2,4');
+(29, 0, 8, 'Inventories', 'inventories', 'inventories', 1, 'Manage your clinic inventories', '', 'fa fa-cubes', '1,2,4'),
+(30, 0, 3, 'Users', 'Users', 'Users', 1, '', '', 'fa fa-users', '1,3,4'),
+(31, 0, 7, 'Billing', 'billing', 'billing', 1, '', '', 'fa fa-dollar', '1,2,4'),
+(32, 31, 1, 'Point of Sale', 'pos-system', 'pos-system', 1, 'Point-of-Sale system for daily sales', 'POS', 'fa fa-money', '1,2,4'),
+(33, 31, 2, 'Sales', 'sales', 'sales', 1, '', 'SAL', 'fa fa-area-chart', '1,2,4'),
+(34, 31, 3, 'Purchasing', 'purchasing', 'purchasing', 1, 'Manage purchases of your clinic', 'PUR', 'fa fa-legal', '1,2,4'),
+(35, 31, 1, 'Cash Flow', 'cash-flow', 'cash-flow', 1, 'Outlet cashflow', 'CFL', '', '1,2,4'),
+(36, 31, 5, 'Clients', 'clients', 'clients', 1, 'Outlet clients records', 'CLN', '', '1,2,4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `p_id` int(11) NOT NULL,
+  `p_client` int(11) NOT NULL,
+  `p_doc` varchar(100) NOT NULL,
+  `p_date` varchar(100) NOT NULL,
+  `p_time` int(15) NOT NULL,
+  `p_key` varchar(100) NOT NULL,
+  `p_clinic` int(11) NOT NULL,
+  `p_user` int(11) NOT NULL,
+  `p_paid` double NOT NULL,
+  `p_total` double NOT NULL,
+  `p_status` varchar(50) NOT NULL,
+  `p_remark` varchar(255) DEFAULT NULL,
+  `p_summary` varchar(500) DEFAULT NULL,
+  `p_type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`p_id`, `p_client`, `p_doc`, `p_date`, `p_time`, `p_key`, `p_clinic`, `p_user`, `p_paid`, `p_total`, `p_status`, `p_remark`, `p_summary`, `p_type`) VALUES
+(5, 1, 'abc1234', '08-Dec-2023', 1702052429, 'purchase_6572eded5ca1f', 1, 1, 50, 100, 'partial', 'test pur', 'Panadol A x200<br />', 'invoice');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_item`
+--
+
+CREATE TABLE `purchase_item` (
+  `pi_id` int(11) NOT NULL,
+  `pi_purchase` int(11) NOT NULL,
+  `pi_clinic` int(11) NOT NULL,
+  `pi_item` int(11) NOT NULL,
+  `pi_quantity` int(11) NOT NULL,
+  `pi_cost` int(11) NOT NULL,
+  `pi_total_cost` double NOT NULL,
+  `pi_remark` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `purchase_item`
+--
+
+INSERT INTO `purchase_item` (`pi_id`, `pi_purchase`, `pi_clinic`, `pi_item`, `pi_quantity`, `pi_cost`, `pi_total_cost`, `pi_remark`) VALUES
+(5, 5, 1, 5, 200, 1, 100, 'Try beli');
 
 -- --------------------------------------------------------
 
@@ -475,6 +571,12 @@ ALTER TABLE `appointment_status`
   ADD PRIMARY KEY (`as_id`);
 
 --
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`c_id`);
+
+--
 -- Indexes for table `clinics`
 --
 ALTER TABLE `clinics`
@@ -529,6 +631,18 @@ ALTER TABLE `menus`
   ADD PRIMARY KEY (`m_id`);
 
 --
+-- Indexes for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`p_id`);
+
+--
+-- Indexes for table `purchase_item`
+--
+ALTER TABLE `purchase_item`
+  ADD PRIMARY KEY (`pi_id`);
+
+--
 -- Indexes for table `record_file`
 --
 ALTER TABLE `record_file`
@@ -567,6 +681,12 @@ ALTER TABLE `appointments`
 --
 ALTER TABLE `appointment_status`
   MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `clinics`
@@ -608,19 +728,31 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `item_inventory`
 --
 ALTER TABLE `item_inventory`
-  MODIFY `ii_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ii_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `m_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `m_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `purchases`
+--
+ALTER TABLE `purchases`
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `purchase_item`
+--
+ALTER TABLE `purchase_item`
+  MODIFY `pi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `record_file`
