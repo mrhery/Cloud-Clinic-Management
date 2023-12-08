@@ -35,6 +35,7 @@ let PORTAL = "' . PORTAL . '";
 
 $page->addBottomTag('
 <script src="' . PORTAL . 'assets/vendor/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="' . PORTAL . 'assets/main.js"></script>
 <script src="' . PORTAL . 'assets/vendor/select2/select2.min.js"></script>
 <script src="' . PORTAL . 'assets/vendor/chartjs/chart.min.js"></script>
@@ -44,8 +45,10 @@ $page->addBottomTag('
 <script src="' . PORTAL . 'assets/vendor/datatable/dataTables.min.js"></script>
 
 
+
 <script>
 $(".dataTable").DataTable();
+
 </script>
 ');
 
@@ -83,6 +86,18 @@ if (!Session::exists("user")) {
 	if ($mpage == "webservice") {
 
 		switch (url::get(1)) {
+			case "items":
+				Page::Load("webservice/items");
+				break;
+				
+			case "clients":
+				Page::Load("webservice/clients");
+				break;
+				
+			case "purchases":
+				Page::Load("webservice/purchases");
+				break;
+				
 			case "prescriptions":
 				Page::Load("webservice/prescriptions");
 				break;

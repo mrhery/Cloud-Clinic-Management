@@ -4,7 +4,7 @@ Controller::alert();
 
 <div class="card">
     <div class="card-header">
-        <a href="<?= PORTAL ?>customers/list" class="btn btn-sm btn-primary">
+        <a href="<?= PORTAL ?>Users/customers/list" class="btn btn-sm btn-primary">
             <span class="fa fa-arrow-left"></span> Back
         </a>
 		Edit Customer
@@ -13,9 +13,9 @@ Controller::alert();
     <div class="card-body">
 	<?php
 		if(Session::get("admin")){
-			$c = customers::getBy(["c_ukey" => url::get(2)]);
+			$c = customers::getBy(["c_ukey" => url::get(3)]);
 		}else{
-			$c = customers::getBy(["c_ukey" => url::get(2), "c_id" => function($column){
+			$c = customers::getBy(["c_ukey" => url::get(3), "c_id" => function($column){
 				return "$column IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = '". Session::get("clinic")->c_id ."')";
 			}]);
 		}

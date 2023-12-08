@@ -83,8 +83,14 @@ switch($show){
 						This month
 					</a>
 					
-					<a class="btn btn-sm btn-<?= $show == "year" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>inventories/card/<?= $i->i_key ?>?show=year">
+					<a class="btn btn-sm btn-<?= $show == "year" ? "dark" : "outline-dark" ?> mr-3" href="<?= PORTAL ?>inventories/card/<?= $i->i_key ?>?show=year">
 						This year
+					</a>
+					
+					<strong>Current Quantity: </strong> <?= $i->i_quantity ?>
+					
+					<a href="#add-record" data-toggle="modal" class="btn btn-info btn-sm float-right">
+						<span class="fa fa-plus"></span> Add Record
 					</a>
 				</div>
 				
@@ -107,18 +113,55 @@ switch($show){
 							break;
 							
 							case "week":
-								$r = item_inventory::getBy(["ii_date" => F::GetDate(), "ii_clinic" => Session::get("clinic")->c_id, "ii_item" => $i->i_id]);
+								$start = strtotime("-1 week");
+								$end = time();
+								
+								$r = DB::conn()->query("SELECT * FROM item_inventory WHERE ii_time > ? AND ii_time < ? AND ii_clinic = ? AND ii_item = ?", [
+								$start,
+								$end,
+								Session::get("clinic")->c_id,
+								$i->i_id
+								])->results();
 							break;
 							
 							case "month":
-								$r = item_inventory::getBy(["ii_date" => F::GetDate(), "ii_clinic" => Session::get("clinic")->c_id, "ii_item" => $i->i_id]);
+								$month = "-" . date("M-Y");
+								
+								$r = DB::conn()->query("SELECT * FROM item_inventory WHERE ii_time LIKE ? AND ii_clinic = ? AND ii_item = ?", [
+								"%" . $month . "%",
+								Session::get("clinic")->c_id,
+								$i->i_id
+								])->results();
 							break;
 							
 							case "year":
-								$r = item_inventory::getBy(["ii_date" => F::GetDate(), "ii_clinic" => Session::get("clinic")->c_id, "ii_item" => $i->i_id]);
+								$year = "-" . date("Y");
+								
+								$r = DB::conn()->query("SELECT * FROM item_inventory WHERE ii_time LIKE ? AND ii_clinic = ? AND ii_item = ?", [
+								"%" . $year . "%",
+								Session::get("clinic")->c_id,
+								$i->i_id
+								])->results();
 							break;
 						}
-					?>
+						
+						$no = 1;
+						foreach($r as $ii){
+						?>
+						<tr>
+							<td class="text-center"><?= $no++ ?></td>
+							<td class="text-center"><?= $ii->ii_date ?></td>
+							<td><?= 
+								$ii->ii_quantity > 0 ? 
+									"<strong class='text-success'>IN " . $ii->ii_quantity . "</strong>" : 
+									"<strong class='text-danger'>OUT " . $ii->ii_quantity . "</strong>"
+							?></td>
+							<td><?= number_format($ii->ii_cost, 2) ?></td>
+							<td><?= $ii->ii_description ?></td>
+						</tr>
+						<?php
+						}
+					?>					
 					</tbody>
 				</table>
 			</div>
@@ -126,5 +169,48 @@ switch($show){
 	<?php
 		}
 	?>
+	</div>
+</div>
+
+<div class="modal fade" id="add-record">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">
+					<span class="fa fa-plus"></span> Add Record
+				</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			
+			<div class="modal-body">
+				<form action="" method="POST">
+					Quantity:
+					<input type="number" class="form-control" name="quantity" value="0" placeholder="0" /><br />
+					
+					Cost (per quantity):
+					<input type="number" class="form-control" name="cost" step="0.01" value="0" placeholder="0.00" /><br />
+					
+					Date:
+					<input type="date" class="form-control" name="date" value="<?= date("Y-m-d") ?>" /><br />
+					
+					Remarks:
+					<textarea class="form-control" name="description" placeholder="Remarks"></textarea><br />
+					
+					<button class="btn btn-block btn-success">
+						<span class="fa fa-save"></span> Save
+					</button>
+					
+				<?php
+					Controller::form("inventories", [
+						"action" => "add_record"
+					]);
+				?>
+				</form>
+			</div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 	</div>
 </div>

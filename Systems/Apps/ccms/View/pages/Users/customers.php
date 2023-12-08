@@ -6,26 +6,26 @@ new Controller(["customer"]);
 	<?php
 		echo Controller::alert();
 		
-		switch(url::get(1)){
+		switch(url::get(2)){
 			case "":
 			case "list":
-				Page::Load("pages/customer/list");
+				Page::Load("pages/Users/customer/list");
 			break;
 			
 			case "edit":
-				Page::Load("pages/customer/edit");
+				Page::Load("pages/Users/customer/edit");
 			break;
 			
 			case "view":
-				Page::Load("pages/customer/view");
+				Page::Load("pages/Users/customer/view");
 			break;
 			
 			case "delete":
-				Page::Load("pages/customer/delete");
+				Page::Load("pages/Users/customer/delete");
 			break;
 			
 			case "add":
-				Page::Load("pages/customer/add");
+				Page::Load("pages/Users/customer/add");
 			break;
 		}
 	?>

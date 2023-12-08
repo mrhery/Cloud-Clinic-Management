@@ -4,7 +4,7 @@ Controller::alert();
 
 <div class="card">
     <div class="card-header">
-        <a href="<?= PORTAL ?>customers/list" class="btn btn-sm btn-primary">
+        <a href="<?= PORTAL ?>Users/customers/list" class="btn btn-sm btn-primary">
             <span class="fa fa-arrow-left"></span> Back
         </a>
 		Add new Customer

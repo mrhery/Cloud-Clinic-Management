@@ -5,14 +5,14 @@ Controller::alert();
     <div class="card-header">
         Tambah Pengguna
 
-        <a href="<?= PORTAL ?>pengguna/list" class="btn btn-sm btn-primary float-right">
+        <a href="<?= PORTAL ?>Users/pengguna/list" class="btn btn-sm btn-primary float-right">
             Kembali
         </a>
     </div>
 
     <div class="card-body">
         <?php
-        $u = users::getBy(["u_id" => url::get(2)]);
+        $u = users::getBy(["u_id" => url::get(3)]);
 
         if (count($u) > 0) {
             $u = $u[0];

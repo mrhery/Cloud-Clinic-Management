@@ -3,7 +3,7 @@ Controller::alert();
 ?>
 <div class="card">
     <div class="card-header">
-		<a href="<?= PORTAL ?>pengguna/list" class="btn btn-sm btn-primary">
+		<a href="<?= PORTAL ?>Users/pengguna/list" class="btn btn-sm btn-primary">
             <span class="fa fa-arrow-left"></span> Back
         </a>
 		
@@ -12,7 +12,7 @@ Controller::alert();
 
     <div class="card-body">
         <?php
-        $u = users::getBy(["u_ukey" => url::get(2)]);
+        $u = users::getBy(["u_ukey" => url::get(3)]);
 
         if (count($u) > 0) {
             $u = $u[0];

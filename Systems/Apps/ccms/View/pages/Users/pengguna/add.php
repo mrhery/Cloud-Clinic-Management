@@ -4,7 +4,7 @@ Controller::alert();
 
 <div class="card">
     <div class="card-header">
-		<a href="<?= PORTAL ?>pengguna/list" class="btn btn-sm btn-primary">
+		<a href="<?= PORTAL ?>Users/pengguna/list" class="btn btn-sm btn-primary">
             <span class="fa fa-arrow-left"></span> Back
         </a>
 		Add new Staff

@@ -2,7 +2,7 @@
     <div class="card-header">
        <span class="fa fa-list"></span> Users
 
-        <a href="<?= PORTAL ?>customers/add" class="btn btn-primary btn-sm">
+        <a href="<?= PORTAL ?>Users/customers/add" class="btn btn-primary btn-sm">
             <span class="fa fa-plus"></span> Add new Customer
         </a>
     </div>
@@ -34,7 +34,7 @@
                         <td><?= $c->c_name ?></td>
                         <td class="text-center"><?= $c->c_ic ?></td>
                         <td class="text-right">
-                            <a href="<?= PORTAL ?>customers/edit/<?= $c->c_ukey ?>" class="btn btn-sm btn-warning">
+                            <a href="<?= PORTAL ?>Users/customers/edit/<?= $c->c_ukey ?>" class="btn btn-sm btn-warning">
                                 <span class="fa fa-edit"></span> Edit
                             </a>
                         </td>
