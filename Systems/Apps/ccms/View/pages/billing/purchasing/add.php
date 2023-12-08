@@ -96,7 +96,7 @@
 				<a href="#about-doc-type" data-toggle="modal">
 					<span class="fa fa-info"></span>
 				</a>:
-				<select class="form-control" type="type">
+				<select class="form-control" id="type">
 					<option value="invoice">Invoice / Bill</option>
 					<option value="credit_note">Credit Note</option>
 					<option value="debit_note">Debit Note</option>
@@ -322,7 +322,7 @@ $("#client-search").on("keyup", function(){
 			keyword: keyword
 		}
 	}).done(function(response){
-		console.log(response);
+		// console.log(response);
 		var obj = JSON.parse(response);
 		
 		if(obj.status == "success"){
@@ -377,7 +377,7 @@ $("#save-doc").on("click", function(){
 		date: $("#date").val(),
 		total: $("#total").val(),
 		paid: $("#paid").val(),
-		type: $("#type").val(),
+		doc_type: $("#type").val(),
 		items: []
 	};
 	
@@ -411,9 +411,17 @@ $("#save-doc").on("click", function(){
 			method: "POST",
 			data: {
 				data: JSON.stringify(doc)
-			}
-		}).done(function(){
+			},
+			dataType: "text"
+		}).done(function(res){
+			// console.log(res);
+			var obj = JSON.parse(res);
 			
+			if(obj.status == "success"){
+				window.location = PORTAL + "billing/purchasing/view/" + obj.data.pid
+			}else{
+				alert(obj.message);
+			}
 		});
 	}
 });
