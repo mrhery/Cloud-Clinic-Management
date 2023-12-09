@@ -19,8 +19,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									Adakah anda pasti ingin membuang Jabatan bernama <b><?= $dep[0]->d_name ?></b>?
-								</div>
-								<div class="col-md-12 text-center">
+									<br /><br />
 									<?php
 										Controller::form("jabatan", [
 											"action"	=> "delete"
