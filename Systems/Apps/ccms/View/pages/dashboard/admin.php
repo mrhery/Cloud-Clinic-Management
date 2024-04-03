@@ -1,3 +1,3 @@
 
 
-<h3>Dashboard only available on Clinics</h3>
+<h3>Dashboard only available on businesses</h3>

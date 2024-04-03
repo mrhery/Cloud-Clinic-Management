@@ -1,12 +1,12 @@
 <div class="card">
     <div class="card-header">
-        <span class="fa fa-building"></span> Clinic Information
+        <span class="fa fa-building"></span> Business Information
 		
 	<?php
 		if(Session::get("admin")){
 	?>	
 		<a href="<?= PORTAL ?>Clinic/add" class="btn btn-primary btn-sm">
-			<span class="fa fa-plus"></span> Add Clinic
+			<span class="fa fa-plus"></span> Business
 		</a>
 	<?php
 		}

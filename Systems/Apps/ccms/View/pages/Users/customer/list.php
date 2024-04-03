@@ -1,3 +1,6 @@
+<?php
+Controller::alert();
+?>
 <div class="card">
     <div class="card-header">
        <span class="fa fa-list"></span> Users
@@ -13,8 +16,8 @@
                 <tr>
                     <th width="5%">No </th>
                     <th>Name </th>
-                    <th class="text-center">IC</th>
-                    <th class="text-right" width="5%">:::</th>
+                    <th class="text-center">Phone</th>
+                    <th class="text-right" width="10%">:::</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,10 +35,13 @@
                     <tr>
                         <td class="text-center"><?= $no++ ?></td>
                         <td><?= $c->c_name ?></td>
-                        <td class="text-center"><?= $c->c_ic ?></td>
+                        <td class="text-center"><?= $c->c_phone ?></td>
                         <td class="text-right">
                             <a href="<?= PORTAL ?>Users/customers/edit/<?= $c->c_ukey ?>" class="btn btn-sm btn-warning">
                                 <span class="fa fa-edit"></span> Edit
+                            </a>
+                            <a href="<?= PORTAL ?>Users/customers/delete/<?= $c->c_ukey ?>" class="btn btn-sm btn-danger">
+                            <span class="fa fa-trash"></span> Delete
                             </a>
                         </td>
                     </tr>

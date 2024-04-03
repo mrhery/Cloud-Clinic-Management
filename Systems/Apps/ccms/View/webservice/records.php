@@ -122,14 +122,67 @@ switch(Input::post("action")){
 				}
 			?>
 			<h4>
-				Clinical Notes
+				Service Notes
 				<small>by <?= !is_null($u) ? $u->u_name : "NIL" ?></small>
 			</h4>
 			
 			<small id="saved-status">(not saved yet - <?= $cr->cr_key ?>)</small><br >
 			<hr />
 			
-			<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;">				
+			Remarks:
+			<textarea class="form-control" id="illness" Placeholder="" disabled><?= $cr->cr_illness ?></textarea><br />
+			
+			<!--History of Presenting Illness / Examination:
+			<textarea class="form-control" id="examination" Placeholder="" disabled><?= $cr->cr_examination ?></textarea><br />
+			
+			Investigations:
+			<textarea class="form-control" id="investigation" Placeholder="" disabled><?= $cr->cr_investigation ?></textarea><br />
+			
+			Diagnosis:
+			<textarea class="form-control" id="diagnosis" Placeholder="" disabled><?= $cr->cr_diagnosis ?></textarea><br />
+			
+			Plans:
+			<textarea class="form-control" id="plan" Placeholder="" disabled><?= $cr->cr_plan ?></textarea><br />-->
+			
+			Items:						
+			<table class="table table-hover table-fluid table-bordered mt-2">
+				<thead>
+					<tr>
+						<th>Details</th>
+						<th class="text-center" width="10%">Quantity</th>
+						<th class="text-right" width="25%">Price (RM)</th>
+						<th class="text-right" width="20%">Total (RM)</th>
+					</tr>
+				</thead>
+				
+				<tbody id="list-pres">
+				<?php
+					foreach(record_prescription::getBy(["rp_record" => $cr->cr_id]) as $rp){
+						$i = items::getBy(["i_id" => $rp->rp_item]);
+						
+						if(count($i) > 0){
+							$i = $i[0];
+						}else{
+							$i = null;
+						}
+					?>
+					<tr id="pres-'+ rid +'" data-id="'+ rid +'">
+						<td>
+							<?= !is_null($i) ? $i->i_name : "NIL" ?><br />
+							<?= $rp->rp_remarks ?>
+						</td>
+						<td class="text-center"><?= $rp->rp_quantity ?></td>
+						<td class="text-center"><?= number_format($rp->rp_frequency, 2) ?></td>
+						<td class="text-center"><?= number_format($rp->rp_quantity * $rp->rp_frequency, 2) ?></td>
+					</tr>
+					<?php
+					}
+				?>
+				</tbody>
+			</table>
+			
+			
+			<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" class="mt-2">				
 			<?php
 				$path = ASSET . "records/" . $cr->cr_key . "/";
 				foreach(record_file::getBy(["rf_record" => $cr->cr_id]) as $rf){
@@ -147,57 +200,6 @@ switch(Input::post("action")){
 				}
 			?>
 			</div>
-			
-			Underlying Illness / Remarks:
-			<textarea class="form-control" id="illness" Placeholder="" disabled><?= $cr->cr_illness ?></textarea><br />
-			
-			History of Presenting Illness / Examination:
-			<textarea class="form-control" id="examination" Placeholder="" disabled><?= $cr->cr_examination ?></textarea><br />
-			
-			Investigations:
-			<textarea class="form-control" id="investigation" Placeholder="" disabled><?= $cr->cr_investigation ?></textarea><br />
-			
-			Diagnosis:
-			<textarea class="form-control" id="diagnosis" Placeholder="" disabled><?= $cr->cr_diagnosis ?></textarea><br />
-			
-			Plans:
-			<textarea class="form-control" id="plan" Placeholder="" disabled><?= $cr->cr_plan ?></textarea><br />
-			
-			Prescriptions:						
-			<table class="table table-hover table-fluid table-bordered mt-2">
-				<thead>
-					<tr>
-						<th>Details</th>
-						<th class="text-center" width="10%">Quantity</th>
-						<th class="text-center" width="25%">Frequency / Duration</th>
-						<th class="text-center" width="20%">Remarks</th>
-					</tr>
-				</thead>
-				
-				<tbody id="list-pres">
-				<?php
-					foreach(record_prescription::getBy(["rp_record" => $cr->cr_id]) as $rp){
-						$i = items::getBy(["i_id" => $rp->rp_item]);
-						
-						if(count($i) > 0){
-							$i = $i[0];
-						}else{
-							$i = null;
-						}
-					?>
-					<tr id="pres-'+ rid +'" data-id="'+ rid +'">
-						<td>
-							<?= !is_null($i) ? $i->i_name : "NIL" ?>
-						</td>
-						<td class="text-center"><?= $rp->rp_quantity ?></td>
-						<td class="text-center"><?= $rp->rp_frequency ?></td>
-						<td class="text-center"><?= $rp->rp_remarks ?></td>
-					</tr>
-					<?php
-					}
-				?>
-				</tbody>
-			</table>
 			<?php
 			}else{
 				die("No record found");

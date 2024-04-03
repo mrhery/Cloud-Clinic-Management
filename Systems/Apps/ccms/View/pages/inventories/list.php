@@ -14,6 +14,14 @@ switch($show){
 	case "services":
 		$show = "services";
 	break;
+	
+	case "discounts":
+		$show = "discounts";
+	break;
+	
+	case "packages":
+		$show = "packages";
+	break;
 }
 ?>
 <div class="card">
@@ -22,6 +30,10 @@ switch($show){
 		
 		<a href="<?= PORTAL ?>inventories/create" class="btn btn-sm btn-primary">
 			<span class="fa fa-plus"></span> Add Item
+		</a>
+		
+		<a href="<?= PORTAL ?>inventories/create-package" class="btn btn-sm btn-primary">
+			<span class="fa fa-plus"></span> Add package
 		</a>
 	</div>
 	
@@ -37,6 +49,14 @@ switch($show){
 			
 			<a class="btn btn-sm btn-<?= $show == "services" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>inventories?show=services">
 				Services
+			</a>
+			
+			<a class="btn btn-sm btn-<?= $show == "discounts" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>inventories?show=discounts">
+				Discounts
+			</a>
+			
+			<a class="btn btn-sm btn-<?= $show == "packages" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>inventories?show=packages">
+				Packages
 			</a>
 		</div>
 		
@@ -69,6 +89,14 @@ switch($show){
 					case "services":
 						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "service"]);
 					break;
+					
+					case "discounts":
+						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "discount"]);
+					break;
+					
+					case "packages":
+						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "package"]);
+					break;
 				}
 				
 				foreach($r as $i){
@@ -77,13 +105,12 @@ switch($show){
 					<td class="text-center"><?= $no++ ?></td>
 					<td class="text-center"><?= $i->i_type ?></td>
 					<td>
-						<strong>Customer</strong><br />
 						<?= $i->i_name ?><br /><br />
 						
 						<strong>Description</strong><br />
 						<?= $i->i_description ?><br /><br />
 						
-						<strong>Sales Price: </strong> <?= number_format($i->i_price, 2) ?> | <strong>Purchase Price:</strong> <?= number_format($i->i_cost, 2) ?>
+						<strong>Sales Price: </strong> RM <?= number_format($i->i_price, 2) ?> | <strong>Purchase Price:</strong> RM <?= number_format($i->i_cost, 2) ?>
 					</td>
 					
 					<td class="text-center">

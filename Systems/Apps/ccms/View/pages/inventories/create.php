@@ -33,7 +33,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					Name:
-					<input type="text" class="form-control" name="name" placeholder="Item or Service name" /><br />
+					<input type="text" class="form-control" name="name" placeholder="Item name" /><br />
 					
 					Description:
 					<textarea class="form-control" name="description" placeholder="Description"></textarea><br />
@@ -42,6 +42,7 @@
 					<select class="form-control" name="type">
 						<option value="product">Product</option>
 						<option value="service">Service</option>
+						<option value="discount">Discount</option>
 					</select><br />
 					
 					

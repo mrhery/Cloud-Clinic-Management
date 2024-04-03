@@ -21,6 +21,14 @@
 			case "card":
 				Page::Load("pages/inventories/card");
 			break;
+			
+			case "create-package":
+				Page::Load("pages/inventories/create-package");
+			break;
+			
+			case "edit-package":
+				Page::Load("pages/inventories/edit-package");
+			break;
 		}
 	?>
 	</div>

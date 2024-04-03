@@ -1,98 +1,98 @@
 <style>
-.pos-rel {
-	position: relative;
-}
+	.pos-rel {
+		position: relative;
+	}
 
-.item-search-container {
-	position: absolute;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.8);
-	z-index: 1001;
-}
+	.item-search-container {
+		position: absolute;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.8);
+		z-index: 1001;
+	}
 
-.item-search-row {
-	padding: 10px;
-	color: white;
-	cursor: pointer;
-}
+	.item-search-row {
+		padding: 10px;
+		color: white;
+		cursor: pointer;
+	}
 
-.item-search-row:hover {
-	background-color: black;
-}
+	.item-search-row:hover {
+		background-color: black;
+	}
 
-.close-search {
-	cursor: pointer;
-}
+	.close-search {
+		cursor: pointer;
+	}
 
-#client-search-container{
-	position: absolute;
-	width: 100%;
-	background-color: rgba(0, 0, 0, 0.8);
-	z-index: 1001;
-	display: none;
-}
+	#client-search-container {
+		position: absolute;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.8);
+		z-index: 1001;
+		display: none;
+	}
 
-.client-search-row {
-	padding: 10px;
-	color: white;
-	cursor: pointer;
-}
+	.client-search-row {
+		padding: 10px;
+		color: white;
+		cursor: pointer;
+	}
 
-.client-search-row:hover {
-	background-color: black;
-}
+	.client-search-row:hover {
+		background-color: black;
+	}
 
-.close-client-search {
-	cursor: pointer;
-}
+	.close-client-search {
+		cursor: pointer;
+	}
 </style>
 
 <div class="card">
-    <div class="card-header">
-       <a href="<?= PORTAL ?>billing/purchasing" class="btn btn-primary btn-sm">
+	<div class="card-header">
+		<a href="<?= PORTAL ?>billing/purchasing" class="btn btn-primary btn-sm">
 			<span class="fa fa-arrow-left"></span> Back
 		</a>
 
 		Purchasing Records
-    </div>
+	</div>
 
-    <div class="card-body">
+	<div class="card-body">
 		<div class="row">
 			<div class="col-md-6 pos-rel">
-				From (Client) 
+				From (Supplier)
 				<a href="#about-client" data-toggle="modal">
 					<span class="fa fa-info"></span>
-				</a>: 
+				</a>:
 				<input type="text" class="form-control" id="client-search" placeholder="Search client" />
 				<input type="hidden" id="client" />
-				
+
 				<div id="client-search-container"></div>
-				
+
 				<br />
 				Document No:
 				<input type="text" class="form-control" id="doc-no" placeholder="Doc. No" /><br />
-				
+
 				Remarks:
 				<textarea class="form-control" id="remark" placeholder="Remarks"></textarea><br />
 			</div>
-			
+
 			<div class="col-md-6">
 				Date:
 				<input type="date" class="form-control" id="date" value="<?= date("Y-m-d") ?>" /> <br />
-				
+
 				<div class="row">
 					<div class="col-md-6">
 						Total (RM):
 						<input type="number" placeholder="0.00" id="total" step="0.01" class="form-control" /><br />
 					</div>
-					
+
 					<div class="col-md-6">
 						Paid (RM):
 						<input type="number" placeholder="0.00" id="paid" step="0.01" class="form-control" /><br />
 					</div>
 				</div><br />
-				
-				Doc. Type 
+
+				Doc. Type
 				<a href="#about-doc-type" data-toggle="modal">
 					<span class="fa fa-info"></span>
 				</a>:
@@ -102,13 +102,13 @@
 					<option value="debit_note">Debit Note</option>
 				</select>
 			</div>
-			
+
 			<div class="col-md-12 mb-3">
 				<hr />
 				<button class="btn btn-info mb-2 float-right" id="add-item">
 					<span class="fa fa-plus"></span> Add Item
 				</button>
-				
+
 				<table class="table table-hover table-bordered table-fluid">
 					<thead>
 						<tr>
@@ -119,28 +119,28 @@
 							<th class="text-right" width="5%">:::</th>
 						</tr>
 					</thead>
-					
+
 					<tbody id="item-list">
-					<?php
+						<?php
 						$id = 1;
-					?>
+						?>
 						<tr id="row-<?= $id ?>" data-row="<?= $id ?>" class="item-row">
 							<td class="pos-rel">
 								<input type="text" class="form-control search-item" id="search-item-<?= $id ?>" data-row="<?= $id ?>" placeholder="Search item" />
 								<input type="hidden" id="item-<?= $id ?>" />
 								<br />
-								
+
 								Remark:
 								<textarea class="form-control" placeholder="Remarks" id="remark-<?= $id ?>"></textarea>
 							</td>
 							<td>
-								<input type="number" id="cost-<?= $id ?>" class="form-control" step="0.01" placeholder="0.00" />
+								<input type="number" id="cost-<?= $id ?>" class="form-control cost" step="0.01" placeholder="0.00" />
 							</td>
 							<td>
-								<input type="number" id="qty-<?= $id ?>" class="form-control" step="1" placeholder="0" />
+								<input type="number" id="qty-<?= $id ?>" class="form-control qty" step="1" placeholder="0" />
 							</td>
 							<td>
-								<input type="number" id="total-<?= $id ?>" class="form-control" step="0.01" placeholder="0.00" />
+								<input type="number" id="total-<?= $id ?>" class="form-control total" step="0.01" placeholder="0.00" />
 							</td>
 							<td class="text-right" width="5%">
 								<button class="btn btn-sm btn-danger delete" data-row="<?= $id ?>">
@@ -151,10 +151,10 @@
 					</tbody>
 				</table>
 			</div>
-			
+
 			<div class="col-md-12 text-center">
 				Please make sure all information is correct. This document cannot be update/edit. To deduct any amount can be done credit/debit note.
-				
+
 				<br /><br />
 				<button class="btn btn-success" id="save-doc">
 					Confirm & Save
@@ -174,13 +174,13 @@
 				</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<div class="modal-body">
 				<strong>Invoice / Bill</strong> - Default document for cash/credit pruchase. Increasing item inventory.<br /><br />
 				<strong>Credit Note</strong> - Credit note from client are purchase return. Decreasing item inventory.<br /><br />
 				<strong>Invoice / Bill</strong> - Debit not from client are additional purchase. Increasing item inventory.<br /><br />
 			</div>
-			
+
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
@@ -197,11 +197,11 @@
 				</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			
+
 			<div class="modal-body">
 				<strong>Clients</strong> are mostly your <strong>suppliers, vendors or contractors</strong> which whom send you products or services. Some time clients <strong>can be your special customer</strong> for <strong>personal</strong> or <strong>specific orginization</strong>.
 			</div>
-			
+
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
@@ -211,12 +211,32 @@
 
 
 <?php
-Page::append(<<<SCRIPT
+Page::append(
+	<<<SCRIPT
 <script>
 var id = $id;
+$(document).ready(function() {
+	// Listen for input changes on cost and quantity fields
+	$('.cost, .qty').on('input', function() {
+		console.log('ooo')
+		// Get the ID of the current row
+		var id = $(this).attr('id').split('-')[1];
+		
+		// Get the cost and quantity values
+		var cost = parseFloat($('#cost-' + id).val()) || 0;
+		var qty = parseInt($('#qty-' + id).val()) || 0;
+		
+		// Calculate the total
+		var total = cost * qty;
+		
+		// Update the total field
+		$('#total-' + id).val(total.toFixed(2));
+	});
+});
 
 $(document).on("click", ".delete", function(){
 	$("#row-" + $(this).data("row")).remove();
+	
 });
 
 $("#add-item").on("click", function(){

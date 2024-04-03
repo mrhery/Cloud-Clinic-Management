@@ -54,9 +54,6 @@ Controller::alert();
 					<input type="text" placeholder="Password" name="password" class="form-control" /><br />
 					
 					Image:
-					<div class="col-md-4 mx-auto">
-						<img src="<?= PORTAL ?>assets/images/profile/<?= $u->u_picture ?>" class="img img-responsive" width="50%" alt="Tiada Gambar dijumpai" /><br />
-					</div>
 					<input type="file" accept="image/*" multiple class="form-control" name="picture" />
 					<br />
 				</div>

@@ -32,12 +32,12 @@
 	<?php
 		if(!isset($_GET["ic"])){
 		?>
-		<h4>Patient Info</h4>
+		<h4>Customer Info</h4>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="card mb-2">
 					<div class="card-header">
-						<span class="fa fa-search"></span> Search Patient
+						<span class="fa fa-search"></span> Search Customer
 					</div>
 					
 					<div class="card-body">
@@ -57,11 +57,11 @@
 		<form action="" method="POST">
 			<div class="row">
 				<div class="col-md-6 mb-2">
-					<h4>Patient Info</h4>
+					<h4>Customer Info</h4>
 					
 					<div class="card mb-3">
 						<div class="card-header">
-							<span class="fa fa-search"></span> Search Patient
+							<span class="fa fa-search"></span> Search Customer
 						</div>
 						
 						<div class="card-body">
@@ -125,8 +125,11 @@
 					<h4>Appointment Description</h4>
 					
 					Description:
-					<textarea class="form-control" name="reason" autofocus placeholder="Description: Fever, cough, covid test, vaccine" required></textarea>
+					<textarea class="form-control" name="reason" autofocus placeholder="Description" required></textarea>
 					<br />
+					
+					Plate No.:
+					<input type="text" class="form-control" name="plate" placeholder="Plate No." /><br />
 					
 					Date:
 					<input type="date" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required /><br />
@@ -137,7 +140,7 @@
 					Status:
 					<select class="form-control" name="status">
 						<option value="0">Pending</option>
-						<option value="1">Approved</option>
+						<option value="1" selected>Approved</option>
 						<option value="2">Cancelled</option>
 					</select><br />
 					

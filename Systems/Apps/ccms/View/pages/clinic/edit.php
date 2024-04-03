@@ -3,7 +3,7 @@
          <a href="<?= PORTAL ?>Clinic" class="btn btn-primary btn-sm">
 			<span class="fa fa-arrow-left"></span> Back
 		</a>
-		Add new Clinic Information
+		Edit Business Information
 		
     </div>
 
