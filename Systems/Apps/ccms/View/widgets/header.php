@@ -146,7 +146,7 @@
                     
                 </a>
 				
-				<h4>Workshop</h4>
+				<h4>Clinic</h4>
 				
 				Hi, <strong><?= Session::get("user")->u_name ?></strong>!<br />
 				

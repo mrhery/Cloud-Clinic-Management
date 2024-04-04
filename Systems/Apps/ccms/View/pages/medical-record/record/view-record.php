@@ -38,14 +38,14 @@
 			?>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#menu1"><span class="fa fa-file"></span> Service Notes</a>
+						<a class="nav-link active" data-toggle="tab" href="#menu1"><span class="fa fa-file"></span> Medical Remarks</a>
 					</li>
 				</ul>
 				
 				<div class="tab-content">
 					<div class="tab-pane active mt-2" id="menu1">
 						<h4>
-							Service Notes
+							Medical Notes
 							<small>by <?= !is_null($u) ? $u->u_name : "NIL" ?></small>
 						</h4>
 						
@@ -67,7 +67,7 @@
 						Plans:
 						<textarea class="form-control" id="plan" Placeholder="" disabled><?= $cr->cr_plan ?></textarea><br />-->
 						
-						Service Item:						
+						Prescription:						
 						<table class="table table-hover table-fluid table-bordered mt-2">
 							<thead>
 								<tr>

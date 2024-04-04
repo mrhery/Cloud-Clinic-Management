@@ -184,7 +184,6 @@ $("#search-ic").on("keyup", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		
 		var o = JSON.parse(res);
 		
 		if(o.status == "success"){

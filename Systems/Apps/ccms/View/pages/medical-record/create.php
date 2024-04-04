@@ -82,7 +82,7 @@ if(count($c) > 0){
 					if(!is_null($c)){
 				?>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#menu1"><span class="fa fa-file"></span> Service Notes</a>
+						<a class="nav-link" data-toggle="tab" href="#menu1"><span class="fa fa-file"></span> Medical Remarks</a>
 					</li>
 					
 					<li class="nav-item">

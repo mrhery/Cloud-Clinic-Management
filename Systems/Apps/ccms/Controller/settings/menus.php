@@ -44,6 +44,11 @@ switch (input::post("action")) {
 		{
 			
 			$r = Input::post("role");
+			
+			if(empty($r)){
+				$r = [];
+			}
+			
 			$role = implode(",", $r);
 			
             menus::updateBy(
