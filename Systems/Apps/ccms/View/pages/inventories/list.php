@@ -75,28 +75,54 @@ switch($show){
 			<tbody>
 			<?php
 				$no = 1;
-				
-				switch($show){
-					default:
-					case "all":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id]);
-					break;
-					
-					case "products":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "product"]);
-					break;
-					
-					case "services":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "service"]);
-					break;
-					
-					case "discounts":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "discount"]);
-					break;
-					
-					case "packages":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "package"]);
-					break;
+
+				if(Session::get("clinic") == null){
+					// echo('<p class="text-danger mb-3">Plesae select clinic first to show list</p>');
+					switch($show){
+						default:
+						case "all":
+							$r = items::list();
+						break;
+						
+						case "products":
+							$r = items::getBy(["i_type" => "product"]);
+						break;
+						
+						case "services":
+							$r = items::getBy(["i_type" => "service"]);
+						break;
+
+						case "discounts":
+							$r = items::getBy(["i_type" => "discount"]);
+						break;
+						
+						case "packages":
+							$r = items::getBy(["i_type" => "package"]);
+						break;
+					}
+				}else{
+					switch($show){
+						default:
+						case "all":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id]);
+						break;
+						
+						case "products":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "product"]);
+						break;
+						
+						case "services":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "service"]);
+						break;
+						
+						case "discounts":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "discount"]);
+						break;
+						
+						case "packages":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "package"]);
+						break;
+					}
 				}
 				
 				foreach($r as $i){
