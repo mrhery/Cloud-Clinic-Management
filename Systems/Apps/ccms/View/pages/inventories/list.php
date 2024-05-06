@@ -54,22 +54,40 @@ switch($show){
 			
 			<tbody>
 			<?php
-				$no = 1;
-				
-				switch($show){
-					default:
-					case "all":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id]);
-					break;
-					
-					case "products":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "product"]);
-					break;
-					
-					case "services":
-						$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "service"]);
-					break;
+				if(Session::get("clinic") == null){
+					// echo('<p class="text-danger mb-3">Plesae select clinic first to show list</p>');
+					switch($show){
+						default:
+						case "all":
+							$r = items::list();
+						break;
+						
+						case "products":
+							$r = items::getBy(["i_type" => "product"]);
+						break;
+						
+						case "services":
+							$r = items::getBy(["i_type" => "service"]);
+						break;
+					}
+				}else{
+					switch($show){
+						default:
+						case "all":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id]);
+						break;
+						
+						case "products":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "product"]);
+						break;
+						
+						case "services":
+							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "service"]);
+						break;
+					}
 				}
+
+				$no = 1;
 				
 				foreach($r as $i){
 			?>
