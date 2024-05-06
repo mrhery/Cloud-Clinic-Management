@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-header">
-        Senarai Rol Pengguna
+        List Role User
 		
 		<a href="<?= PORTAL ?>settings/rols/add" class="btn btn-primary btn-sm float-right">
-			Tambah Rol Pengguna
+            Add Role User
 		</a>
     </div>
 
@@ -12,10 +12,10 @@
             <thead>
                 <tr>
                     <th>Bil. </th>
-                    <th class="text-center">Nama </th>
+                    <th class="text-center">Nmae </th>
                     <th class="text-center">Menu</th>
                     <th class="text-center">Status </th>
-                    <th class="text-center">Tindakan</th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,13 +30,13 @@
                     <td class="text-center"><?= $role->r_status ? "Active" : "Inactive" ?></td>
                     <td class="text-center">
                         <a href="<?= PORTAL ?>settings/rols/edit/<?= $role->r_id ?>" class="btn btn-sm btn-warning">
-							Kemaskini
+							Edit
 						</a>
                         <a href="<?= PORTAL ?>settings/rols/view/<?= $role->r_id ?>" class="btn btn-sm btn-success">
-							Lihat
+							View
 						</a>
                         <a href="<?= PORTAL ?>settings/rols/delete/<?= $role->r_id ?>" class="btn btn-sm btn-danger">
-							Padam
+							Delete
 						</a>
                     </td>
                 </tr>
