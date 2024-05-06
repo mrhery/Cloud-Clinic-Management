@@ -73,7 +73,7 @@ switch (input::post("action")) {
 		if(Session::get("admin")){
 			$data["u_role"] = Input::post("role");
 		}
-		
+
 		if (!empty(Input::post("password"))) {
 			$data["u_password"] = Password::get(Input::post("password"));
 		}
@@ -85,7 +85,7 @@ switch (input::post("action")) {
 			}
 		}
 
-		users::updateBy(["u_ukey" => url::get(2)], $data);
+		users::updateBy(["u_ukey" => url::get(3)], $data);
 		
 		Alert::set("success", "User information has been saved successfully.");
 

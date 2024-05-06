@@ -1,3 +1,6 @@
+<?php
+Controller::alert();
+?>
 <div class="card">
     <div class="card-header">
         <span class="fa fa-building"></span> Clinic Information

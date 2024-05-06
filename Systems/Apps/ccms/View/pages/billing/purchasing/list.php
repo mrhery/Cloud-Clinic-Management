@@ -65,27 +65,31 @@ switch($show){
 			
 			<tbody>
 			<?php
-				switch($show){
-					case "all":
-						$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id]);
-					break;
-					
-					case "invoice":
-						$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "invoice"]);
-					break;
-					
-					case "credit":
-						$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "credit_note"]);
-					break;
-					
-					case "debit":
-						$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "debit_note"]);
-					break;
-				}
+				if(Session::get("clinic") == null){
+					echo('<p class="text-danger mb-3">Plesae select clinic first to show list</p>');
+				}else{
+					switch($show){
+						case "all":
+							$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id]);
+						break;
+						
+						case "invoice":
+							$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "invoice"]);
+						break;
+						
+						case "credit":
+							$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "credit_note"]);
+						break;
+						
+						case "debit":
+							$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "debit_note"]);
+						break;
+					}
+
+					$no = 1;
 				
-				$no = 1;
-				
-				foreach($r as $p){
+					foreach($r as $p){
+							
 				?>
 				<tr>
 					<td class="text-center"><?= $no++ ?></td>
@@ -102,7 +106,7 @@ switch($show){
 					</td>
 				</tr>
 				<?php
-				}
+				}}
 			?>
 			</tbody>
 		</table>
