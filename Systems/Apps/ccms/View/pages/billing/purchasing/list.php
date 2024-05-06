@@ -66,7 +66,24 @@ switch($show){
 			<tbody>
 			<?php
 				if(Session::get("clinic") == null){
-					echo('<p class="text-danger mb-3">Plesae select clinic first to show list</p>');
+					// echo('<p class="text-danger mb-3">Plesae select clinic first to show list</p>');
+					switch($show){
+						case "all":
+							$r = purchases::list();
+						break;
+						
+						case "invoice":
+							$r = purchases::getBy(["p_type" => "invoice"]);
+						break;
+						
+						case "credit":
+							$r = purchases::getBy(["p_type" => "credit_note"]);
+						break;
+						
+						case "debit":
+							$r = purchases::getBy(["p_type" => "debit_note"]);
+						break;
+					}
 				}else{
 					switch($show){
 						case "all":
@@ -85,6 +102,7 @@ switch($show){
 							$r = purchases::getBy(["p_clinic" => Session::get("clinic")->c_id, "p_type" => "debit_note"]);
 						break;
 					}
+				}
 
 					$no = 1;
 				
@@ -106,7 +124,7 @@ switch($show){
 					</td>
 				</tr>
 				<?php
-				}}
+				}
 			?>
 			</tbody>
 		</table>
