@@ -25,14 +25,14 @@ switch (input::post("action")) {
 					$data["u_picture"] = $fname;
 				}
 			}
-			
-			users::insertInto($data);
-			
+
 			if(!Session::get("admin")){
 				$data["u_role"] = 4;
 			}else{
 				$data["u_role"] = Input::post("role");
 			}
+			
+			users::insertInto($data);
 			
 			$u = users::getBy(["u_ukey" => $ukey]);
 			
@@ -84,7 +84,7 @@ switch (input::post("action")) {
 			}
 		}
 
-		users::updateBy(["u_ukey" => url::get(2)], $data);
+		users::updateBy(["u_ukey" => url::get(3)], $data);
 		
 		Alert::set("success", "User information has been saved successfully.");
 
