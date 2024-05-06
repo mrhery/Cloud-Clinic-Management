@@ -111,47 +111,46 @@ if(count($c) > 0){
 							</div>
 							
 							<div class="col-md-7">
-							<?php
-								if(!is_null($c)){
-							?>
-								<a href="<?= PORTAL ?>medical-record/create" class="btn btn-sm btn-danger mb-3">
-									<span class="fa fa-close"></span> Reset
-								</a><br />
-								
-								Name:
-								<input type="text" class="form-control" name="name" placeholder="Name" value="<?= $c->c_name ?>" disabled /><br />	
-								
-								Phone:
-								<input type="tel" class="form-control" name="phone" placeholder="+60 1..." value="<?= $c->c_phone ?>" disabled /><br />
-								
-								Email:
-								<input type="email" class="form-control" name="email" placeholder="example@abc.com" value="<?= $c->c_email ?>" disabled /><br />
-							<?php
-								}else{
-							?>
-								<form action="" method="POST">
+								<?php
+									if(!is_null($c)){
+								?>
+									<a href="<?= PORTAL ?>medical-record/create" class="btn btn-sm btn-danger mb-3">
+										<span class="fa fa-close"></span> Reset
+									</a><br />
+									
 									Name:
-									<input type="text" class="form-control" name="name" placeholder="Name" /><br />	
-									<div class="col-md-6">
-									IC:
-									<input type="text" placeholder="IC / Passport" name="ic" class="form-control" /> <br>
+									<input type="text" class="form-control" name="name" placeholder="Name" value="<?= $c->c_name ?>" disabled /><br />	
 									
 									Phone:
-									<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
+									<input type="tel" class="form-control" name="phone" placeholder="+60 1..." value="<?= $c->c_phone ?>" disabled /><br />
 									
 									Email:
-									<input type="email" class="form-control" name="email" placeholder="example@abc.com" /><br />
-									
-									<button class="btn btn-success btn-sm">
-										<span class="fa fa-save"></span> Add Customer
-									</button>
+									<input type="email" class="form-control" name="email" placeholder="example@abc.com" value="<?= $c->c_email ?>" disabled /><br />
 								<?php
-										Controller::form("medical-record", ["action" => "create"]);
+									}else{
 								?>
-								</form>
-							<?php
-								}
-							?>
+									<form action="" method="POST">
+										Name:
+										<input type="text" class="form-control" name="name" placeholder="Name" /><br />	
+										IC:
+										<input type="text" placeholder="IC / Passport" name="ic" class="form-control" /> <br>
+										
+										Phone:
+										<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
+										
+										Email:
+										<input type="email" class="form-control" name="email" placeholder="example@abc.com" /><br />
+										
+										<button class="btn btn-success btn-sm">
+											<span class="fa fa-save"></span> Add Customer
+										</button>
+									<?php
+											Controller::form("medical-record", ["action" => "create"]);
+									?>
+									</form>
+								<?php
+									}
+								?>
 							</div>
 						</div>
 					</div>
