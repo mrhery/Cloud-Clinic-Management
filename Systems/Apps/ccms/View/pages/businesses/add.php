@@ -14,7 +14,8 @@
 				<div class="row">
 					<div class="col-md-12">
 						<?php
-						new Alert("info", "These information will be display in as an official letterhead of your business.");
+						//new Alert("info", "These information will be display in as an official letterhead of your business.");
+						Controller::alert();
 						?>
 						<div class="row">
 							<div class="col-md-6">

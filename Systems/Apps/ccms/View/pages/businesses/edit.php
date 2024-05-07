@@ -53,7 +53,7 @@
 							</button>
 							
 						<?php
-							Controller::form("clinic", ["action" => "update"]);
+							Controller::form("businesses", ["action" => "update"]);
 						?>
 						</div>
 					</div>
