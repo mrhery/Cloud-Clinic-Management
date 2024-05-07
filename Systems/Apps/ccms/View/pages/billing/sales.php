@@ -17,10 +17,6 @@
 			case "view":
 				Page::Load("pages/billing/sales/view");
 			break;
-
-			case "print":
-				Page::Load("pages/billing/sales/print");
-			break;
 		}
 	?>
 	</div>

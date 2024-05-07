@@ -289,7 +289,7 @@ $(document).on("keyup", ".search-item", function(){
 			
 			obj.data.forEach(function(a){
 				html += '<div class="item-search-row" data-row="'+ elem.data("row") +'" data-item="'+ a.id +'">\
-					<strong>'+ a.name +' ('+ a.code +')</strong>\
+					<strong>'+ a.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ a.code +'</strong>\
 				</div>';
 			});
 			

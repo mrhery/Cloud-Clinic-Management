@@ -291,6 +291,11 @@ if (!Session::exists("user")) {
 			}
 			header("Location: " . PORTAL);
 		break;
+
+		case "print-list-sales":
+			Page::Load("pages/billing/sales/list-print");
+			die();
+			break;
 		
 		case "profil":
 			$page->setMainMenu("widgets/header.php");
