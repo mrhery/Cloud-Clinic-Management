@@ -7,7 +7,7 @@ Controller::alert();
         <a href="<?= PORTAL ?>Users/customers/list" class="btn btn-sm btn-primary">
             <span class="fa fa-arrow-left"></span> Back
         </a>
-		Add new Customer
+		Add new Patient
     </div>
 
     <div class="card-body">

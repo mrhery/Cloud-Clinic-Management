@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th>Bil. </th>
-                    <th class="text-center">Nmae </th>
+                    <th class="text-center">Name </th>
                     <th class="text-center">Menu</th>
                     <th class="text-center">Status </th>
                     <th class="text-center">Action</th>

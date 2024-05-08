@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-       <span class="fa fa-list"></span> Delete Users
+       <span class="fa fa-list"></span> Delete Patient
     </div>
 
     <div class="card-body">

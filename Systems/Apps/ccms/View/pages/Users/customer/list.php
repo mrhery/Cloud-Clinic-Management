@@ -6,7 +6,7 @@ Controller::alert();
        <span class="fa fa-list"></span> Users
 
         <a href="<?= PORTAL ?>Users/customers/add" class="btn btn-primary btn-sm">
-            <span class="fa fa-plus"></span> Add new Customer
+            <span class="fa fa-plus"></span> Add new Patient
         </a>
     </div>
 

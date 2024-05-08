@@ -74,7 +74,7 @@ if(count($c) > 0){
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#home"><span class="fa fa-user"></span> 
-							Customer Information
+							Patient Information
 						</a>
 					</li>
 				
