@@ -57,11 +57,11 @@
 		<form action="" method="POST">
 			<div class="row">
 				<div class="col-md-6 mb-2">
-					<h4>Customer Info</h4>
+					<h4>Patient Info</h4>
 					
 					<div class="card mb-3">
 						<div class="card-header">
-							<span class="fa fa-search"></span> Search Customer
+							<span class="fa fa-search"></span> Search Patient
 						</div>
 						
 						<div class="card-body">
@@ -100,7 +100,7 @@
 					<?= $c->c_email ?>" /><br />
 				<?php
 					}else{
-						new Alert("info", "New customer registration.");
+						new Alert("info", "New patient registration.");
 				?>
 					Name:
 					<input type="text" class="form-control" name="name" placeholder="Name" autofocus required /><br />

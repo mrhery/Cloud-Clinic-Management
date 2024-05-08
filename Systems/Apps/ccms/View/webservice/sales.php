@@ -258,7 +258,7 @@ switch(url::get(2)){
 								NO. Phone : <?= Session::get("clinic")->c_phone ?> | E-mail : <?= Session::get("clinic")->c_email ?>
 							</div>
 							<div class="col-md-6 pos-rel mt-4">
-								<strong>For (Customer):</strong><br />
+								<strong>For (Patient):</strong><br />
 								<?php
 									$c = customers::getBy(["c_id" => $s->s_client]);
 

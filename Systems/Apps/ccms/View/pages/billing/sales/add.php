@@ -191,8 +191,8 @@ $no = "HIT-" . date("Y") . "" . str_pad($run, 4, "0", STR_PAD_LEFT);
 			
 			<div class="modal-body">
 				<strong>Invoice / Bill</strong> - Default document for cash/credit pruchase. Increasing item inventory.<br /><br />
-				<strong>Credit Note</strong> - Credit note from customer are purchase return. Decreasing item inventory.<br /><br />
-				<strong>Invoice / Bill</strong> - Debit not from customer are additional purchase. Increasing item inventory.<br /><br />
+				<strong>Credit Note</strong> - Credit note from patient are purchase return. Decreasing item inventory.<br /><br />
+				<strong>Invoice / Bill</strong> - Debit not from patient are additional purchase. Increasing item inventory.<br /><br />
 			</div>
 			
 			<div class="modal-footer">
@@ -207,13 +207,13 @@ $no = "HIT-" . date("Y") . "" . str_pad($run, 4, "0", STR_PAD_LEFT);
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">
-					<span class="fa fa-info"></span> About customer
+					<span class="fa fa-info"></span> About patient
 				</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			
 			<div class="modal-body">
-				<strong>customers</strong> are mostly your <strong>suppliers, vendors or contractors</strong> which whom send you products or services. Some time customers <strong>can be your special customer</strong> for <strong>personal</strong> or <strong>specific orginization</strong>.
+				<strong>patients</strong> are mostly your <strong>suppliers, vendors or contractors</strong> which whom send you products or services. Some time patients <strong>can be your special patient</strong> for <strong>personal</strong> or <strong>specific orginization</strong>.
 			</div>
 			
 			<div class="modal-footer">

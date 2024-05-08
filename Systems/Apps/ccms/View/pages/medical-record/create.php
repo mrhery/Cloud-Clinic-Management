@@ -142,7 +142,7 @@ if(count($c) > 0){
 										<input type="email" class="form-control" name="email" placeholder="example@abc.com" /><br />
 										
 										<button class="btn btn-success btn-sm">
-											<span class="fa fa-save"></span> Add Customer
+											<span class="fa fa-save"></span> Add Patient
 										</button>
 									<?php
 											Controller::form("medical-record", ["action" => "create"]);
