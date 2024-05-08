@@ -73,11 +73,11 @@ $no = "HIT-" . date("Y") . "" . str_pad($run, 4, "0", STR_PAD_LEFT);
     <div class="card-body">
 		<div class="row">
 			<div class="col-md-6 pos-rel">
-				To (Customer) 
+				To (Patient) 
 				<a href="#about-customer" data-toggle="modal">
 					<span class="fa fa-info"></span>
 				</a>: 
-				<input type="text" class="form-control" id="customer-search" placeholder="Search customer" />
+				<input type="text" class="form-control" id="customer-search" placeholder="Search Patient" />
 				<input type="hidden" id="customer" />
 				
 				<div id="customer-search-container"></div>

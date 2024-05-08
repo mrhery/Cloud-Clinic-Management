@@ -449,5 +449,5 @@ switch(url::get(2)){
 			</html>
 <?php
 	break;
+}
 		?>
-		

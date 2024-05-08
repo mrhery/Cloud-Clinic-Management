@@ -67,7 +67,7 @@ $s = sales::getBy(["s_key" => url::get(3), "s_clinic" => Session::get("clinic")-
 	?>
 		<div class="row">
 			<div class="col-md-6 pos-rel">
-				<strong>From (Customer):</strong><br />
+				<strong>From (Patient):</strong><br />
 				<?php
 					$c = customers::getBy(["c_id" => $s->s_client]);
 					
