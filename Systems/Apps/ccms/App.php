@@ -297,6 +297,26 @@ if (!Session::exists("user")) {
 			die();
 			break;
 		
+		case "print-list-purchasing":
+			Page::Load("pages/billing/purchasing/list-print");
+			die();
+			break;
+
+		case "print-list-inventories":
+			Page::Load("pages/inventories/list-print");
+			die();
+			break;
+
+		case "print-list-appointments":
+			Page::Load("pages/appointment/list-print");
+			die();
+			break;
+
+		case "print-list-medical-record":
+			Page::Load("pages/medical-record/list-print");
+			die();
+			break;
+		
 		case "profil":
 			$page->setMainMenu("widgets/header.php");
 			$page->title = " Profil Saya " . APP_NAME;

@@ -54,7 +54,7 @@ switch($show){
 <body>
     <div class="container">
         <?php
-            $sales = sales::getBy(["s_clinic" => Session::get("clinic")->c_id, "s_type" => $show]);
+            // $sales = sales::getBy(["s_clinic" => Session::get("clinic")->c_id, "s_type" => $show]);
         ?>
         <div class="row">
             <div class="col-md-12">

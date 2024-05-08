@@ -47,6 +47,9 @@ switch ($show) {
 			<a class="btn btn-sm btn-<?= $show == "debit" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>billing/purchasing?show=debit">
 				Debit Note
 			</a>
+			<a class="btn btn-sm btn-primary" href="<?= PORTAL ?>print-list-purchasing?show=<?= $show ?>">
+				Print
+			</a>
 		</div>
 
 		<table class="table dataTable table-hover table-fluid">

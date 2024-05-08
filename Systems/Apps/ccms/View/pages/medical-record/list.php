@@ -8,12 +8,15 @@
 	</div>
 	
 	<div class="card-body">
+        <a class="btn btn-sm btn-primary mb-3" href="<?= PORTAL ?>print-list-medical-record">
+            Print
+        </a>
 		<table class="table dataTable table-fluid table-hover">
             <thead>
                 <tr>
                     <th width="5%">No </th>
                     <th>Name </th>
-					<th class="text-center" width="20%">No. of Vehicles</th>
+					<th class="text-center" width="20%">No. of Records</th>
                     <th class="text-right" width="8%">:::</th>
                 </tr>
             </thead>

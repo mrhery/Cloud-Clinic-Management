@@ -58,6 +58,10 @@ switch($show){
 			<a class="btn btn-sm btn-<?= $show == "packages" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>inventories?show=packages">
 				Packages
 			</a>
+
+			<a class="btn btn-sm btn-primary" href="<?= PORTAL ?>print-list-inventories?show=<?= $show ?>">
+				Print
+			</a>
 		</div>
 		
 		<table class="table dataTable table-hover">

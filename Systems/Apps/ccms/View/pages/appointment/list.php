@@ -47,6 +47,10 @@ if (empty($show)) {
 			<a class="btn btn-sm btn-<?= $show == "all" ? "dark" : "outline-dark" ?>" href="<?= PORTAL ?>appointments?show=all">
 				All
 			</a>
+
+			<a class="btn btn-sm btn-primary" href="<?= PORTAL ?>print-list-appointments?show=<?= $show ?>">
+				Print
+			</a>
 		</div>
 
 		<table class="table dataTable table-hover">
