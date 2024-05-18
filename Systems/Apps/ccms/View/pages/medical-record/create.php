@@ -73,14 +73,16 @@ if(count($c) > 0){
 			<div class="col-md-12">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#home"><span class="fa fa-user"></span> Patient Information</a>
+						<a class="nav-link active" data-toggle="tab" href="#home"><span class="fa fa-user"></span> 
+							Patient Information
+						</a>
 					</li>
 				
 				<?php
 					if(!is_null($c)){
 				?>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#menu1"><span class="fa fa-file"></span> Clinical Notes</a>
+						<a class="nav-link" data-toggle="tab" href="#menu1"><span class="fa fa-file"></span> Medical Remarks</a>
 					</li>
 					
 					<li class="nav-item">
@@ -93,12 +95,11 @@ if(count($c) > 0){
 				
 				<div class="tab-content">
 					<div class="tab-pane active mt-2" id="home">
-						<h4>Patient Information</h4>
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-5">
 								<div class="card">
 									<div class="card-header">
-										<span class="fa fa-search"></span> Search IC / Name
+										<span class="fa fa-search"></span> Search Info
 									</div>
 									
 									<div class="card-body">
@@ -109,57 +110,47 @@ if(count($c) > 0){
 								</div>
 							</div>
 							
-							<div class="col-md-8">
-							<?php
-								if(!is_null($c)){
-							?>
-								<a href="<?= PORTAL ?>medical-record/create" class="btn btn-sm btn-danger mb-3">
-									<span class="fa fa-close"></span> Reset
-								</a><br />
-								
-								Name:
-								<input type="text" class="form-control" name="name" placeholder="Name" value="<?= $c->c_name ?>" disabled /><br />
-								
-								IC / Passport:
-								<input type="text" class="form-control" name="ic" placeholder="IC / Passport" value="<?= $c->c_ic ?>" disabled /><br />
-								
-								Address:
-								<textarea class="form-control" name="address" placeholder="Address" disabled><?= $c->c_address ?></textarea><br />	
-								
-								Phone:
-								<input type="tel" class="form-control" name="phone" placeholder="+60 1..." value="<?= $c->c_phone ?>" disabled /><br />
-								
-								Email:
-								<input type="email" class="form-control" name="email" placeholder="example@abc.com" value="<?= $c->c_email ?>" disabled /><br />
-							<?php
-								}else{
-							?>
-								<form action="" method="POST">
+							<div class="col-md-7">
+								<?php
+									if(!is_null($c)){
+								?>
+									<a href="<?= PORTAL ?>medical-record/create" class="btn btn-sm btn-danger mb-3">
+										<span class="fa fa-close"></span> Reset
+									</a><br />
+									
 									Name:
-									<input type="text" class="form-control" name="name" placeholder="Name" /><br />
-									
-									IC / Passport:
-									<input type="text" class="form-control" name="ic" placeholder="IC / Passport" /><br />
-									
-									Address:
-									<textarea class="form-control" name="address" placeholder="Address"></textarea><br />	
+									<input type="text" class="form-control" name="name" placeholder="Name" value="<?= $c->c_name ?>" disabled /><br />	
 									
 									Phone:
-									<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
+									<input type="tel" class="form-control" name="phone" placeholder="+60 1..." value="<?= $c->c_phone ?>" disabled /><br />
 									
 									Email:
-									<input type="email" class="form-control" name="email" placeholder="example@abc.com" /><br />
-									
-									<button class="btn btn-success btn-sm">
-										<span class="fa fa-save"></span> Add new Patient
-									</button>
+									<input type="email" class="form-control" name="email" placeholder="example@abc.com" value="<?= $c->c_email ?>" disabled /><br />
 								<?php
-										Controller::form("medical-record", ["action" => "create"]);
+									}else{
 								?>
-								</form>
-							<?php
-								}
-							?>
+									<form action="" method="POST">
+										Name:
+										<input type="text" class="form-control" name="name" placeholder="Name" /><br />	
+										IC:
+										<input type="text" placeholder="IC / Passport" name="ic" class="form-control" /> <br>
+										
+										Phone:
+										<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
+										
+										Email:
+										<input type="email" class="form-control" name="email" placeholder="example@abc.com" /><br />
+										
+										<button class="btn btn-success btn-sm">
+											<span class="fa fa-save"></span> Add Patient
+										</button>
+									<?php
+											Controller::form("medical-record", ["action" => "create"]);
+									?>
+									</form>
+								<?php
+									}
+								?>
 							</div>
 						</div>
 					</div>
@@ -172,16 +163,16 @@ if(count($c) > 0){
 						if(!is_null($d)){
 						?>
 						<h4>
-							Clinical Notes
+							Service Notes
 						</h4>
 						
 						<small id="saved-status">(last saved at <?= date("d M Y H:i:s\ ", $d->cr_time) ?>)</small><br >
 						<hr />
 						
-						Underlying Illness / Remarks:
+						Remarks:
 						<textarea class="form-control" id="illness" Placeholder="Underlying Illness..."><?= $d->cr_illness ?></textarea><br />
 						
-						History of Presenting Illness / Examination:
+						<!--History of Presenting Illness / Examination:
 						<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."><?= $d->cr_examination ?></textarea><br />
 						
 						Investigations:
@@ -191,7 +182,7 @@ if(count($c) > 0){
 						<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."><?= $d->cr_diagnosis ?></textarea><br />
 						
 						Plans:
-						<textarea class="form-control" id="plan" Placeholder="Plans..."><?= $d->cr_plan ?></textarea><br />
+						<textarea class="form-control" id="plan" Placeholder="Plans..."><?= $d->cr_plan ?></textarea><br />-->
 						
 						Prescriptions: 
 						<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
@@ -203,9 +194,9 @@ if(count($c) > 0){
 								<tr>
 									<th>Details</th>
 									<th class="text-center" width="10%">Quantity</th>
-									<th class="text-center" width="25%">Frequency / Duration</th>
-									<th class="text-center" width="20%">Remarks</th>
-									<th class="text-center" width="5%">::</th>
+									<th class="text-right" width="25%">Price (RM)</th>
+									<th class="text-right" width="20%">Total (RM)</th>
+									<th class="text-right" width="5%">::</th>
 								</tr>
 							</thead>
 							
@@ -224,12 +215,23 @@ if(count($c) > 0){
 								?>
 								<tr id="pres-<?= $rp->rp_id ?>" data-id="<?= $rp->rp_id ?>">
 									<td>
-										<?= is_null($i) ? "<i>Item not found</i>" : $i->i_name ?>
+										<?= is_null($i) ? "<i>Item not found</i>" : $i->i_name ?><br />
+										<?= $rp->rp_remarks ?>
 										<input type="hidden" value="<?= is_null($i) ? "" : $i->i_key ?>" class="pres-<?= $rp->rp_id ?>-id" />
 									</td>
-									<td class="text-center pres-<?= $rp->rp_id ?>-quantity" contenteditable="true"><?= $rp->rp_quantity ?></td>
-									<td class="text-center pres-<?= $rp->rp_id ?>-freq" contenteditable="true"><?= $rp->rp_frequency ?></td>
-									<td class="text-center pres-<?= $rp->rp_id ?>-remarks" contenteditable="true"><?= $rp->rp_remarks ?></td>
+									
+									<td class="text-center pres-<?= $rp->rp_id ?>-quantity" contenteditable="true">
+										<?= $rp->rp_quantity ?>
+									</td>
+									
+									<td class="text-center pres-<?= $rp->rp_id ?>-freq" contenteditable="true">
+										<?= $rp->rp_frequency ?>
+									</td>
+									
+									<td class="text-center pres-<?= $rp->rp_id ?>-remarks" contenteditable="true">
+										<?= $rp->rp_quantity * $rp->rp_frequency  ?>
+									</td>
+									
 									<td class="text-center">
 										<button class="btn btn-sm btn-danger del-prescription" type="button">
 											<span class="fa fa-trash"></span>
@@ -245,13 +247,50 @@ if(count($c) > 0){
 						}else{
 						?>
 						<h4>
-							Clinical Notes
+							Service Notes
 						</h4>
 						
 						<small id="saved-status">(not saved yet - <?= $doc ?>)</small><br >
 						<hr />
 						
-						<div style="height: 170px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" id="list-attachment">							
+						Description:
+						<textarea class="form-control" id="illness" Placeholder="Description"></textarea><br />
+						
+						<!--History of Presenting Illness / Examination:
+						<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."></textarea><br />
+						
+						Investigations:
+						<textarea class="form-control" id="investigation" Placeholder="Investigations..."></textarea><br />
+						
+						Diagnosis:
+						<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."></textarea><br />
+						
+						Plans:
+						<textarea class="form-control" id="plan" Placeholder="Plans..."></textarea><br />-->
+						
+						Service Item: 
+						<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
+							<span class="fa fa-plus"></span> Item
+						</button>
+						
+						<table class="table table-hover table-fluid table-bordered mt-2">
+							<thead>
+								<tr>
+									<th>Details</th>
+									<th class="text-center" width="10%">Quantity</th>
+									<th class="text-right" width="25%">Price (RM)</th>
+									<th class="text-right" width="20%">Total (RM)</th>
+									<th class="text-right" width="5%">::</th>
+								</tr>
+							</thead>
+							
+							<tbody id="list-pres">
+							</tbody>
+						</table>
+						<?php
+						}
+					?>
+						<div style="height: 140px; border: 1px solid #ced4da; margin-bottom: 20px; overflow-y: scroll; padding: 10px; white-space: nowrap;" id="list-attachment">							
 							<div style="border: 1px solid #ced4da; height: 115px; width: 150px; cursor: pointer; position: relative; margin-right: 10px; margin-bottom: 10px; float: left;">
 								<label for="upload-attachment" style="width: 100%; height: 100%; position: absolute; text-align: center; top: 50%; left: 50%;  transform: translate(-50%, -50%); cursor: pointer;">	
 									<input id="upload-attachment" onchange="upload_attachment()" type="file" name="attachment[]" accept="image/*,application/pdf" multiple style="visibility: hidden;" />
@@ -263,44 +302,6 @@ if(count($c) > 0){
 								</label>
 							</div>							
 						</div>
-						
-						Underlying Illness / Remarks:
-						<textarea class="form-control" id="illness" Placeholder="Underlying Illness..."></textarea><br />
-						
-						History of Presenting Illness / Examination:
-						<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."></textarea><br />
-						
-						Investigations:
-						<textarea class="form-control" id="investigation" Placeholder="Investigations..."></textarea><br />
-						
-						Diagnosis:
-						<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."></textarea><br />
-						
-						Plans:
-						<textarea class="form-control" id="plan" Placeholder="Plans..."></textarea><br />
-						
-						Prescriptions: 
-						<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
-							<span class="fa fa-plus"></span> Add Prescription
-						</button>
-						
-						<table class="table table-hover table-fluid table-bordered mt-2">
-							<thead>
-								<tr>
-									<th>Details</th>
-									<th class="text-center" width="10%">Quantity</th>
-									<th class="text-center" width="25%">Frequency / Duration</th>
-									<th class="text-center" width="20%">Remarks</th>
-									<th class="text-center" width="5%">::</th>
-								</tr>
-							</thead>
-							
-							<tbody id="list-pres">
-							</tbody>
-						</table>
-						<?php
-						}
-					?>
 					</div>
 					
 					<div class="tab-pane fade mt-2" id="menu2">
@@ -378,29 +379,29 @@ if(count($c) > 0){
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title"><span class="fa fa-plus"></span> Add Prescription</h4>
+				<h4 class="modal-title"><span class="fa fa-plus"></span> Add Item</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			
 			<div class="modal-body">
-				Prescription:
-				<input type="text" class="form-control" id="pres-add-name" placeholder="Prescription" />
+				Search Item:
+				<input type="text" class="form-control" id="pres-add-name" placeholder="Search" />
 				<div id="search-pres-box" style="display: none;"></div>
 				<br />
 				
 				<input type="hidden" id="pres-add-id" />
 				
 				Quantity:
-				<input type="text" id="pres-add-quantity" class="form-control" value="1" /><br />
+				<input type="number" id="pres-add-quantity" class="form-control" value="1" /><br />
 				
-				Frequency / Duration:
-				<input type="text" id="pres-add-freq" class="form-control" placeholder="Frequency / Duration" /><br />
+				Price:
+				<input type="number" id="pres-add-freq" step="0.01" class="form-control" placeholder="0.00" /><br />
 				
 				Remarks:
 				<input type="text" id="pres-add-remarks" class="form-control" placeholder="Remarks" /><br />
 				
 				<button class="btn btn-sm btn-success" id="add-to-list-pres">
-					<span class="fa fa-plus"></span> Add to Prescription List
+					<span class="fa fa-plus"></span> Add List
 				</button>
 			</div>
 			
@@ -420,6 +421,10 @@ if(count($c) > 0){
 </button>
 
 <?php
+if(!isset($doc)){
+	$doc = "";
+}
+
 Page::append(<<<HTML
 <script>
 $("#search-ic").on("keyup", function(){
@@ -642,15 +647,18 @@ $("#add-to-list-pres").on("click", function(){
 	
 	var rid = Math.ceil(Math.random() * 10000);
 	
+	var total = parseInt(quantity) * parseFloat(freq);
+	
 	$("#list-pres").append('\
 		<tr id="pres-'+ rid +'" data-id="'+ rid +'">\
 			<td>\
-				'+ name +'\
+				'+ name +'<br />\
+				'+ remarks +'\
 				<input type="hidden" class="pres-'+ rid +'-id" value="'+ iid +'" />\
 			</td>\
 			<td class="text-center pres-'+ rid +'-quantity" contenteditable="true">'+ quantity +'</td>\
 			<td class="text-center pres-'+ rid +'-freq" contenteditable="true">'+ freq +'</td>\
-			<td class="text-center pres-'+ rid +'-remarks" contenteditable="true">'+ remarks +'</td>\
+			<td class="text-center pres-'+ rid +'-remarks" contenteditable="true">'+ (total) +'</td>\
 			<td class="text-center">\
 				<button class="btn btn-sm btn-danger del-prescription" type="button">\
 					<span class="fa fa-trash"></span>\
@@ -696,7 +704,7 @@ $("#pres-add-name").on("keyup", function(){
 			if(o.data.length > 0){
 				o.data.forEach(function(p){
 					$("#search-pres-box").append('\
-						<div class="search-pres-item" data-name="'+ p.name +'" data-id="'+ p.id +'">\
+						<div class="search-pres-item" data-price="'+ p.price +'" data-name="'+ p.name +'" data-id="'+ p.id +'">\
 							<strong>'+ p.name +'</strong><br />\
 							Available Quantity Balance: '+ p.quantity +'\
 						</div>\
@@ -713,6 +721,7 @@ $(document).on("click", ".search-pres-item", function(){
 	$("#search-pres-box").hide();
 	
 	$("#pres-add-name").val($(this).data("name"));
+	$("#pres-add-freq").val($(this).data("price"));
 	$("#pres-add-id").val($(this).data("id"));
 });
 </script>

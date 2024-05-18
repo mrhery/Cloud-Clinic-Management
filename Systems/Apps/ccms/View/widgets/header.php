@@ -141,11 +141,12 @@
         <ul class="nav flex-column">
             <li class="text-center">
                 <a class="nav-link" href="<?= PORTAL ?>">
-                    <img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-normal-logo" style="width: 100%;" />
-                    <img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-small-logo" style="width: 100%;" />
+                    <!--<img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-normal-logo" style="width: 100%;" />-->
+                    <!--img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-small-logo" style="width: 100%;" />-->
+                    
                 </a>
 				
-				<h4>Clininc CMS</h4>
+				<h4>Clinic</h4>
 				
 				Hi, <strong><?= Session::get("user")->u_name ?></strong>!<br />
 				
@@ -282,7 +283,7 @@
     <div class="container-fluid pt-1 pl-4 pb-4 mb-5">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-12">
-                <h1><?= $ssm->m_name ?></h1>
+                <h3><?= $ssm->m_name ?></h3>
                 <p><?= $ssm->m_description ?></p>
             </div>
         </div>

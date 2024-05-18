@@ -1,3 +1,6 @@
+<?php
+Controller::alert();
+?>
 <div class="card">
     <div class="card-header">
        <span class="fa fa-list"></span> Users
@@ -44,6 +47,9 @@
                         <td class="text-right">
                             <a href="<?= PORTAL ?>Users/pengguna/edit/<?= $user->u_ukey ?>" class="btn btn-sm btn-warning">
                                 <span class="fa fa-edit"></span> Edit
+                            </a>
+                            <a href="<?= PORTAL ?>Users/pengguna/delete/<?= $user->u_ukey ?>" class="btn btn-sm btn-danger">
+                                <span class="fa fa-trash"></span> Delete
                             </a>
                         </td>
                     </tr>

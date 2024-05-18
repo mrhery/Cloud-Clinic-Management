@@ -100,7 +100,7 @@
 					<?= $c->c_email ?>" /><br />
 				<?php
 					}else{
-						new Alert("info", "New customer registration.");
+						new Alert("info", "New patient registration.");
 				?>
 					Name:
 					<input type="text" class="form-control" name="name" placeholder="Name" autofocus required /><br />
@@ -125,8 +125,11 @@
 					<h4>Appointment Description</h4>
 					
 					Description:
-					<textarea class="form-control" name="reason" autofocus placeholder="Description: Fever, cough, covid test, vaccine" required></textarea>
+					<textarea class="form-control" name="reason" autofocus placeholder="Description" required></textarea>
 					<br />
+					
+					Plate No.:
+					<input type="text" class="form-control" name="plate" placeholder="Plate No." /><br />
 					
 					Date:
 					<input type="date" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required /><br />
@@ -137,7 +140,7 @@
 					Status:
 					<select class="form-control" name="status">
 						<option value="0">Pending</option>
-						<option value="1">Approved</option>
+						<option value="1" selected>Approved</option>
 						<option value="2">Cancelled</option>
 					</select><br />
 					
@@ -181,7 +184,6 @@ $("#search-ic").on("keyup", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		
 		var o = JSON.parse(res);
 		
 		if(o.status == "success"){

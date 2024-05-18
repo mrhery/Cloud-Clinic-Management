@@ -1,12 +1,12 @@
 <?php
 Controller::alert();
 ?>
+
 <div class="card">
     <div class="card-header">
          <a href="<?= PORTAL ?>Clinic" class="btn btn-primary btn-sm">
 			<span class="fa fa-arrow-left"></span> Back
-		</a>
-		Add new Clinic Information
+		</a> Business Information
 		
     </div>
 
@@ -18,7 +18,7 @@ Controller::alert();
             <div class="row">
                 <div class="col-md-12">
 				<?php
-					new Alert("info", "These information will be display in as an official letterhead of your business.");
+					// new Alert("info", "These information will be display in as an official letterhead of your business.");
 				?>
 					<div class="row">
 						<div class="col-md-6">

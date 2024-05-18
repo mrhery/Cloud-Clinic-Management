@@ -34,7 +34,6 @@ switch (input::post("action")) {
 			
 			users::insertInto($data);
 			
-			
 			$u = users::getBy(["u_ukey" => $ukey]);
 			
 			if(count($u) > 0){

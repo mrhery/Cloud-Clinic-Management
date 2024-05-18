@@ -51,11 +51,11 @@
 					<td class="text-center"><?= $m->m_status ? "Active" : "Inactive" ?></td>
 					<td class="text-right">
 						<a href="<?= PORTAL ?>settings/menus/edit/<?= $m->m_id ?>" class="btn btn-warning btn-sm">
-							Kemaskini
+							Edit
 						</a>
 						
 						<a href="<?= PORTAL ?>settings/menus/delete/<?= $m->m_id ?>" class="btn btn-danger btn-sm">
-							Padam
+							Remove
 						</a>
 					</td>
 				</tr>
@@ -90,11 +90,11 @@
 						<td class="text-center"><?= $s->m_status ? "Active" : "Inactive" ?></td>
 						<td class="text-right">
 							<a href="<?= PORTAL ?>settings/menus/edit/<?= $s->m_id ?>" class="btn btn-warning btn-sm">
-								Kemaskini
+								Edit
 							</a>
 							
 							<a href="<?= PORTAL ?>settings/menus/delete/<?= $s->m_id ?>" class="btn btn-danger btn-sm">
-								Padam
+								Remove
 							</a>
 						</td>
 					</tr>

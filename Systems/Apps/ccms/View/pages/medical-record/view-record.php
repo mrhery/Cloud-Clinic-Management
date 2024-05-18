@@ -3,7 +3,8 @@
 		<a href="<?= PORTAL ?>medical-record" class="btn btn-sm btn-primary">
 			<span class="fa fa-arrow-left"></span> Back
 		</a> 
-		Medical Records
+		
+		Service Records
 	</div>
 	
 	<div class="card-body">

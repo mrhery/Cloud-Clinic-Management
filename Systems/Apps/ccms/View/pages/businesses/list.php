@@ -1,0 +1,80 @@
+<div class="card">
+	<div class="card-header">
+		<span class="fa fa-building"></span> Business Information
+
+		<?php
+		if (Session::get("admin")) {
+		?>
+			<a href="<?= PORTAL ?>businesses/add" class="btn btn-primary btn-sm">
+				<span class="fa fa-plus"></span> Business
+			</a>
+		<?php
+		}
+		?>
+	</div>
+
+	<div class="card-body">
+		<table class="table dataTable table-hover table-fluid">
+			<thead>
+				<tr>
+					<th class="text-center" width="5%">No</th>
+					<th>Name</th>
+					<th class="text-center" width="20%">Owner</th>
+					<th class="text-right" width="10%">:::</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<?php
+				if (isset($_SESSION["admin"])) {
+					$q = DB::conn()->query("SELECT * FROM clinics")->results();
+				} else {
+					$q = DB::conn()->query("SELECT * FROM clinics WHERE c_id IN (SELECT cu_clinic FROM clinic_user WHERE cu_user = ?)", [Session::get("user")->u_id])->results();
+				}
+
+				$no = 1;
+				foreach ($q as $c) {
+				?>
+					<tr>
+						<td><?= $no++ ?></td>
+						<td><?= $c->c_name ?></td>
+						<td>
+							<?php
+							$u = users::getBy(["u_id" => $c->c_owner]);
+
+							if (count($u) > 0) {
+								echo $u[0]->u_name;
+							} else {
+								echo "Unknown";
+							}
+							?>
+						</td>
+						<td class="text-right">
+							<a href="<?= PORTAL ?>businesses/edit/<?= $c->c_ukey ?>" class="btn btn-sm btn-primary">
+								<span class="fa fa-edit"></span> Edit
+							</a>
+							<a href="<?= PORTAL ?>businesses/delete/<?= $c->c_ukey ?>" class="btn btn-sm btn-danger">
+								<span class="fa fa-trash"></span> Delete
+							</a>
+							<!-- <form action="" method="POST">
+								<?php
+								Controller::form("businesses/delete", [
+									"action"	=> "delete"
+								]);
+								?>
+								<div href="<?= PORTAL ?>Clinic/delete/<?= $c->c_ukey ?>" class="btn btn-sm btn-danger">
+									<span class="fa fa-trash"></span> Delete
+								</div>
+								<div class="btn btn-sm btn-danger">
+									<span class="fa fa-trash"></span> Delete
+								</div>
+							</form> -->
+						</td>
+					</tr>
+				<?php
+				}
+				?>
+			</tbody>
+		</table>
+	</div>
+</div>

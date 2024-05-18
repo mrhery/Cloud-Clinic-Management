@@ -79,6 +79,161 @@ if (!Session::exists("user")) {
 			// echo base64_decode("iVBORw0KGgoAAAANSUhEUgAAAG4AAAB+CAMAAADyU9RSAAAAn1BMVEX////tHCQAAADsAABYWFj96OjsAw2kpKTV1dX4wsP3srP2qqrtGCDtEx2goKDe3t7wVFXuLTP1nZ5fX1/CwsL+8/L719jzjI7uMznsBBTyc3OgFRuZEhfziIr2HSV3DhIeHh5ECApKSkr84eLwWlxxAAAREREmJibMzMybAAegCxLuJCupFRs6BwgxAADawcHvRknzgIHxamy+goPfpKUTNIuKAAADbklEQVRoge3ba3ebIAAGYAmVzghrks4LbulN261zbZO0//+3zaggeCdCzlnn+82D4UHCzfbEsnguFyfn5xdLORO4xULdm8TdKXuTOHVvGqfsFdzDhWKu707zCu5KrY1ZrtnzPSl5Bac+xK6rDlVpqwZOxdPBKXhauPGeHm70eNHDjfY0cWPnny5u5P6gjRv3fPq4UZ5GbvE0PB90ciPmn15u0NPMDXm6uQFPO9c/XrRz/fNBP9e7vhjg+jwTXI9nhOv+/sxwnePTENc1/4xxX/9l7uK83K9vnbk0wPXkauZmbub+Y85+NsU9+82SmPw2xf2ADS8G5Lsx7obWvDglNwY5QiQv04BJDkjeUTPLiZ4NMs0wBwj7/mxy1ExzAMM411CuGecKz4YYFNyfl/v7+9c3W2PeXrMqX74XXO4tIWC5OYYijaF5lRxArrVE4GyZuZk7ncNQDKK4owxRUquMwkYQlu5ocnjnCFm62xCydQDgtVgSrCCkorZ3mtlJXpMjq8ZK5KaQcbUSJxJAtGlZxVZEmbOsALZz2RJ4gPo5y4UdnFUtgho5a4u6OMuB+jlvjbs41tXTOC8bV75d1YlEzo9toc6QSJxXxR7N+fnESWJ+KXAehGS18Xh3Iolz05BHqruXy9tFmWBTiQOYwB33UixyG4h5FDkAy8fzQixxxw8fxJ4WOdCREZzfyfGyYnDq4coxcRyadQ7tWU8DLHGEFsGqHN2xGuWhIt9rrUXOOURldmQ8B7OjDQzZgHdaOByywRLi1nm3QaM5exsEG4d/8kBauDVrzPExpnFyfGkRM84ltI3jnbmb3JlS9vKOwDg2jjR8d0K8qLbfsZGZsOtUH+e5aXlLY5q75XU+aaqJsN8WCVbjJ0K+sNu+G4lnFYnDmI2UZW1VKWd54/A0uCNkB66qrMbxh7MOFGhaxMQIHCao0ry8SSa5NAnkrdckJ8euHR4Mc+VCfCYuKis4C2cnjXOmOc5bpnyiTOPiQc7zgxBWG3Z1ElPgcBgUieo7f5Y04NlGKyq/T5GkLEqaDe3kAO5YgPJQIaTeHtL3yS7OZGZOL+dW7+35H7Ca7/NTkleJ+KVr2fy1/f3x9vb28aPlhf7kfORVvvPrWJi2n/q/JDM3czM3czM3czNnilP/+cMkTvnHHX15GOQMZOY+BfcXpu52yGEhs/AAAAAASUVORK5CYII=");
 			// die();
 		// break;
+		
+		case "api":
+			header("Content-Type: application/json");
+			
+			if(Input::get("key") == "3maro-44ukk-ty8d1-qr20m-spo01"){
+				switch(url::get(1)){
+					case "login":
+						if(
+							!empty(Input::post("username")) && 
+							!empty(Input::post("password"))
+						){
+							$pass = Password::get(Input::post("password"));
+							
+							$u = customers::getBy([
+								"c_email"		=> Input::post("username"),
+								"c_password"	=> $pass
+							]);
+							
+							if(count($u) > 0){
+								$u = $u[0];
+								
+								die(json_encode([
+									"status"	=> "success",
+									"message"	=> "Login success",
+									"data"		=> [
+										"name"		=> $u->c_name,
+										"phone"		=> $u->c_phone,
+										"username"	=> $u->c_email,
+										"password"	=> $u->c_password,
+										"ukey"		=> $u->c_ukey
+									]
+								]));
+							}else{
+								die(json_encode([
+									"status"	=> "error",
+									"message"	=> "Email or password is not correct."
+								]));
+							}
+						}else{
+							die(json_encode([
+								"status"	=> "error",
+								"message"	=> "Insufficient request parameter."
+							]));
+						}
+					break;
+					
+					case "register":
+						if(
+							!empty(Input::post("name")) && 
+							!empty(Input::post("password")) && 
+							!empty(Input::post("email")) && 
+							!empty(Input::post("phone"))
+						){
+							$pass = Password::get(Input::post("password"));
+							
+							$c = customers::getBy([
+								"c_email"		=> Input::post("username")
+							]);
+							
+							if(count($c) > 0){
+								die(json_encode([
+									"status"	=> "error",
+									"message"	=> "Email has been registered before."
+								]));
+							}
+							
+							$key = F::UniqKey("customer_");
+							
+							customers::insertInto([
+								"c_email"		=> Input::post("username"),
+								"c_password"	=> $pass,
+								"c_phone"		=> Input::post("phone"),
+								"c_name"		=> Input::post("name"),
+								"c_key"			=> $key
+							]);
+							
+							die(json_encode([
+								"status"	=> "success",
+								"message"	=> "Customer registration success.",
+								"data"		=> [
+									"name"		=> Input::post("name"),
+									"phone"		=> Input::post("phone"),
+									"username"	=> Input::post("email"),
+									"password"	=> $pass,
+									"ukey"		=> $key
+								]
+							]));
+						}else{
+							die(json_encode([
+								"status"	=> "error",
+								"message"	=> "Insufficient request parameter."
+							]));
+						}
+					break;
+					
+					case "forgot-password":
+						if(
+							!empty(Input::post("email"))
+						){
+							$pass = Password::get(Input::post("password"));
+							
+							$c = customers::getBy([
+								"c_email"		=> Input::post("username")
+							]);
+							
+							if(count($c) > 0){
+								$c = $c[0];
+								
+								// not implemented yet
+								
+								die(json_encode([
+									"status"	=> "error",
+									"message"	=> "Forgot password is not ready."
+								]));
+							}else{
+								die(json_encode([
+									"status"	=> "error",
+									"message"	=> "Email not exists."
+								]));
+							}
+						}else{
+							die(json_encode([
+								"status"	=> "error",
+								"message"	=> "Insufficient request parameter."
+							]));
+						}
+					break;
+					
+					case "password-recovery":
+						// not implemented yet
+						
+						die(json_encode([
+							"status"	=> "error",
+							"message"	=> "Forgot password is not ready."
+						]));
+					break;
+					
+					case "pages":
+						$c = UserAuthentication::check();
+						
+						Page::Load("apis/index", ["c" => $c]);
+					break;
+				}
+			}else{
+				die(json_encode([
+					"status"	=> "error",
+					"message"	=> "API Key is not valid."
+				]));
+			}
+			
+			die(json_encode([
+				"status"	=> "error",
+				"message"	=> "API Endpoint not valid."
+			]));
+		break;
 	}
 } else {
 	$mpage = url::get(0);
@@ -109,6 +264,14 @@ if (!Session::exists("user")) {
 			case "records":
 				Page::Load("webservice/records");
 				break;
+
+			case "customers1":
+				Page::Load("webservice/customers1");
+				break;
+
+			case "sales":
+				Page::Load("webservice/sales");
+				break;
 		}
 
 
@@ -128,6 +291,31 @@ if (!Session::exists("user")) {
 			}
 			header("Location: " . PORTAL);
 		break;
+
+		case "print-list-sales":
+			Page::Load("pages/billing/sales/list-print");
+			die();
+			break;
+		
+		case "print-list-purchasing":
+			Page::Load("pages/billing/purchasing/list-print");
+			die();
+			break;
+
+		case "print-list-inventories":
+			Page::Load("pages/inventories/list-print");
+			die();
+			break;
+
+		case "print-list-appointments":
+			Page::Load("pages/appointment/list-print");
+			die();
+			break;
+
+		case "print-list-medical-record":
+			Page::Load("pages/medical-record/list-print");
+			die();
+			break;
 		
 		case "profil":
 			$page->setMainMenu("widgets/header.php");
