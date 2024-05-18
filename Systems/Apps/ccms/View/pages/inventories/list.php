@@ -79,7 +79,6 @@ switch($show){
 			<tbody>
 			<?php
 				$no = 1;
-
 				if(Session::get("clinic") == null){
 					// echo('<p class="text-danger mb-3">Plesae select clinic first to show list</p>');
 					switch($show){
@@ -118,7 +117,7 @@ switch($show){
 						case "services":
 							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "service"]);
 						break;
-						
+
 						case "discounts":
 							$r = items::getBy(["i_clinic" => Session::get("clinic")->c_id, "i_type" => "discount"]);
 						break;
@@ -128,6 +127,8 @@ switch($show){
 						break;
 					}
 				}
+
+				$no = 1;
 				
 				foreach($r as $i){
 			?>

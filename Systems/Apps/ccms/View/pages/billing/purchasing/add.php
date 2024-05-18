@@ -292,10 +292,10 @@ $(document).on("keyup", ".search-item", function(){
 					<strong>No item found</strong>\
 				</div>';
 			} 
-			
+			console.log(obj.data);
 			obj.data.forEach(function(a){
 				html += '<div class="item-search-row" data-row="'+ elem.data("row") +'" data-item="'+ a.id +'">\
-					<strong>'+ a.name +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ a.code +'</strong>\
+					<strong>'+ a.name + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + (a.code ? a.code : '') + '</strong>\
 				</div>';
 			});
 			

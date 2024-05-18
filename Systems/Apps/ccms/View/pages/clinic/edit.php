@@ -1,3 +1,6 @@
+<?php
+Controller::alert();
+?>
 <div class="card">
     <div class="card-header">
          <a href="<?= PORTAL ?>Clinic" class="btn btn-primary btn-sm">

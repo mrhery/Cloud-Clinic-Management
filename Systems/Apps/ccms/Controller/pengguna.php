@@ -72,7 +72,7 @@ switch (input::post("action")) {
 		if(Session::get("admin")){
 			$data["u_role"] = Input::post("role");
 		}
-		
+
 		if (!empty(Input::post("password"))) {
 			$data["u_password"] = Password::get(Input::post("password"));
 		}
