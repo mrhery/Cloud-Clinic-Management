@@ -41,13 +41,14 @@
 							<small>by <?= !is_null($u) ? $u->u_name : "NIL" ?></small>
 						</h4>
 						
-						<small id="saved-status">(not saved yet - <?= $cr->cr_key ?>)</small><br >
+						<small id="saved-status">(last saved at <?= date("d M Y H:i:s\ ", $cr->cr_time) ?> - <?= $cr->cr_key ?>)</small><br >
 						<hr />
 						
 						Remarks:
 						<textarea class="form-control" id="illness" Placeholder="" disabled><?= $cr->cr_illness ?></textarea><br />
 						
-						<!--History of Presenting Illness / Examination:
+						<!---->
+						History of Presenting Illness / Examination:
 						<textarea class="form-control" id="examination" Placeholder="" disabled><?= $cr->cr_examination ?></textarea><br />
 						
 						Investigations:
@@ -57,7 +58,7 @@
 						<textarea class="form-control" id="diagnosis" Placeholder="" disabled><?= $cr->cr_diagnosis ?></textarea><br />
 						
 						Plans:
-						<textarea class="form-control" id="plan" Placeholder="" disabled><?= $cr->cr_plan ?></textarea><br />-->
+						<textarea class="form-control" id="plan" Placeholder="" disabled><?= $cr->cr_plan ?></textarea><br />
 						
 						Prescription:						
 						<table class="table table-hover table-fluid table-bordered mt-2">

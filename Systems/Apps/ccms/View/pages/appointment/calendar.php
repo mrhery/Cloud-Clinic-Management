@@ -17,7 +17,7 @@
 </div>
 
 <script>
-let calendar = prepareCalendar("#appointment-calendar", {
+var xcalendar = prepareCalendar("#appointment-calendar", {
 	singleDate: true,
 	onSelectDate: function(date, selected_dates){
 		$("[name=date]").val(selected_dates.join(","));
@@ -30,7 +30,7 @@ let calendar = prepareCalendar("#appointment-calendar", {
 			},
 			dataType: "text"
 		}).done(function(res){
-			console.log(res);
+			// console.log(res);
 			
 			res = JSON.parse(res);
 			$("#date-appointment").html("");
@@ -80,5 +80,5 @@ let calendar = prepareCalendar("#appointment-calendar", {
 		});
 	}
 });
-calendar.manipulate();
+xcalendar.manipulate();
 </script>

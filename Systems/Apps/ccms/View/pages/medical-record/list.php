@@ -37,7 +37,7 @@ if ($page < 1) {
 </a>
 
 <div class="row mb-3">
-	<div class="col-md-4">
+	<div class="col-md-4 col-sm-6">
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" name="search" placeholder="Search">
 			<div class="input-group-append">
@@ -46,7 +46,7 @@ if ($page < 1) {
 		</div>
 	</div>
 	
-	<div class="col-md-8">
+	<div class="col-md-8 col-sm-6">
 		<form action="" method="GET" class="text-right">
 			<a href="<?= PORTAL ?>appointments?page=<?= $page - 1 ?>&search=<?= $search ?>" class="btn btn-sm btn-primary">
 				<span class="fa fa-arrow-left"></span>
@@ -62,6 +62,7 @@ if ($page < 1) {
 	</div>
 </div>
 
+<div class="row">
 <?php
 $no = 1;
 
@@ -73,25 +74,29 @@ if(Session::get("admin")){
 
 foreach ($q as $c) {
 ?>
-	<div class="card mb-3 shadow xa-href usp-right-sheet" href="<?= PORTAL ?>medical-record/view/<?= $c->c_ukey ?>">
-		<div class="card-body">
-			<div class="row">
-				<div class="col-2">
-					<img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" />
-				</div>
-				
-				<div class="col-10">
-					<b><?= $c->c_name ?> (<?= $c->c_ic ?>)</b><br />
-					Tel: <?= empty($c->c_phone) ? "-" : $c->c_phone ?> | Email: <?= empty($c->c_email) ? "-" : $c->c_email ?>
-					<hr />
-					<span class="badge badge-dark">Records: <?= count(customer_record::getBy(["cr_customer" => $c->c_id])) ?></span>
+	<div class="col-md-6 col-sm-12 col-xs-12">
+		<div class="card mb-3 shadow xa-href usp-right-sheet" href="<?= PORTAL ?>medical-record/view/<?= $c->c_ukey ?>">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-2">
+						<img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" />
+					</div>
+					
+					<div class="col-10">
+						<b><?= $c->c_name ?> (<?= $c->c_ic ?>)</b><br />
+						Tel: <?= empty($c->c_phone) ? "-" : $c->c_phone ?> | Email: <?= empty($c->c_email) ? "-" : $c->c_email ?>
+						<hr />
+						<span class="badge badge-dark">Records: <?= count(customer_record::getBy(["cr_customer" => $c->c_id])) ?></span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 <?php 
 } 
-
+?>
+</div>
+<?php
 Page::append(<<<HTML
 <script>
 $(document).on("keyup", "#search-ic", function(){
@@ -107,7 +112,7 @@ $(document).on("keyup", "#search-ic", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		console.log(res);
+		// console.log(res);
 		var o = JSON.parse(res);
 		
 		if(o.status == "success"){
@@ -115,7 +120,7 @@ $(document).on("keyup", "#search-ic", function(){
 			
 			o.data.forEach(function(c){
 				$("#ic-search-list").append('\
-					<div class="ic-list-item usp-popup-window" data-usp-popup-window-title="+ Add Medical Record" href="'+ PORTAL +'medical-record/create?ic='+ c.ic +'&doc=" data-ic="'+ c.ic +'">\
+					<div class="ic-list-item usp-popup-window usp-right-sheet-close-this" data-usp-popup-window-title="+ Add Medical Record" href="'+ PORTAL +'medical-record/create?ic='+ c.ic +'&doc=" data-ic="'+ c.ic +'">\
 						<strong>'+ c.name +' ('+ c.ic +')</strong><br />\
 						'+ c.phone +' <br /> '+ c.email +'\
 					</div>\
@@ -206,7 +211,7 @@ function load_file(file) {
             },
             dataType: "text"
         }).done(function (res) {
-            console.log(res);
+            // console.log(res);
         });
     };
 
@@ -277,7 +282,7 @@ function update_note(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		console.log(res);
+		// console.log(res);
 		
 		var o = JSON.parse(res);
 		

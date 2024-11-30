@@ -261,7 +261,7 @@
 </form>
 
 <script>
-let calendar = prepareCalendar("#calendar", {
+var calendar = prepareCalendar("#calendar", {
 	singleDate: true,
 	onSelectDate: function(date, selected_dates){
 		$("[name=date]").val(selected_dates.join(","));
@@ -274,7 +274,7 @@ let calendar = prepareCalendar("#calendar", {
 			},
 			dataType: "text"
 		}).done(function(res){
-			console.log(res);
+			// console.log(res);
 			
 			res = JSON.parse(res);
 			$("#date-appointment").html("");

@@ -53,7 +53,7 @@
 			<span class="fa fa-arrow-left"></span> Back
 		</a>
 
-		Purchasing Records
+		New Purchase Invoice
 	</div>
 
 	<div class="card-body">

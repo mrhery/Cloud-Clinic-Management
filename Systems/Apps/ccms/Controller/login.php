@@ -11,8 +11,11 @@ switch (input::post("action")) {
 			$u = $u[0];
 			
 			if($u->u_admin){
+				$b = clinics::list(["limit" => "1"])[0];
+				Session::set("clinic", $b);
 				Session::set("admin", true);
 				Session::set("user", $u);
+				Session::set("role", "admin");
 			}else{
 				$cu = clinic_user::getBy(["cu_user" => $u->u_id]);
 				
@@ -25,6 +28,8 @@ switch (input::post("action")) {
 						
 						Session::set("user", $u);
 						Session::set("clinic", $c);
+						Session::set("role", $cu->cu_role); //owner, staff, billing, account
+						Session::set("admin", 0);
 					}else{
 						Alert::set("error", "Clinic information might be corrupted. Please contact our techncal team.");
 					}

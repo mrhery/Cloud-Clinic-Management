@@ -157,7 +157,7 @@ function uspLoadUrl(){
 			$("#" + id + " > .card-body").addClass("animate__bounceOut");
 			$("#" + id + " > .card-body").hide();
 			
-			$("#" + id).css("height", "auto");
+			$("#" + id).css("height", "50px");
 			$("#" + id).css("width", "300px");
 			$("#" + id).css("bottom", "0px");
 			$("#" + id).prop("minimized", true);

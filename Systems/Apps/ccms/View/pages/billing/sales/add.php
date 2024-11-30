@@ -67,7 +67,7 @@ $no = "HIT-" . date("Y") . "" . str_pad($run, 4, "0", STR_PAD_LEFT);
 			<span class="fa fa-arrow-left"></span> Back
 		</a>
 
-		Sales Records
+		New Sales Invoice
     </div>
 
     <div class="card-body">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2024 at 02:58 AM
+-- Generation Time: Nov 30, 2024 at 03:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -361,7 +361,11 @@ INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `
 (38, 1, 1, 1, '29-Nov-2024', 1732896983, '', '', '', '', '', '', '', 'doc-202411291-M0Z977'),
 (39, 1, 1, 1, '30-Nov-2024', 1732941685, '', '', '', '', '', '', '', 'doc-202411301-abx450'),
 (40, 1, 1, 1, '30-Nov-2024', 1732943529, '', '', 'aasdadwefew sfsfs sdfsfs df sfd sdadadasda asd asd asd dasd a asdasdas sdada adasd adas qwerq ', '', '', '', '', 'doc-202411301-yKF607'),
-(41, 1, 1, 1, '30-Nov-2024', 1732951284, '', '', 'aaaaaaaaaaaaa asda asda sdasd s', '', '', '', '', 'doc-202411301-Ppi847');
+(41, 1, 1, 1, '30-Nov-2024', 1732951284, '', '', 'aaaaaaaaaaaaa asda asda sdasd s', '', '', '', '', 'doc-202411301-Ppi847'),
+(42, 1, 1, 1, '01-Dec-2024', 1732994650, '', '', 'Demam, selesema, viral fever', '', '', '', '', 'doc-202411301-ljx574'),
+(43, 1, 1, 1, '01-Dec-2024', 1732994866, '', '', 'a', '', '', '', '', 'doc-202411301-25x367'),
+(44, 1, 1, 1, '01-Dec-2024', 1732994892, '', '', '', '', '', '', '', 'doc-202411301-4Du893'),
+(45, 1, 1, 1, '01-Dec-2024', 1732995932, '', '', 'aaa', 'x', 'b', 'c', 'd', 'doc-202411301-L3Z745');
 
 -- --------------------------------------------------------
 
@@ -631,7 +635,8 @@ INSERT INTO `record_file` (`rf_id`, `rf_record`, `rf_file`, `rf_fileid`, `rf_ori
 (32, 40, 'record_674a4a2abf82f', 'file_67650206', '2.jpg'),
 (33, 40, 'record_674a4a2ac3fc0', 'file_20892720', '3.jpg'),
 (34, 40, 'record_674a4a2acbeb0', 'file_90072989', '4.jpg'),
-(35, 41, 'record_674a680659686', 'file_3368080', '2.jpg');
+(35, 41, 'record_674a680659686', 'file_3368080', '2.jpg'),
+(36, 42, 'record_674b120480862', 'file_22612895', '2020-08-04_17-36-46_4k_PiratesHelp.webp');
 
 -- --------------------------------------------------------
 
@@ -664,7 +669,11 @@ INSERT INTO `record_prescription` (`rp_id`, `rp_item`, `rp_quantity`, `rp_remark
 (37, 5, '1', '150', 36, '150', 1711373561),
 (38, 6, '2', '60', 36, '30', 1711373561),
 (39, 5, '1', '150', 37, '150', 1711651794),
-(72, 5, '1', '150', 41, '150', 1732951284);
+(72, 5, '1', '150', 41, '150', 1732951284),
+(166, 5, '1', '150', 42, '150', 1732994651),
+(167, 6, '1', '30', 42, '30', 1732994651),
+(168, 7, '20', '1000', 42, '50', 1732994651),
+(169, 5, '1', '150', 44, '150', 1732994892);
 
 -- --------------------------------------------------------
 
@@ -1060,7 +1069,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer_record`
 --
 ALTER TABLE `customer_record`
-  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -1114,13 +1123,13 @@ ALTER TABLE `records`
 -- AUTO_INCREMENT for table `record_file`
 --
 ALTER TABLE `record_file`
-  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `record_prescription`
 --
 ALTER TABLE `record_prescription`
-  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `roles`

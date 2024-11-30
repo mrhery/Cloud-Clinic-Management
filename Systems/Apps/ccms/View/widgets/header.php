@@ -238,7 +238,7 @@
                     echo $gud->u_name;
 				?>
                 </div>
-                <img src="<?= PORTAL ?>assets/images/profile/<?= $gud->u_picture ?>" width="30" height="30" class="circle-shape small outlined float-right shadow" alt="">
+                <img src="<?= PORTAL ?>assets/images/profile/<?= empty($gud->u_picture) ? "default-doctor.jpg" : $gud->u_picture ?>" width="30" height="30" class="circle-shape small outlined float-right shadow" alt="">
             </a>
             <div class="dropdown-menu dropdown-menu-right lena-profile-dropdown slideIn" aria-labelledby="lenaSettingsDropdown">
 			<?php

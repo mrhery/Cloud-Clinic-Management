@@ -224,7 +224,7 @@ $(document).on("keyup", "#search-ic", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		console.log(res);
+		// console.log(res);
 		var o = JSON.parse(res);
 		
 		if(o.status == "success"){
@@ -257,7 +257,7 @@ $(document).on("click", ".ic-list-item", function(){
 		},
 		dataType: "text"
 	}).done(function(res){
-		console.log(res);
+		// console.log(res);
 		
 		var o = JSON.parse(res);
 		

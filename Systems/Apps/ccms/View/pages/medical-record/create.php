@@ -89,7 +89,8 @@ if(count($c) > 0){
 				Remarks:
 				<textarea class="form-control" id="illness" Placeholder="Underlying Illness..."><?= $d->cr_illness ?></textarea><br />
 				
-				<!--History of Presenting Illness / Examination:
+				<!---->
+				History of Presenting Illness / Examination:
 				<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."><?= $d->cr_examination ?></textarea><br />
 				
 				Investigations:
@@ -99,7 +100,7 @@ if(count($c) > 0){
 				<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."><?= $d->cr_diagnosis ?></textarea><br />
 				
 				Plans:
-				<textarea class="form-control" id="plan" Placeholder="Plans..."><?= $d->cr_plan ?></textarea><br />-->
+				<textarea class="form-control" id="plan" Placeholder="Plans..."><?= $d->cr_plan ?></textarea><br />
 				
 				Prescriptions: 
 				<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
@@ -173,7 +174,8 @@ if(count($c) > 0){
 				Description:
 				<textarea class="form-control" id="illness" Placeholder="Description"></textarea><br />
 				
-				<!--History of Presenting Illness / Examination:
+				<!---->
+				History of Presenting Illness / Examination:
 				<textarea class="form-control" id="examination" Placeholder="History of Presenting Illness..."></textarea><br />
 				
 				Investigations:
@@ -183,7 +185,7 @@ if(count($c) > 0){
 				<textarea class="form-control" id="diagnosis" Placeholder="Diagnosis..."></textarea><br />
 				
 				Plans:
-				<textarea class="form-control" id="plan" Placeholder="Plans..."></textarea><br />-->
+				<textarea class="form-control" id="plan" Placeholder="Plans..."></textarea><br />
 				
 				Service Item: 
 				<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#add-prescription">
@@ -219,56 +221,44 @@ if(count($c) > 0){
 						</label>
 					</div>							
 				</div>
+				
+				<div class="text-center">
+					<button type="button" class="btn btn-success usp-popup-window-close-this">
+						<span class="fa fa-save"></span> Save & Close
+					</button>
+				</div>
 			</div>
 			
 			<div class="tab-pane fade mt-2" id="menu2">
 				<h4>History</h4>
-				
-				<table class="table table-hover table-fluid table-bordered dataTable">
-					<thead>
-						<tr>
-							<th class="text-center" width="15%">Date</th>
-							<th class="text-center" width="20%">Dr / User</th>
-							<th class="">Details</th>
-							<th class="text-right" width="10%">:::</th>
-						</tr>
-					</thead>
+				<?php
+					$crs = customer_record::getBy(["cr_customer" => $c->c_id, "cr_clinic" => Session::get("clinic")->c_id], ["order" => "cr_id DESC", "limit" => 10]);
 					
-					<tbody>
-					<?php
-						$crs = customer_record::getBy(["cr_customer" => $c->c_id, "cr_clinic" => Session::get("clinic")->c_id], ["order" => "cr_id DESC", "limit" => 10]);
+					foreach($crs as $cr){
+						$u = users::getBy(["u_id" => $cr->cr_user]);	
 						
-						foreach($crs as $cr){
-							$u = users::getBy(["u_id" => $cr->cr_user]);	
-							
-							if(count($u) > 0){
-								$u = $u[0];
-							}else{
-								$u = null;
-							}
-						?>
-						<tr>
-							<td class="text-center" width="15%">
-							<?= $cr->cr_date ?><br />
-							<?= date("H:i:s\ ", $cr->cr_time) ?>
-							</td>
-							<td class="text-center" width="20%"><?= !is_null($u) ? $u->u_name : "NIL" ?></td>
-							<td class=""><?= $cr->cr_illness ?></td>
-							<td class="text-right">
-								<a href="#show-record" data-toggle="modal" class="btn btn-sm btn-warning show-record" data-doc="<?= $cr->cr_key ?>" data-customer="<?= $c->c_ukey ?>">
-									<span class="fa fa-eye"></span> View
-								</a>
-							</td>
-						</tr>
-						<?php
+						if(count($u) > 0){
+							$u = $u[0];
+						}else{
+							$u = null;
 						}
 					?>
-					</tbody>
-				</table>
+					<div class="card mb-3 shadow usp-right-sheet usp-popup-window-minimize-this" href="<?= PORTAL ?>medical-record/view/<?= $c->c_ukey ?>/<?= $cr->cr_key ?>">
+						<div class="card-body">
+							<b><?= $cr->cr_date ?> <?= date("H:i:s\ ", $cr->cr_time) ?></b> by <span class="badge badge-primary"><?= !is_null($u) ? $u->u_name : "NIL" ?></span><br />
+							
+							<?= $cr->cr_illness ?>
+						</div>
+					</div>
+					<?php
+					}
+				?>
 			</div>
 		<?php
 			}
 		?>
+			
+			
 		</div>
 	</div>
 </div>
