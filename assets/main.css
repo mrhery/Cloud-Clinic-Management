@@ -1,0 +1,8 @@
+.sidebar .nav-link.active {
+  background-color: #1d444f;
+}
+
+.pagination-input {
+	width: 100px;
+	display: inline;
+}

@@ -1,12 +1,4 @@
-<div class="card">
-	<div class="card-header">
-		<a href="<?= PORTAL ?>medical-record/view/<?= url::get(2) ?>" class="btn btn-sm btn-primary">
-			<span class="fa fa-arrow-left"></span> Back
-		</a> 
-		View Records
-	</div>
-	
-	<div class="card-body">
+
 	<?php
 		if(Session::get("admin")){
 			$c = customers::getBy(["c_ukey" => url::get(2)]);
@@ -131,8 +123,6 @@
 				
 		}
 	?>
-	</div>
-</div>
 
 <div id="image-viewer" style="display: none; position:fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050; background-color: rgba(0, 0, 0, 0.8)">
 	<img id="image-viewer-image" src="" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); height: auto; max-height: 100%; width: auto; max-width: 100%;" />
@@ -141,22 +131,3 @@
 <button id="image-viewer-close" style="display: none; position:fixed; top: 10px; right: 10px; z-index: 1051;" class="btn btn-outline-danger">
 	<span class="fa fa-close"></span> Close
 </button>
-
-<?php
-Page::append(<<<HTML
-<script>
-$(document).on("click", ".attachment-file", function(){
-	var src = $(this).children("img").attr("src");
-	$("#image-viewer").show();
-	$("#image-viewer-image").prop("src", src);
-	$("#image-viewer-close").show();
-});
-
-$(document).on("click", "#image-viewer-close", function(){
-	$("#image-viewer").hide();
-	$("#image-viewer-image").prop("src", null);
-	$("#image-viewer-close").hide();
-});
-</script>
-HTML
-);

@@ -42,16 +42,35 @@ switch(Input::post("action")){
 				
 				$akey = hash("sha256", uniqid() . $c->c_ukey);
 				
+				$attendee = users::getBy(["u_key" => Input::post("pic")]);
+				
+				if(count($attendee) > 0){
+					$attendee = $attendee[0];
+					
+					$cus = clinic_user::getBy(["cu_clinic" => Session::get("clinic")->c_id, "cu_user" => $attendee->u_id]);
+					
+					if(count($cus) > 0){
+						$attendee = $attendee->u_id;
+					}else{
+						$attendee = 0;
+					}
+				}else{
+					$attendee = 0;
+				}
+				
 				appointments::insertInto([
 					"a_customer" 	=> $c->c_id,
 					"a_date"		=> date("d-M-Y", strtotime(Input::post("date"))),
+					"a_bookedDate"	=> date("Y-m-d", strtotime(Input::post("date"))),
+					"a_bookedTime"	=> date("H:i:s", strtotime(Input::post("time"))),
 					"a_time"		=> strtotime(Input::post("date") . " " . Input::post("time")),
 					"a_ukey"		=> $akey,
 					"a_status"		=> Input::post("status"),
 					"a_reason"		=> Input::post("reason"),
 					"a_createdDate"	=> F::GetDate(),
 					"a_user"		=> Session::get("user")->u_id,
-					"a_clinic"		=> Session::get("clinic")->c_id
+					"a_clinic"		=> Session::get("clinic")->c_id,
+					"a_attendee"	=> $attendee
 				]);
 				
 				$a = appointments::getBy(["a_ukey" => $akey]);
@@ -83,12 +102,12 @@ switch(Input::post("action")){
 	break;
 	
 	case "update":
-		$a = appointments::getBy(["a_ukey" => url::get(2)]);
+		$a = appointments::getBy(["a_ukey" => Input::post("id"), "a_clinic" => Session::get("clinic")->c_id]);
 		
 		if(count($a) > 0){
 			$a = $a[0];
 			
-			appointments::updateBy(["a_ukey" => url::get(2)], [
+			appointments::updateBy(["a_ukey" => Input::post("id"), "a_clinic" => Session::get("clinic")->c_id], [
 				"a_date"		=> date("d-M-Y", strtotime(Input::post("date"))),
 				"a_time"		=> strtotime(Input::post("date") . " " . Input::post("time")),
 				"a_status"		=> Input::post("status"),

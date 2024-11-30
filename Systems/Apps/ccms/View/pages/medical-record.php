@@ -10,6 +10,10 @@
 				Page::Load("pages/medical-record/list");
 			break;
 			
+			case "pre-create":
+				Page::Load("pages/medical-record/pre-create");
+			break;
+			
 			case "create":
 				Page::Load("pages/medical-record/create");
 			break;

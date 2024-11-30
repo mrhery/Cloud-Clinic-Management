@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 08, 2024 at 05:31 AM
+-- Host: 127.0.0.1
+-- Generation Time: Nov 30, 2024 at 02:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -116,21 +116,26 @@ CREATE TABLE `appointments` (
   `a_reason` varchar(500) NOT NULL,
   `a_user` int(11) NOT NULL,
   `a_createdDate` varchar(50) NOT NULL,
-  `a_plate` varchar(50) NOT NULL
+  `a_plate` varchar(50) NOT NULL,
+  `a_bookedDate` date DEFAULT NULL,
+  `a_bookedTime` time DEFAULT NULL,
+  `a_attendee` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`, `a_user`, `a_createdDate`, `a_plate`) VALUES
-(1, 'asd', 1, 1, '08-Dec-2023', 1686840540, 1, 'Covid Test asd', 0, '', ''),
-(2, 'asdasdasd asd as', 1, 1, '08-Dec-2023', 1686926940, 0, 'Astma', 0, '', ''),
-(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '08-Dec-2023', 1686843660, 1, 'adasd', 0, '', ''),
-(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '08-Dec-2023', 1687621320, 0, 'fever', 0, '', ''),
-(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '08-Dec-2023', 1687448580, 0, 'sdfsdfsdf', 0, '', ''),
-(6, '2c9688e4bf270ab7b2b950ec0fec26b4e54776dccaad5f1bb892c55fa0e75a40', 1, 1, '08-Dec-2023', 1692376980, 1, 'demam', 1, '17-Aug-2023', ''),
-(7, '13304b0976fd3072000c48fc594360167c1784d4ec9819082a52fe4f9841153c', 1, 1, '25-Mar-2024', 1711380600, 1, 'Batuk kahakl berdarah', 1, '25-Mar-2024', '');
+INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`, `a_user`, `a_createdDate`, `a_plate`, `a_bookedDate`, `a_bookedTime`, `a_attendee`) VALUES
+(1, 'asd', 1, 1, '08-Dec-2023', 1686840540, 1, 'Covid Test asd', 0, '', '', NULL, NULL, 0),
+(2, 'asdasdasd asd as', 1, 1, '08-Dec-2023', 1702050540, 1, 'Astma', 0, '', '', NULL, NULL, 0),
+(3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '08-Dec-2023', 1686843660, 1, 'adasd', 0, '', '', NULL, NULL, 0),
+(4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '08-Dec-2023', 1687621320, 0, 'fever', 0, '', '', NULL, NULL, 0),
+(5, 'abd52a45f32b896ae36d80e191a01d97cca9b546dcca5fbd92b9b493d75783e0', 3, 1, '08-Dec-2023', 1687448580, 0, 'sdfsdfsdf', 0, '', '', '2024-11-30', '10:45:00', 0),
+(6, '2c9688e4bf270ab7b2b950ec0fec26b4e54776dccaad5f1bb892c55fa0e75a40', 1, 1, '08-Dec-2023', 1692376980, 1, 'demam', 1, '17-Aug-2023', '', '2024-11-30', '11:12:00', 0),
+(7, '13304b0976fd3072000c48fc594360167c1784d4ec9819082a52fe4f9841153c', 1, 1, '25-Mar-2024', 1711380600, 1, 'Batuk kahakl berdarah', 1, '25-Mar-2024', '', '2024-11-25', '13:54:00', 0),
+(8, '41bf8de966d8801218a5a3517237c5d4ae219e1a949dbdc4029a3d474afcae82', 1, 1, '05-Dec-2024', 1733369280, 1, 'test 12', 1, '30-Nov-2024', '', '2024-11-30', '04:28:00', 12),
+(9, 'b7214d41d9e1d42382414a4821a67ed6337071a41ff1a094211dd3416b50d2da', 1, 1, '01-Dec-2024', 1733024100, 0, 'twetwtw', 1, '30-Nov-2024', '', '2024-12-01', '11:35:00', 13);
 
 -- --------------------------------------------------------
 
@@ -156,7 +161,12 @@ INSERT INTO `appointment_status` (`as_id`, `as_appointment`, `as_status`, `as_me
 (1, 2, 0, 'teting', '16-Jun-2023', 1686902672, 1),
 (2, 6, 1, '', '17-Aug-2023', 1692290628, 1),
 (3, 7, 0, '', '25-Mar-2024', 1711373466, 1),
-(4, 7, 1, '', '25-Mar-2024', 1711373510, 1);
+(4, 7, 1, '', '25-Mar-2024', 1711373510, 1),
+(5, 2, 1, '', '29-Nov-2024', 1732903236, 1),
+(6, 8, 1, '', '29-Nov-2024', 1732937351, 1),
+(7, 9, 0, '', '30-Nov-2024', 1732937753, 1),
+(8, 8, 1, '', '30-Nov-2024', 1732938289, 1),
+(9, 8, 1, '', '30-Nov-2024', 1732938296, 1);
 
 -- --------------------------------------------------------
 
@@ -347,7 +357,11 @@ INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `
 (34, 1, 1, 1, '24-Jan-2024', 1706121563, '', '', '', '', '', '', '', 'doc-202401241-Rg4991'),
 (35, 1, 1, 1, '24-Jan-2024', 1706121588, '', '', '', '', '', '', '', 'doc-202401241-S6F704'),
 (36, 1, 1, 1, '25-Mar-2024', 1711373561, '', '', '', '', '', '', '', 'doc-202403251-ld9102'),
-(37, 1, 1, 1, '28-Mar-2024', 1711651794, '', '', '', '', '', '', '', 'doc-202403281-cX7010');
+(37, 1, 1, 1, '28-Mar-2024', 1711651794, '', '', '', '', '', '', '', 'doc-202403281-cX7010'),
+(38, 1, 1, 1, '29-Nov-2024', 1732896983, '', '', '', '', '', '', '', 'doc-202411291-M0Z977'),
+(39, 1, 1, 1, '30-Nov-2024', 1732941685, '', '', '', '', '', '', '', 'doc-202411301-abx450'),
+(40, 1, 1, 1, '30-Nov-2024', 1732943529, '', '', 'aasdadwefew sfsfs sdfsfs df sfd sdadadasda asd asd asd dasd a asdasdas sdada adasd adas qwerq ', '', '', '', '', 'doc-202411301-yKF607'),
+(41, 1, 1, 1, '30-Nov-2024', 1732951284, '', '', 'aaaaaaaaaaaaa asda asda sdasd s', '', '', '', '', 'doc-202411301-Ppi847');
 
 -- --------------------------------------------------------
 
@@ -451,9 +465,9 @@ INSERT INTO `menus` (`m_id`, `m_main`, `m_sort`, `m_name`, `m_url`, `m_route`, `
 (10, 9, 1, 'Menus', 'menus', 'menus', 1, 'Manage System Menus', 'MNU', '', '1'),
 (21, 9, 1, 'User Roles', 'rols', 'rols', 1, 'Senarai Rol Pengguna', 'ROL', 'typcn typcn-th-large', '1'),
 (24, 0, 1, 'Dashboard', 'dashboard', 'dashboard', 1, 'Review your business performance interactively', '', 'fa fa-dashboard', '1,2,3,4'),
-(25, 30, 4, 'Patients', 'customers', 'customers', 1, 'Manage all your patient information', 'PAT', 'fa fa-users', '1,2,3,4'),
+(25, 30, 4, 'Patients', 'customers', 'customers', 1, 'Manage all your customer&#039;s information', 'PAT', 'fa fa-users', '1,2,3,4'),
 (26, 0, 2, 'Appointments', 'appointments', 'appointments', 1, 'Manage all appointments in your clinic', '', 'fa fa-calendar', '1,2,4'),
-(27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available servicec record base on patient information', '', 'fa fa-plus', '1,2,3,4'),
+(27, 0, 3, 'Medical Records', 'medical-record', 'medical-record', 1, 'All available servicec record base on customer information', '', 'fa fa-plus', '1,2,3,4'),
 (28, 0, 6, 'Clinics', 'businesses', 'Clinic', 1, 'Manage you business information', '', 'fa fa-building', '1,2,4'),
 (29, 0, 8, 'Inventories', 'inventories', 'inventories', 1, 'Manage your business inventories', '', 'fa fa-cubes', '1,2,4'),
 (30, 0, 3, 'Users', 'Users', 'Users', 1, '', '', 'fa fa-users', '1,2,3,4'),
@@ -611,7 +625,13 @@ INSERT INTO `record_file` (`rf_id`, `rf_record`, `rf_file`, `rf_fileid`, `rf_ori
 (26, 26, 'record_6555cca82eaed', 'file_69907648', 'asdadasdadsa.JPG'),
 (27, 26, 'record_6555ccaa08f5e', 'file_97886745', '3610293669.pdf'),
 (28, 27, 'record_6555ccbd9418f', 'file_76154111', 'asdadasdadsa.JPG'),
-(29, 27, 'record_6555ccbf6ccd4', 'file_98843057', '3610293669.pdf');
+(29, 27, 'record_6555ccbf6ccd4', 'file_98843057', '3610293669.pdf'),
+(30, 38, 'record_674994775f0f5', 'file_93463030', '1.jpg'),
+(31, 40, 'record_674a4a2ab4964', 'file_41205561', '1.jpg'),
+(32, 40, 'record_674a4a2abf82f', 'file_67650206', '2.jpg'),
+(33, 40, 'record_674a4a2ac3fc0', 'file_20892720', '3.jpg'),
+(34, 40, 'record_674a4a2acbeb0', 'file_90072989', '4.jpg'),
+(35, 41, 'record_674a680659686', 'file_3368080', '2.jpg');
 
 -- --------------------------------------------------------
 
@@ -643,7 +663,8 @@ INSERT INTO `record_prescription` (`rp_id`, `rp_item`, `rp_quantity`, `rp_remark
 (35, 5, '3', '450', 33, '150', 1706121296),
 (37, 5, '1', '150', 36, '150', 1711373561),
 (38, 6, '2', '60', 36, '30', 1711373561),
-(39, 5, '1', '150', 37, '150', 1711651794);
+(39, 5, '1', '150', 37, '150', 1711651794),
+(72, 5, '1', '150', 41, '150', 1732951284);
 
 -- --------------------------------------------------------
 
@@ -688,7 +709,8 @@ CREATE TABLE `sales` (
   `s_status` varchar(50) NOT NULL,
   `s_remark` varchar(255) DEFAULT NULL,
   `s_summary` varchar(500) DEFAULT NULL,
-  `s_type` varchar(50) NOT NULL
+  `s_type` varchar(50) NOT NULL,
+  `s_customer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -775,10 +797,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `u_name`, `u_email`, `u_password`, `u_key`, `u_full_name`, `u_ic`, `u_alamat`, `u_area`, `u_phone`, `u_admin`, `u_role`, `u_department`, `u_postcode`, `u_country`, `u_state`, `u_picture`, `u_ukey`) VALUES
-(1, 'Mr Hery', 'admin@admin', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', 'Ahmad Khairi Aiman', '123123456', '124 Jalan Cekal 14', '', '0187824900', 1, 1, 1, '', '', '', '0', 'abc123'),
-(12, 'Dr Hery', 'intelhost2u@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '324234', 'adsads', '', '123123', 0, 2, 0, '', '', '', '648be4c442285-broomx00wide.JPG', '69925a39ebeb43fc7ef5402b1a762d2760d7256eca910bd50f2b54f281476469'),
-(13, 'staff1', 'staff1@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 4, 0, '', '', '', '', 'def9c215a731e79c1210a16d989ecad181b241a70cae881bad3859fd4d766f1e'),
-(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', '', '', '', '', '', '', 0, 2, 0, '', '', '', '648c1614affd3-logo-heryit.png', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef');
+(1, 'Mr Hery', 'admin@admin', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'aaaa', 'Ahmad Khairi Aiman', '123123456', '124 Jalan Cekal 14', '', '0187824900', 1, 1, 1, '', '', '', '0', 'abc123'),
+(12, 'Dr Hery', 'intelhost2u@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'bbbb', '', '324234', 'adsads', '', '123123', 0, 2, 0, '', '', '', '648be4c442285-broomx00wide.JPG', '69925a39ebeb43fc7ef5402b1a762d2760d7256eca910bd50f2b54f281476469'),
+(13, 'staff1', 'staff1@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'cccc', '', '', '', '', '', 0, 4, 0, '', '', '', '', 'def9c215a731e79c1210a16d989ecad181b241a70cae881bad3859fd4d766f1e'),
+(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'dddd', '', '', '', '', '', 0, 2, 0, '', '', '', '648c1614affd3-logo-heryit.png', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef');
 
 -- --------------------------------------------------------
 
@@ -990,13 +1012,13 @@ ALTER TABLE `account_categories`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `appointment_status`
 --
 ALTER TABLE `appointment_status`
-  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `cashaccounts`
@@ -1038,7 +1060,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer_record`
 --
 ALTER TABLE `customer_record`
-  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -1092,13 +1114,13 @@ ALTER TABLE `records`
 -- AUTO_INCREMENT for table `record_file`
 --
 ALTER TABLE `record_file`
-  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `rf_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `record_prescription`
 --
 ALTER TABLE `record_prescription`
-  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `roles`

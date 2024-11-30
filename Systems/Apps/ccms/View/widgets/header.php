@@ -29,79 +29,7 @@
     </div>
 </div>
 
-<nav class="navbar lena-navbar lena-navbar lena-full fixed-top  flex-md-nowrap p-0 shadow-sm open">
-    <a class="navbar-brand  sidebar-toggle-item" href="#">
-        <span class="typcn typcn-th-menu lena-theme-toggle-bar  d-none d-md-inline-flex "></span>
-    </a>
 
-    <ul class="navbar-nav d-none d-md-inline-flex">
-	<?php
-		if(Session::get("clinic")){
-	?>
-		<li class="nav-item text-nowrap  emerald-settings-btn dropdown">
-			<div class="my-2">
-				<small>viewed as <strong><?= Session::get("clinic")->c_name ?></strong></small>
-			</div>
-		</li>
-	<?php
-		}
-		
-		/*
-		<li class="nav-item text-nowrap dropdown">
-            <a class="nav-link" href="#" role="button" id="lenaCountryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="<?= PORTAL ?>assets/img/us.png" width="20" height="20" class="circle-shape mini outlined float-right shadow m-t-5" alt="">
-            </a>
-            <div class="dropdown-menu dropdown-menu-right lena-country-selector" aria-labelledby="lenaCountryDropdown">
-                <a class="dropdown-item lena-normal-text" href="#"><img src="<?= PORTAL ?>assets/img/us.png" width="20" height="20" class="" alt="">English</a>
-                <a class="dropdown-item lena-normal-text" href="#"><img src="<?= PORTAL ?>assets/img/es.png" width="20" height="20" class="" alt="">Spanish</a>
-                <a class="dropdown-item lena-normal-text" href="#"><img src="<?= PORTAL ?>assets/img/de.png" width="20" height="20" class="" alt="">German</a>
-                <a class="dropdown-item lena-normal-text" href="#"><img src="<?= PORTAL ?>assets/img/nl.png" width="20" height="20" class="" alt="">Dutch</a>
-            </div>
-
-        </li>
-		*/
-		?>
-        <li class="nav-item text-nowrap emerald-settings-btn dropdown">
-            <a class="nav-link" href="#" role="button" id="lenaSettingsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <div class="mr-2 float-left m-t-5">
-				<?php
-                    $u = Session::get("user")->u_id;
-                    $gud = users::getBy(["u_id" => $u]);
-
-                    if (count($gud) > 0) {
-                        $gud = $gud[0];
-                    } else {
-                        echo "No data found!";
-                    }
-                    echo $gud->u_name;
-				?>
-                </div>
-                <img src="<?= PORTAL ?>assets/images/profile/<?= $gud->u_picture ?>" width="30" height="30" class="circle-shape small outlined float-right shadow" alt="">
-            </a>
-            <div class="dropdown-menu dropdown-menu-right lena-profile-dropdown slideIn" aria-labelledby="lenaSettingsDropdown">
-			<?php
-				$curr_clinic = (Session::get("clinic") ? Session::get("clinic")->c_id : "");
-				foreach(clinic_user::getBy(["cu_user" => Session::get("user")->u_id]) as $cu){
-					$c = clinics::getBy(["c_id" => $cu->cu_clinic])[0];
-					
-					
-			?>
-                <a class="dropdown-item lena-normal-text <?= ($curr_clinic == $c->c_id) ? "bg-dark text-light" : "" ?>" href="<?= PORTAL ?>change/<?= $c->c_ukey ?>"><?= $c->c_name ?></a>
-			<?php
-				}
-			?>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item lena-normal-text" href="<?= PORTAL ?>logout">Logout</a>
-            </div>
-
-        </li>
-    </ul>
-    <ul class="navbar-nav d-inline-flex d-md-none">
-        <li class="nav-item lena-nav-item text-nowrap">
-            <span class="typcn typcn-th-menu" data-mobile-sidebar-toggle="toggle"></span>
-        </li>
-    </ul>
-</nav>
 <!-- End of Navbar -->
 <!-- Mobile Sidenav -->
 <nav class="lena-mobile-sidebar shadow">
@@ -136,26 +64,24 @@
 </nav>
 <!-- End of Mobile Sidenav -->
 <!-- Sidebar -->
-<nav id="lena-sidebar" class="sidebar lena-sidebar lena-light lena-full open">
+<nav id="lena-sidebar" class="sidebar lena-sidebar lena-dark lena-full <?= Session::get("hide_sidebar") ? "" : "open" ?>">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="text-center">
-                <a class="nav-link" href="<?= PORTAL ?>">
-                    <!--<img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-normal-logo" style="width: 100%;" />-->
-                    <!--img src="<?= PORTAL ?>assets/img/logo-cc.png" class="lena-small-logo" style="width: 100%;" />-->
+                <a class="nav-link text-center" href="<?= PORTAL ?>">
+                    <img src="<?= PORTAL ?>assets/images/logo-white.png" class="lena-normal-logo text-center m-auto" style="width: 80%;" />
+                    <img src="<?= PORTAL ?>assets/images/logo-naked.png" class="lena-small-logo" style="width: 100%;" />
                     
                 </a>
 				
-				<h4>Clinic</h4>
-				
-				Hi, <strong><?= Session::get("user")->u_name ?></strong>!<br />
+				<strong class="text-light">Hi, <?= Session::get("user")->u_name ?>!</strong><br />
 				
 				<small>
+					<span id="clock"><?= date("d M Y H:i:s") ?></span><br />
 					<a href="<?= PORTAL ?>logout" class="text-danger">
 						<span class="fa fa-sign-out text-danger"></span> Logout
 					</a>
-				</small>
-				<hr />
+				</small><br /><br />
             </li>
             <?php
 
@@ -179,7 +105,8 @@
                 "where"     => "FIND_IN_SET(" . Session::get("user")->u_role . ", m_role) > 0 AND m_status = 1 AND m_main = 0",
                 "order"        => "m_sort ASC"
             ]);
-            //menus::getBy(["m_main" => 0, "m_status" => 1], ["order" => "m_sort ASC"])
+			
+			$mainBar = null;
 
             foreach ($ms as $m) {
                 // $sm = menus::getBy(["m_main" => $m->m_id, "m_status" => 1], ["order" => "m_sort ASC"]);
@@ -215,6 +142,7 @@
                             <?php
                             foreach ($sm as $s) {
                                 if ($scurrent == $s->m_url) {
+									$mainBar = $m;
                                     $sactive = "active";
                                     $ssm = $s;
                                 } else {
@@ -277,13 +205,65 @@
 
     </div>
 </nav>
-<!-- End of Sidebar -->
 
-<main role="main" class="open">
-    <div class="container-fluid pt-1 pl-4 pb-4 mb-5">
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-12">
-                <h3><?= $ssm->m_name ?></h3>
-                <p><?= $ssm->m_description ?></p>
+<nav class="navbar lena-navbar lena-navbar lena-full fixed-top  flex-md-nowrap p-0 shadow-sm <?= Session::get("hide_sidebar") ? "" : "open" ?>">
+    <a class="navbar-brand sidebar-toggle-item" href="#">
+        <span class="typcn typcn-th-menu lena-theme-toggle-bar  d-none d-md-inline-flex "></span> <b><?= !is_null($mainBar) ? $mainBar->m_name . " > " : "" ?><?= $ssm->m_name ?></b>
+    </a>
+
+    <ul class="navbar-nav d-none d-md-inline-flex">
+	<?php
+		if(Session::get("clinic")){
+	?>
+		<li class="nav-item text-nowrap  emerald-settings-btn dropdown">
+			<div class="my-2">
+				<small>viewed as <strong><?= Session::get("clinic")->c_name ?></strong></small>
+			</div>
+		</li>
+	<?php
+		}
+	?>
+        <li class="nav-item text-nowrap emerald-settings-btn dropdown">
+            <a class="nav-link" href="#" role="button" id="lenaSettingsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="mr-2 float-left m-t-5">
+				<?php
+                    $u = Session::get("user")->u_id;
+                    $gud = users::getBy(["u_id" => $u]);
+
+                    if (count($gud) > 0) {
+                        $gud = $gud[0];
+                    } else {
+                        echo "No data found!";
+                    }
+                    echo $gud->u_name;
+				?>
+                </div>
+                <img src="<?= PORTAL ?>assets/images/profile/<?= $gud->u_picture ?>" width="30" height="30" class="circle-shape small outlined float-right shadow" alt="">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right lena-profile-dropdown slideIn" aria-labelledby="lenaSettingsDropdown">
+			<?php
+				$curr_clinic = (Session::get("clinic") ? Session::get("clinic")->c_id : "");
+				foreach(clinic_user::getBy(["cu_user" => Session::get("user")->u_id]) as $cu){
+					$c = clinics::getBy(["c_id" => $cu->cu_clinic])[0];
+					
+					
+			?>
+                <a class="dropdown-item lena-normal-text <?= ($curr_clinic == $c->c_id) ? "bg-dark text-light" : "" ?>" href="<?= PORTAL ?>change/<?= $c->c_ukey ?>"><?= $c->c_name ?></a>
+			<?php
+				}
+			?>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item lena-normal-text" href="<?= PORTAL ?>logout">Logout</a>
             </div>
-        </div>
+
+        </li>
+    </ul>
+    <ul class="navbar-nav d-inline-flex d-md-none">
+        <li class="nav-item lena-nav-item text-nowrap">
+            <span class="typcn typcn-th-menu" data-mobile-sidebar-toggle="toggle"></span>
+        </li>
+    </ul>
+</nav>
+
+<main role="main" class="<?= Session::get("hide_sidebar") ? "" : "open" ?>">
+    <div class="container-fluid pt-1 pl-4 pb-4 mb-5">

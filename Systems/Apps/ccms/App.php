@@ -1,5 +1,6 @@
 <?php
 //A journey start with a step
+date_default_timezone_set("Asia/Kuala_Lumpur");
 
 $page = new Page();
 $page->addTopTag('
@@ -25,6 +26,13 @@ $page->addTopTag('
 <link rel="stylesheet" href="' . PORTAL . 'assets/vendor/font-awesome/css/font-awesome.min.css" />
 <link rel="stylesheet" href="' . PORTAL . 'assets/vendor/bs-select/bs-select.css" />
 <link rel="stylesheet" href="' . PORTAL . 'assets/vendor/datatable/dataTables.min.css" />
+<link rel="stylesheet" href="' . PORTAL . 'assets/main.css" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<link rel="stylesheet" href="' . PORTAL . 'assets/main.css?v=1.0.1" />
+<link rel="stylesheet" href="' . PORTAL . 'assets/usp-jquery.css?v=1.0.1" />
+<link rel="stylesheet" href="' . PORTAL . 'assets/calendar.css" />
 
 <script>
 let PORTAL = "' . PORTAL . '";
@@ -44,7 +52,10 @@ $page->addBottomTag('
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
 <script src="' . PORTAL . 'assets/vendor/datatable/dataTables.min.js"></script>
 
-
+<script src="' . PORTAL . 'assets/usp-jquery.js?v='. time() .'"></script>
+<script src="' . PORTAL . 'assets/calendar.js"></script>
+<script src="' . PORTAL . 'assets/custom.js"></script>
+<script src="' . PORTAL . 'assets/clock.js"></script>
 
 <script>
 $(".dataTable").DataTable();
@@ -241,6 +252,10 @@ if (!Session::exists("user")) {
 	if ($mpage == "webservice") {
 
 		switch (url::get(1)) {
+			case "theme_setting":
+				Page::Load("webservice/theme_setting");
+			break;
+			
 			case "items":
 				Page::Load("webservice/items");
 				break;
@@ -271,6 +286,10 @@ if (!Session::exists("user")) {
 
 			case "sales":
 				Page::Load("webservice/sales");
+				break;
+				
+			case "appointment":
+				Page::Load("webservice/appointment");
 				break;
 		}
 
@@ -447,15 +466,24 @@ if (!Session::exists("user")) {
 				if (!is_dir(VIEW . "pages/" . $m->m_route)) {
 					mkdir(VIEW . "pages/" . $m->m_route, 0777, true);
 				}
-
-				$page->setMainMenu("widgets/header.php");
-				$page->title = $sm->m_name . " - " . APP_NAME;
-				$page->loadPage("pages/" . $m->m_route . "/" . $sm->m_route, ["m" => $sm]);
-				$page->render();
+				
+				if(isset($_POST["contentOnly"])){
+					Page::Load("pages/" . $m->m_route . "/" . $sm->m_route, ["m" => $sm]);
+				}else{
+					$page->setMainMenu("widgets/header.php");
+					$page->title = $sm->m_name . " - " . APP_NAME;
+					$page->loadPage("pages/" . $m->m_route . "/" . $sm->m_route, ["m" => $sm]);
+					$page->render();
+				}
 			} else {
-				$page->title = "Tidak Dijumpai - " . APP_NAME;
-				$page->loadPage("404");
-				$page->render();
+				if(isset($_POST["contentOnly"])){
+					Page::Load("404");
+				}else{
+					$page->title = "Tidak Dijumpai - " . APP_NAME;
+					$page->loadPage("404");
+					$page->render();
+				}
+				
 			}
 		} else {
 			// echo "pages/" . $m->m_route;
@@ -464,15 +492,24 @@ if (!Session::exists("user")) {
 			if (!is_dir(dirname(VIEW . "pages/" . $m->m_route))) {
 				mkdir(dirname(VIEW . "pages/" . $m->m_route), 0777, true);
 			}
-
-			$page->setMainMenu("widgets/header.php");
-			$page->title = $m->m_name . " - " . APP_NAME;
-			$page->loadPage("pages/" . $m->m_route, ["m" => $m]);
-			$page->render();
+			
+			if(isset($_POST["contentOnly"])){
+				Page::Load("pages/" . $m->m_route, ["m" => $m]);
+			}else{
+				$page->setMainMenu("widgets/header.php");
+				$page->title = $m->m_name . " - " . APP_NAME;
+				$page->loadPage("pages/" . $m->m_route, ["m" => $m]);
+				$page->render();
+			}
+			
 		}
 	} else {
-		$page->title = "Tidak Dijumpai - " . APP_NAME;
-		$page->loadPage("404");
-		$page->render();
+		if(isset($_POST["contentOnly"])){
+			Page::Load("404");
+		}else{
+			$page->title = "Tidak Dijumpai - " . APP_NAME;
+			$page->loadPage("404");
+			$page->render();
+		}
 	}
 }

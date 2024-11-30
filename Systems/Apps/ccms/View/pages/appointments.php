@@ -10,6 +10,10 @@
 				Page::Load("pages/appointment/list");
 			break;
 			
+			case "calendar":
+				Page::Load("pages/appointment/calendar");
+			break;
+			
 			case "create":
 				Page::Load("pages/appointment/create");
 			break;

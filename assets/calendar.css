@@ -1,0 +1,60 @@
+
+.calendar-container header {
+    display: flex;
+    justify-content: space-between;
+}
+
+header .calendar-navigation {
+    display: flex;
+}
+
+header .calendar-navigation span {
+    height: 38px;
+    width: 38px;
+    margin: 0 1px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 38px;
+    border-radius: 50%;
+    user-select: none;
+    color: #aeabab;
+    font-size: 1.9rem;
+}
+
+.calendar-navigation span:last-child {
+    margin-right: -10px;
+}
+
+header .calendar-navigation span:hover {
+    background: #f2f2f2;
+}
+
+header .calendar-current-date {
+    font-weight: 500;
+    font-size: 1.45rem;
+}
+
+.calendar-dates-item > tr > td {
+	text-align: center;
+	cursor: pointer;
+}
+
+.calendar-dates-item > tr > td.active {
+	background-color: #d9f8ff;
+}
+
+.calendar-dates-item > tr > td.selected {
+	background-color: #8f0334;
+	color: white;
+}
+
+.calendar-dates-item > tr > td.disabled {
+	background-color: #000000;
+	color: white;
+	cursor: not-allowed;
+}
+
+
+.calendar-dates-header > tr > th {
+	text-align: center;
+}
