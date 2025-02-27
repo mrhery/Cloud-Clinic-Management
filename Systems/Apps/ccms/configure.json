@@ -9,7 +9,7 @@
 	],
 	"constants": [
 		{
-			"PORTAL": "http://192.168.1.122/Cloud-Clinic-Management/"
+			"PORTAL": "http://localhost/Cloud-Clinic-Management/"
 		}
 	],
 	"miscs": ["asset_loader.php"],
