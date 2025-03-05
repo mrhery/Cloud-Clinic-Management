@@ -4,8 +4,8 @@ new Controller(["login"]);
 
 
 <form class="form-signin" style="margin-top: 30px;" action="" method="POST">
-	<!--<img src="<?= PORTAL ?>assets/img/logo-cc.png" class="mb-3 img img-fluid" alt="">-->
-	<h1 class="h3 font-weight-normal">Clinic Management System</h1>
+	<img src="<?= PORTAL ?>assets/images/logo-naked.png" class="mb-3 img img-fluid" width="150px" height="150px"  alt="">
+<h1 class="h3 font-weight-normal">Welcome here 👋</h1>
 	<p class="text-color-light">Log in to your account</p>
 	
 	<?php

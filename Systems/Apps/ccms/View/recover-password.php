@@ -4,8 +4,10 @@ new Controller(["recover-password"]);
 <img class="lena-brand-logo" src="<?= PORTAL ?>assets/img/logo.png" width="50" alt="">
 
 <form class="form-signin" action="" method="POST">
-	<h1 class="h3 font-weight-normal">Welcome here 👋</h1>
-	<p class="text-color-light">Change passwords now</p>
+     
+	<img src="<?= PORTAL ?>assets/images/logo-naked.png" class="mb-3 img img-fluid" width="150px" height="150px"  alt="">
+	<h1 class="h3 font-weight-normal">Forgot Password</h1>
+	<p class="text-color-light">Enter your email address below, and we'll send you instructions to reset your password.</p>
 	
 	<?php
 		Controller::alert();
