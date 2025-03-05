@@ -79,6 +79,13 @@ if (!Session::exists("user")) {
 			$page->render();
 			break;
 
+		case "recover-password":
+			$page->setBodyAttribute("class='lena-centered-body text-center'");
+			$page->title = "Recover Password - " . APP_NAME;
+			$page->loadPage("recover-password");
+			$page->render();
+			break;
+
 		default:
 			$page->title = "Tidak Dijumpai - " . APP_NAME;
 			$page->loadPage("404");

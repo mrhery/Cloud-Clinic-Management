@@ -58,13 +58,13 @@
 							<input type="text" class="form-control" name="ic" placeholder="IC / Passport" value="<?= Input::get("ic") ?>" /><br />
 						</div>
 						
-						<div class="col-md-6">						
+						<!-- <div class="col-md-6">						
 							Phone:
 							<input type="tel" class="form-control" name="phone" placeholder="+60 1..." /><br />
 							
 							Email:
 							<input type="email" class="form-control" name="email" placeholder="example@abc.com" /><br />
-						</div>
+						</div> -->
 					</div>
 					
 					<div class="row">

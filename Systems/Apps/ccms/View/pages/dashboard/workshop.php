@@ -64,7 +64,7 @@ foreach ($appointment_list as $appointment) {
 			</div>
 
 			<div class="card-footer ">
-				<a href="" class="btn btn-primary btn-sm btn-block">
+				<a href="<?= PORTAL ?>billing/sales/add/" class="btn btn-primary btn-sm btn-block">
 					<span class="fa fa-dollar"></span>
 
 					Add Sales
@@ -100,7 +100,7 @@ foreach ($appointment_list as $appointment) {
 			<div class="card-header bg-info text-light ">
 				<span class="fa fa-dashboard"></span>
 
-				Customers
+				Patients
 			</div>
 
 			<div class="card-body text-center p-2 ">
@@ -108,10 +108,10 @@ foreach ($appointment_list as $appointment) {
 			</div>
 
 			<div class="card-footer ">
-				<a href="" class="btn btn-info btn-sm btn-block">
+				<a href="<?= PORTAL ?>Users/customers/add/" class="btn btn-info btn-sm btn-block">
 					<span class="fa fa-plus"></span>
 
-					New Customer
+					Add Patient
 				</a>
 			</div>
 		</div>
@@ -154,15 +154,17 @@ foreach ($appointment_list as $appointment) {
 	<div class="col-md-4">
 		<div class="card">
 			<div class="card-header">
-				<span class="fa fa-calendar"></span> Booking
+				<span class="fa fa-calendar"></span> Appointment
 			</div>
 
 			<table class="card-body table table-hover table-bordered">
 				<thead>
 					<tr>
 						<th width="100px" class="text-center">Date</th>
-						<th>Customer</th>
-						<th class="text-right">Amount</th>
+						<th width="100px" class="text-center">Patient</th>
+						<th width="100px" class="text-center">Doctor</th>
+						<th width="100px" class="text-center">Time</th>
+						<th width="100px" class="text-center">Status</th>
 					</tr>
 				</thead>
 
@@ -173,6 +175,8 @@ foreach ($appointment_list as $appointment) {
 							<td class="text-center"><?= date("d-M-Y") ?></td>
 							<td><?= $ap->ap_name ?></td>
 							<td class="text-right"><?= $ap->a_date ?></td>
+							<td class="text-center"><?= $ap->a_bookedTime ?></td>
+							<td class="text-center"><?= $ap->a_status ?></td>
 						</tr>
 					<?php
 					}

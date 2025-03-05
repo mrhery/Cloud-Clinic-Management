@@ -5,7 +5,7 @@ new Controller(["login"]);
 
 <form class="form-signin" style="margin-top: 30px;" action="" method="POST">
 	<!--<img src="<?= PORTAL ?>assets/img/logo-cc.png" class="mb-3 img img-fluid" alt="">-->
-	<h1 class="h3 font-weight-normal">Shop Management System</h1>
+	<h1 class="h3 font-weight-normal">Clinic Management System</h1>
 	<p class="text-color-light">Log in to your account</p>
 	
 	<?php
@@ -21,7 +21,7 @@ new Controller(["login"]);
 	<div class="row">
 		<div class="col-md-6 col-sm-6 col-6 offset-md-6 offset-sm-6 offset-6">
 			<div class="checkbox mb-3 text-right">
-			   <small><a href="recover-password.html">Recover password</a></small>
+			   <small><a href="<?= PORTAL ?>recover-password">Forget password</a></small>
 			</div>
 		</div>
 	</div>
