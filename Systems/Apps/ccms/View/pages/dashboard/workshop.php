@@ -118,7 +118,7 @@ foreach ($appointment_list as $appointment) {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-2">
-                                <img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" />
+                                <!-- <img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" /> -->
                             </div>
                             
                             <div class="col-10">
@@ -167,7 +167,7 @@ foreach ($appointment_list as $appointment) {
                             <b><?= $appointment_name ?> </b><br />
                             Date: <?= $appointment_date ?> | Doctor: <?= $doctor_name ?> | Time: <?= $booked_time ?>
                             <hr />
-                            <span class="badge badge-dark">Status:  
+                            <span class="badge badge-light">Status:  
                                 <?php if ($status == 1): ?>
                                     <span style="color: green;">Approved</span>
                                 <?php elseif ($status == 2): ?>
