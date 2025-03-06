@@ -99,68 +99,91 @@ foreach ($appointment_list as $appointment) {
     </div>
 </div>
 
-<div class="row mb-2">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <span class="fa fa-list"></span> Daily Sales
-            </div>
-            <table class="card-body table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th width="100px" class="text-center">Date</th>
-                        <th>Customer</th>
-                        <th class="text-right">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($sales_dashboard as $sale) { ?>
-                        <tr>
-                            <td class="text-center"><?= date("d-M-Y") ?></td>
-                            <td><?= $sale->sc_name ?></td>
-                            <td class="text-right"><?= number_format($sale->s_total, 2) ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+<div class="row">
+    <!-- Sales Cards Section -->
+    <div class="col-md-7">
+        <div style="max-height: 500px; overflow-y: auto;"> <!-- Scrollable container -->
+            <?php
+            $no = 1;
+
+            if(Session::get("admin")){
+                $q = sales::list();
+            }else{
+                $q = DB::conn()->query("SELECT * FROM sales WHERE s_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
+            }
+
+            foreach ($sales_dashboard as $sale) {
+            ?>
+                <div class="card mb-3 shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" />
+                            </div>
+                            
+                            <div class="col-10">
+                               Doc:  <b><?= $sale->s_doc ?> </b><br />
+                                Date: <?= $sale->s_date ?> | Total: <?= number_format($sale->s_total, 2) ?> | Paid: <?= number_format($sale->s_paid, 2) ?>
+                                <hr />
+                                <span class="badge badge-dark">Status: <?= $sale->s_status ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php 
+            } 
+            ?>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <span class="fa fa-calendar"></span> Appointment
-            </div>
-            <table class="card-body table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th width="100px" class="text-center">Date</th>
-                        <th class="text-center">Patient</th>
-                        <th class="text-center">Doctor</th>
-                        <th class="text-center">Time</th>
-                        <th class="text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($appointment_list as $ap) { ?>
-                        <tr>
-                            <td class="text-center"><?= date("Y-m-d", strtotime($ap->a_date)) ?></td>
-                            <td class="text-center"><?= $ap->ap_name ?></td>
-                            <td class="text-center"><?= $ap->doctor_name ?></td>
-                            <td class="text-center"><?= $ap->a_bookedTime ?></td>
-                            <td class="text-center">
-                                <?php if ($ap->a_status == 1): ?>
+    <!-- Appointments Section -->
+   <div class="col-md-5">
+    <div style="max-height: 500px; overflow-y: auto; overflow-x: hidden;"> <!-- Scrollable container -->
+        <?php
+        $no = 1;
+
+        if (Session::get("admin")) {
+            $appointment_list = appointments::list();
+        } else {
+            $appointment_list = DB::conn()->query("SELECT * FROM appointments WHERE a_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
+        }
+
+        foreach ($appointment_list as $appointment) {
+            // Ensure the property exists before accessing it
+            $appointment_name = isset($appointment->a_name) ? htmlspecialchars($appointment->a_name) : "Mr.Hery";
+            $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "-";
+            $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
+            $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
+            $status = isset($appointment->a_status) ? $appointment->a_status : 0;
+        ?>
+            <div class="card mb-3 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" />
+                        </div>
+                        
+                        <div class="col-10">
+                            <b><?= $appointment_name ?> </b><br />
+                            Date: <?= $appointment_date ?> | Doctor: <?= $doctor_name ?> | Time: <?= $booked_time ?>
+                            <hr />
+                            <span class="badge badge-dark">Status:  
+                                <?php if ($status == 1): ?>
                                     <span style="color: green;">Approved</span>
-                                <?php elseif ($ap->a_status == 2): ?>
+                                <?php elseif ($status == 2): ?>
                                     <span style="color: red;">Cancelled</span>
                                 <?php else: ?>
                                     <span style="color: orange;">Pending</span>
                                 <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php 
+        } 
+        ?>
     </div>
 </div>
+</div>
+

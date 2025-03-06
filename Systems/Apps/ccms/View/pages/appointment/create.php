@@ -96,7 +96,7 @@
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
 							Time:
-							<input type="time" name="time" class="form-control" value="<?= date("H:i", F::GetTime()) ?>" required /><br />
+							<input type="time" step="1800" required /><br /><br />
 							
 							Attendee:
 							<select class="form-control" name="pic">

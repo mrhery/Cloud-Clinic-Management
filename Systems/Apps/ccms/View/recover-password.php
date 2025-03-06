@@ -1,7 +1,7 @@
 <?php
 new Controller(["recover-password"]);
 ?>
-<img class="lena-brand-logo" src="<?= PORTAL ?>assets/img/logo.png" width="50" alt="">
+<!-- <img class="lena-brand-logo" src="<?= PORTAL ?>assets/img/logo.png" width="50" alt=""> -->
 
 <form class="form-signin" action="" method="POST">
      
