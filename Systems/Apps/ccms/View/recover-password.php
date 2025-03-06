@@ -3,7 +3,7 @@ new Controller(["recover-password"]);
 ?>
 
 
-<form class="form-signin" action="" method="POST">
+<form class="form-signin"  style="margin-top: 19px;" action="" method="POST">
      
 	<img src="<?= PORTAL ?>assets/images/logo-naked.png" class="mb-3 img img-fluid" width="150px" height="150px"  alt="">
 	<h1 class="h3 font-weight-normal">Forgot Password</h1>
