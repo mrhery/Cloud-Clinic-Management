@@ -33,7 +33,7 @@ new Controller(["recover-password"]);
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-12">
 			<div class="checkbox mb-3">
-				<small>Back to <a href="<?= PORTAL ?>login">login</a></small>
+				<small>Back to <a href="<?= PORTAL ?>">login</a></small>
 			</div>
 		</div>
 	</div>

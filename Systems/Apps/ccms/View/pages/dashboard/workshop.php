@@ -49,6 +49,13 @@ foreach ($appointment_list as $appointment) {
 }
 ?>
 
+<!-- <style>
+.col-10 {
+    text-align: left !important;
+    margin-left: -149px;
+}
+</style> -->
+
 <div class="row mb-2">
     <div class="col-md-4">
         <div class="card border-primary">
@@ -98,47 +105,51 @@ foreach ($appointment_list as $appointment) {
         </div>
     </div>
 </div>
+     
+<div class="row justify-content-center">
 
-<div class="row">
     <!-- Sales Cards Section -->
-    <div class="col-md-7">
-        <div style="max-height: 500px; overflow-y: auto;"> <!-- Scrollable container -->
-            <?php
-            $no = 1;
+    <div class="col-md-5 d-flex flex-column" style="height: 100vh;"> 
+    <!-- Ensure the column takes full height -->
+    <div style="flex: 1; min-height: 700px; overflow-y: auto; padding-right: 10px;"> 
+        <!-- Scrollable container -->
+        <br>
+        <h1 style="font-size: 20px; text-align: center;">Daily Sales</h1>
+        <?php
+        $no = 1;
 
-            if(Session::get("admin")){
-                $q = sales::list();
-            }else{
-                $q = DB::conn()->query("SELECT * FROM sales WHERE s_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
-            }
+        if(Session::get("admin")){
+            $q = sales::list();
+        }else{
+            $q = DB::conn()->query("SELECT * FROM sales WHERE s_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
+        }
 
-            foreach ($sales_dashboard as $sale) {
-            ?>
-                <div class="card mb-3 shadow">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                <!-- <img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" /> -->
-                            </div>
-                            
-                            <div class="col-10">
-                               Doc:  <b><?= $sale->s_doc ?> </b><br />
-                                Date: <?= $sale->s_date ?> | Total: <?= number_format($sale->s_total, 2) ?> | Paid: <?= number_format($sale->s_paid, 2) ?>
-                                <hr />
-                                <span class="badge badge-dark">Status: <?= $sale->s_status ?></span>
-                            </div>
+        foreach ($sales_dashboard as $sale) {
+        ?>
+            <div class="card mb-3 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            Doc:  <b><?= $sale->s_doc ?> </b><br />
+                            Date: <?= $sale->s_date ?> | Total: <?= number_format($sale->s_total, 2) ?> | Paid: <?= number_format($sale->s_paid, 2) ?>
+                            <hr />
+                            <span class="badge badge-dark">Status: <?= $sale->s_status ?></span>
                         </div>
                     </div>
                 </div>
-            <?php 
-            } 
-            ?>
-        </div>
+            </div>
+        <?php 
+        } 
+        ?>
     </div>
+</div>
+
 
     <!-- Appointments Section -->
-   <div class="col-md-5">
-    <div style="max-height: 500px; overflow-y: auto; overflow-x: hidden;"> <!-- Scrollable container -->
+    <div class="col-md-5">
+    <div style="max-height: 700px; overflow-y: auto; overflow-x: hidden;"> <!-- Scrollable container -->
+        <br>
+        <h2 style="font-size: 20px; text-align: center;">Appointment List</h2>
         <?php
         $no = 1;
 
@@ -149,33 +160,34 @@ foreach ($appointment_list as $appointment) {
         }
 
         foreach ($appointment_list as $appointment) {
-            // Ensure the property exists before accessing it
             $appointment_name = isset($appointment->a_name) ? htmlspecialchars($appointment->a_name) : "Mr.Hery";
             $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "-";
             $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
             $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
             $status = isset($appointment->a_status) ? $appointment->a_status : 0;
+
+            // Define status classes
+            $status_classes = [
+                1 => "bg-success text-white",   // Approved (Green)
+                2 => "bg-danger text-white",    // Cancelled (Red)
+                0 => "bg-warning text-dark"     // Pending (Orange)
+            ];
+            $status_text = [
+                1 => "Approved",
+                2 => "Cancelled",
+                0 => "Pending"
+            ];
         ?>
             <div class="card mb-3 shadow">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-2">
-                            <!-- <img src="<?= PORTAL ?>assets/images/user-default.png" class="img img-fluid" /> -->
-                        </div>
-                        
                         <div class="col-10">
                             <b><?= $appointment_name ?> </b><br />
                             Date: <?= $appointment_date ?> | Doctor: <?= $doctor_name ?> | Time: <?= $booked_time ?>
                             <hr />
-                            <span class="badge badge-darkfree">Status:  
-                                <?php if ($status == 1): ?>
-                                    <span style="color: green;">Approved</span>
-                                <?php elseif ($status == 2): ?>
-                                    <span style="color: red;">Cancelled</span>
-                                <?php else: ?>
-                                    <span style="color: orange;">Pending</span>
-                                <?php endif; ?>
-                            </span>
+                            <div class="p-2 rounded <?= $status_classes[$status] ?>" style="display: inline-block;">
+                                <b>Status: <?= $status_text[$status] ?></b>
+                            </div>
                         </div>
                     </div>
                 </div>
