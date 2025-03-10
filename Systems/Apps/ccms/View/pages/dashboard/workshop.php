@@ -109,12 +109,12 @@ foreach ($appointment_list as $appointment) {
 <div class="row justify-content-center">
 
     <!-- Sales Cards Section -->
-    <div class="col-md-5 d-flex flex-column" style="height: 100vh;"> 
+    <div class="col-md-6 d-flex flex-column" style="height: 100vh;"> 
     <!-- Ensure the column takes full height -->
     <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center;">
             <h1 style="font-size: 20px;">Daily Sales</h1>
         </div>
-    <div style="flex: 1; min-height: 700px; overflow-y: auto; padding-right: 10px;"> 
+    <div style="flex: 1;max-height: 700px; overflow-y: auto; padding-right: 10px;"> 
         <!-- Scrollable container -->
         <br>
       
@@ -149,7 +149,7 @@ foreach ($appointment_list as $appointment) {
 
 
     <!-- Appointments Section -->
-    <div class="col-md-5 d-flex flex-column" style="height: 100vh;">
+    <div class="col-md-6 d-flex flex-column" style="height: 100vh;">
        
     <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
             <h2 style="font-size: 20px;">Appointment List</h2>
@@ -166,7 +166,7 @@ foreach ($appointment_list as $appointment) {
         }
 
         foreach ($appointment_list as $appointment) {
-            $appointment_name = isset($appointment->a_name) ? htmlspecialchars($appointment->a_name) : "Mr.Hery";
+            $appointment_name = isset($appointment->a_customer->c_name) ? htmlspecialchars($appointment->a_customer->c_name) : "Mr.Hery";
             $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "-";
             $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
             $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";

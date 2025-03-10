@@ -1,9 +1,35 @@
-<?php
-Controller::alert();
-?>
-<h4>Add new Patient</h4>
+<style>
+#ic-search-list {
+	display: none;
+	position: absolute;
+	background-color: #363636;
+	width: 95%;
+	overflow-y: auto;
+}
 
-<form action="" method="post" enctype="multipart/form-data">
+.ic-list-item {
+	color: white;
+	padding: 10px;
+	cursor: pointer;
+	font-size: 9pt;
+}
+
+.ic-list-item:hover {
+	background-color: black;
+}
+</style>
+
+<div class="card">
+	<div class="card-header">
+		<a href="<?= PORTAL ?>dashboard" class="btn btn-sm btn-primary mr-2">
+			<span class="fa fa-arrow-left"></span> Back
+		</a>
+		
+		Add New Patient
+	</div>
+	
+	<div class="card-body">
+	<form action="" method="post" enctype="multipart/form-data">
 	<div class="row">
 		<div class="col-md-6">
 			Name:
@@ -42,3 +68,5 @@ Controller::alert();
 		</div>
 	</div>
 </form>
+	</div>
+</div>
