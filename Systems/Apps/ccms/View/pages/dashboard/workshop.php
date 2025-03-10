@@ -111,10 +111,13 @@ foreach ($appointment_list as $appointment) {
     <!-- Sales Cards Section -->
     <div class="col-md-5 d-flex flex-column" style="height: 100vh;"> 
     <!-- Ensure the column takes full height -->
+    <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center;">
+            <h1 style="font-size: 20px;">Daily Sales</h1>
+        </div>
     <div style="flex: 1; min-height: 700px; overflow-y: auto; padding-right: 10px;"> 
         <!-- Scrollable container -->
         <br>
-        <h1 style="font-size: 20px; text-align: center;">Daily Sales</h1>
+      
         <?php
         $no = 1;
 
@@ -146,10 +149,13 @@ foreach ($appointment_list as $appointment) {
 
 
     <!-- Appointments Section -->
-    <div class="col-md-5">
+    <div class="col-md-5 d-flex flex-column" style="height: 100vh;">
+       
+    <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+            <h2 style="font-size: 20px;">Appointment List</h2>
+        </div>
     <div style="max-height: 700px; overflow-y: auto; overflow-x: hidden;"> <!-- Scrollable container -->
-        <br>
-        <h2 style="font-size: 20px; text-align: center;">Appointment List</h2>
+       
         <?php
         $no = 1;
 
