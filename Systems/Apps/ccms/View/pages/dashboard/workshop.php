@@ -233,14 +233,14 @@ foreach ($appointment_list as $appointment) {
     <div class="card-body">
         <div class="row">
             <!-- Left Box: Date & Time Details -->
-            <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-center" 
+            <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-start" 
                  style="border-right: 3px solid black;">
                 <div><strong>Date:</strong> <?= date("d M Y", strtotime($appointment->a_date)) ?></div>
                 <div><strong>Time:</strong> <?= $appointment->a_bookedTime ?></div>
             </div>
 
             <!-- Middle Box: Patient, Doctor, and Status -->
-            <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-center" 
+            <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-start" 
                  style="">
                 <div><strong>Patient:</strong> <?= $appointment_name ?></div>
                 <div><strong>Doctor:</strong> <?= $doctor_name ?></div>
