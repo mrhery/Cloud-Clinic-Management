@@ -56,6 +56,8 @@ foreach ($appointment_list as $appointment) {
 }
 </style> -->
 
+
+
 <div class="row mb-2">
     <div class="col-md-4">
         <div class="card border-primary">
@@ -114,9 +116,9 @@ foreach ($appointment_list as $appointment) {
     <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center;">
             <h1 style="font-size: 20px;">Daily Sales</h1>
         </div>
-    <div style="flex: 1;max-height: 700px; overflow-y: auto; padding-right: 10px;"> 
+    <div style="flex: 1;max-height: 700px; padding-right: 10px;"> 
         <!-- Scrollable container -->
-        <br>
+      
       
         <?php
         $no = 1;
@@ -127,34 +129,71 @@ foreach ($appointment_list as $appointment) {
             $q = DB::conn()->query("SELECT * FROM sales WHERE s_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
         }
 
+        $status_colors = [
+            'Pending' => 'badge-warning',
+            'Completed' => 'badge-success',
+            'Cancelled' => 'badge-danger',
+            'Processing' => 'badge-primary',
+            'Refunded' => 'badge-secondary'
+        ];
+        
+       
+        
+        $counter = 0;
+
         foreach ($sales_dashboard as $sale) {
+            if ($counter >= 3) break;
+            $status_class = isset($status_colors[$sale->s_status]) ? $status_colors[$sale->s_status] : 'badge-dark';
         ?>
-            <div class="card mb-3 shadow">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-10">
-                            Doc:  <b><?= $sale->s_doc ?> </b><br />
-                            Date: <?= $sale->s_date ?> | Total: <?= number_format($sale->s_total, 2) ?> | Paid: <?= number_format($sale->s_paid, 2) ?>
-                            <hr />
-                            <span class="badge badge-dark">Status: <?= $sale->s_status ?></span>
-                        </div>
+        
+            <div class="card mb-3 shadow" style="min-height: 110px; display: flex;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-7">
+                        Doc No: <b><?= $sale->s_doc ?></b><br />
+                        Patient: 
+                        <?php
+                        $c = customers::getBy(["c_id" => $sale->s_client]);
+                        if(count($c) > 0){
+                            $c = $c[0];
+                        ?>
+                            <strong><?= $c->c_name ?></strong><br />
+                        <?php
+                        } else {
+                            unset($c);
+                            echo "-";
+                        }
+                        ?>   
+                        Total: <?= number_format($sale->s_total, 2) ?>
+                    </div>
+
+                    <div class="col-5 text-end">
+                        <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
+                        <span class="badge <?= $status_class ?>">Status: <?= $sale->s_status ?></span>
                     </div>
                 </div>
             </div>
-        <?php 
-        } 
-        ?>
+        </div>
+            <?php 
+    $counter++; // Increment the counter
+} 
+?>
+<?php if (count($sales_dashboard) > 3): ?>
+    <div style="text-align: center; padding: 10px;">
+        <a href="sales_page.php" class="btn btn-link">See more</a>
+    </div>
+<?php endif; ?>
     </div>
 </div>
 
 
     <!-- Appointments Section -->
-    <div class="col-md-6 d-flex flex-column" style="height: 100vh;">
+    <div class="col-md-6 d-flex flex-column" style="height: 10vh;">
        
-    <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+    <div style="position: sticky; top: 0;  z-index: 10; padding: 10px; text-align: center;">
             <h2 style="font-size: 20px;">Appointment List</h2>
         </div>
-    <div style="max-height: 700px; overflow-y: auto; overflow-x: hidden;"> <!-- Scrollable container -->
+    <div style="max-height: 200px;"> <!-- Scrollable container -->
        
         <?php
         $no = 1;
@@ -165,6 +204,8 @@ foreach ($appointment_list as $appointment) {
             $appointment_list = DB::conn()->query("SELECT * FROM appointments WHERE a_id IN (SELECT cc_customer FROM clinic_customer WHERE cc_clinic = ?)", [Session::get("clinic")->c_id])->results();
         }
 
+        $counter = 0;
+
         foreach ($appointment_list as $appointment) {
             $appointment_name = isset($appointment->a_customer->c_name) ? htmlspecialchars($appointment->a_customer->c_name) : "Mr.Hery";
             $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "-";
@@ -172,6 +213,7 @@ foreach ($appointment_list as $appointment) {
             $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
             $status = isset($appointment->a_status) ? $appointment->a_status : 0;
 
+            if ($counter >= 3) break;
             // Define status classes
             $status_classes = [
                 1 => "bg-success text-white",   // Approved (Green)
@@ -186,21 +228,32 @@ foreach ($appointment_list as $appointment) {
         ?>
             <div class="card mb-3 shadow">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-10">
-                            <b><?= $appointment_name ?> </b><br />
-                            Date: <?= $appointment_date ?> | Doctor: <?= $doctor_name ?> | Time: <?= $booked_time ?>
-                            <hr />
-                            <div class="p-2 rounded <?= $status_classes[$status] ?>" style="display: inline-block;">
+                <div class="row">
+                    <div class="col-7">
+                        Date: <b><?= $appointment_date ?></b><br />
+                        Time: <?= $booked_time ?>
+                        
+                        
+                    </div>
+
+                    <div class="col-5 text-end">
+                        <span>Patient: <?= $appointment_name ?></span><br />
+                        <div class="p-2 rounded <?= $status_classes[$status] ?>" style="display: inline-block;">
                                 <b>Status: <?= $status_text[$status] ?></b>
                             </div>
-                        </div>
                     </div>
                 </div>
+                </div>
             </div>
-        <?php 
-        } 
-        ?>
+            <?php 
+    $counter++; // Increment the counter
+} 
+?>
+<?php if (count($appointment_list) > 3): ?>
+    <div style="text-align: center; padding: 10px;">
+        <a href="sales_page.php" class="btn btn-link">See more</a>
+    </div>
+<?php endif; ?>
     </div>
 </div>
 </div>
