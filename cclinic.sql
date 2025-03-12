@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2024 at 03:37 PM
+-- Generation Time: Mar 12, 2025 at 10:01 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -127,7 +127,7 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`, `a_time`, `a_status`, `a_reason`, `a_user`, `a_createdDate`, `a_plate`, `a_bookedDate`, `a_bookedTime`, `a_attendee`) VALUES
-(1, 'asd', 1, 1, '08-Dec-2023', 1686840540, 1, 'Covid Test asd', 0, '', '', NULL, NULL, 0),
+(1, 'asd', 1, 1, '08-Dec-2023', 1702046940, 1, 'Covid Test asd', 0, '', '', NULL, NULL, 0),
 (2, 'asdasdasd asd as', 1, 1, '08-Dec-2023', 1702050540, 1, 'Astma', 0, '', '', NULL, NULL, 0),
 (3, '9133b951587bbfe9a16a667e07874b1af4725856f5e7e2eaa1c7c5ae1016400c', 2, 1, '08-Dec-2023', 1686843660, 1, 'adasd', 0, '', '', NULL, NULL, 0),
 (4, '3b8a98eb98cabad62395b9b925bfc732bde4470799f2b25c653a180c9ee375e3', 2, 1, '08-Dec-2023', 1687621320, 0, 'fever', 0, '', '', NULL, NULL, 0),
@@ -135,7 +135,9 @@ INSERT INTO `appointments` (`a_id`, `a_ukey`, `a_customer`, `a_clinic`, `a_date`
 (6, '2c9688e4bf270ab7b2b950ec0fec26b4e54776dccaad5f1bb892c55fa0e75a40', 1, 1, '08-Dec-2023', 1692376980, 1, 'demam', 1, '17-Aug-2023', '', '2024-11-30', '11:12:00', 0),
 (7, '13304b0976fd3072000c48fc594360167c1784d4ec9819082a52fe4f9841153c', 1, 1, '25-Mar-2024', 1711380600, 1, 'Batuk kahakl berdarah', 1, '25-Mar-2024', '', '2024-11-25', '13:54:00', 0),
 (8, '41bf8de966d8801218a5a3517237c5d4ae219e1a949dbdc4029a3d474afcae82', 1, 1, '05-Dec-2024', 1733369280, 1, 'test 12', 1, '30-Nov-2024', '', '2024-11-30', '04:28:00', 12),
-(9, 'b7214d41d9e1d42382414a4821a67ed6337071a41ff1a094211dd3416b50d2da', 1, 1, '01-Dec-2024', 1733024100, 0, 'twetwtw', 1, '30-Nov-2024', '', '2024-12-01', '11:35:00', 13);
+(9, 'b7214d41d9e1d42382414a4821a67ed6337071a41ff1a094211dd3416b50d2da', 1, 1, '01-Dec-2024', 1733024100, 0, 'twetwtw', 1, '30-Nov-2024', '', '2024-12-01', '11:35:00', 13),
+(10, 'a4dfe56c19c9a6587cac1ab8676236705cf8c45e1d2c99a86ae8fa5ac3decab8', 8, 1, '03-Mar-2025', 1740990000, 1, 'H1N1 viral flu infection', 1, '28-Feb-2025', '', '2025-03-03', '16:20:00', 12),
+(11, '06fef1491e6e31d197780b9ec88906ad681045560c11665f2040c32a5f2d74f5', 1, 1, '28-Feb-2025', 1740744900, 1, 'asdcasd', 1, '28-Feb-2025', '', '2025-02-28', '20:15:00', 12);
 
 -- --------------------------------------------------------
 
@@ -166,7 +168,14 @@ INSERT INTO `appointment_status` (`as_id`, `as_appointment`, `as_status`, `as_me
 (6, 8, 1, '', '29-Nov-2024', 1732937351, 1),
 (7, 9, 0, '', '30-Nov-2024', 1732937753, 1),
 (8, 8, 1, '', '30-Nov-2024', 1732938289, 1),
-(9, 8, 1, '', '30-Nov-2024', 1732938296, 1);
+(9, 8, 1, '', '30-Nov-2024', 1732938296, 1),
+(10, 1, 1, '', '27-Feb-2025', 1740671776, 1),
+(11, 10, 1, '', '28-Feb-2025', 1740727391, 1),
+(12, 10, 1, '', '28-Feb-2025', 1740727587, 1),
+(13, 11, 1, '', '28-Feb-2025', 1740744953, 1),
+(14, 11, 1, '', '28-Feb-2025', 1740744974, 1),
+(15, 10, 2, '', '06-Mar-2025', 1741267710, 1),
+(16, 10, 1, '', '06-Mar-2025', 1741269720, 1);
 
 -- --------------------------------------------------------
 
@@ -221,7 +230,8 @@ CREATE TABLE `clients` (
 INSERT INTO `clients` (`c_id`, `c_name`, `c_regno`, `c_address`, `c_phone`, `c_email`, `c_is_personal`, `c_clinic`, `c_date`, `c_time`, `c_user`, `c_key`) VALUES
 (1, 'Intellingent Mental Arithmetic Sdn Bhd', 'IMA-1234', 'No 23A Jalan Kebudayaan 16, Taman Universiti, 81300 Johor Bahru, Johor', '+607-521 1178', '', 0, 1, '08-Dec-2023', 0, 1, 'client_001'),
 (2, 'Intelligent Hosting Sdn Bhd', 'IH-1234', 'No 23A Jalan Kebudayaan 16, Taman Universiti, 81300 Johor Bahru, Johor', '+607-521 1178', '', 0, 2, '08-Dec-2023', 0, 1, 'client_002'),
-(3, 'Hery Intelligent Technology', 'HIT-1234', 'No 0402 Jalan Pendidikan 3, Taman Universiti, 81300 Johor Bahru, Johor', '+6018-782 4900', '', 0, 1, '07-Dec-2023', 0, 1, 'client_003');
+(3, 'Hery Intelligent Technology', 'HIT-1234', 'No 0402 Jalan Pendidikan 3, Taman Universiti, 81300 Johor Bahru, Johor', '+6018-782 4900', '', 0, 1, '07-Dec-2023', 0, 1, 'client_003'),
+(8, 'Calvin Chong', 'BHAJ24234', 'No, 14, Jalan Indah Pelangi', '325324', 'samtaii@gmail.com', 0, 1, '', 0, 0, '559b17d55c7fbd1e4ebfcad383a477982d0d8cb615c7cf2b84ac98a0e7dd5f91');
 
 -- --------------------------------------------------------
 
@@ -250,7 +260,9 @@ CREATE TABLE `clinics` (
 INSERT INTO `clinics` (`c_id`, `c_ukey`, `c_name`, `c_address`, `c_phone`, `c_email`, `c_regno`, `c_logo`, `c_user`, `c_owner`, `c_disabled`) VALUES
 (1, '2de99521fb8204da4b9e1497aff933fc062e7b8ead5933ec85a7ec973c26994f', 'Hery Intelligent Technology', '0402 Jalan Pendidikan 3, Taman Universiti, 81300 Johor Bahru, Johor', '0187824900', 'hery@technology.com', 'IP0549884-A', '', 1, 12, 0),
 (2, '5554cf84b3b9d2e7326f1e5c9219a75d0bc84f8eb6b3f7fb1a0f874222ce45ff', 'Bengkel Ahmed Taman Universiti', '', '', 'asdads@ads', '', '', 14, 14, 0),
-(3, '060356720881168c5275c41f202c312cb793e3dfefa72d2400c88f8aa28abb3b', 'Workshop ABC', '', '234243243', 'zads@asdads', 'asdsd', '', 1, 14, 0);
+(3, '060356720881168c5275c41f202c312cb793e3dfefa72d2400c88f8aa28abb3b', 'Workshop ABC', '', '234243243', 'zads@asdads', 'asdsd', '', 1, 14, 0),
+(4, '3a7e78de230e2d49c13583e58831288ad29d2760cca7ff137b3932c8e968ac88', 'ABC Sdn Bhd', 'No. 12A, Jalan Setia Idaman, Taman Setia Indah', '62387645', 'abc@gmail.com', 'JBHJ2323', '', 1, 12, 0),
+(5, 'a29caf47b305dc837c6f1c4b4fca463775b18f854a5cf668ab56333aaf56d67a', 'Deepseek Tech', 'No, 16, Jalan Ayer Hitam', '073456782', 'deepseektech@gmail.com', 'DEG123123', '', 1, 14, 0);
 
 -- --------------------------------------------------------
 
@@ -296,7 +308,11 @@ INSERT INTO `clinic_user` (`cu_id`, `cu_clinic`, `cu_user`, `cu_role`) VALUES
 (4, 2, 14, 'owner'),
 (5, 2, 1, 'admin'),
 (6, 3, 14, 'owner'),
-(7, 3, 1, 'admin');
+(7, 3, 1, 'admin'),
+(8, 4, 12, 'owner'),
+(9, 4, 1, 'admin'),
+(10, 5, 14, 'owner'),
+(11, 5, 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -323,7 +339,8 @@ INSERT INTO `customers` (`c_id`, `c_name`, `c_ic`, `c_phone`, `c_email`, `c_pass
 (1, 'Mr Hery', '1234567890', '1234567890', 'hery@herytechnology.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'abc123', ''),
 (2, 'asdasd', '123123', '', '', '', '3426e93cb58b3fc5790f7e261109fc6b3098643a6f36d6ab2e52ba471923df51', ''),
 (3, 'asdasdad', '12341234', '', '', '', '934297ece8454deba61f1211bda0c277a0d52bc168134cce15642e8991af4a9c', 'asdfasd'),
-(5, 'dfsdfsfasd', '234234243234', '', '', '', 'e06cd9636663fdf8b0c8e86add805ff8360663065d6231f9b4652adec9c0423e', ' ');
+(5, 'dfsdfsfasd', '234234243234', '', '', '', 'e06cd9636663fdf8b0c8e86add805ff8360663065d6231f9b4652adec9c0423e', ' '),
+(8, 'gdfnfdn', '634653', '+60`65432727', 'abc@gmail.com', '', '064ca05addb66f919977fcc21c0056f4535e749205243e061765e00690e448eb', '');
 
 -- --------------------------------------------------------
 
@@ -365,7 +382,8 @@ INSERT INTO `customer_record` (`cr_id`, `cr_customer`, `cr_clinic`, `cr_user`, `
 (42, 1, 1, 1, '01-Dec-2024', 1732994650, '', '', 'Demam, selesema, viral fever', '', '', '', '', 'doc-202411301-ljx574'),
 (43, 1, 1, 1, '01-Dec-2024', 1732994866, '', '', 'a', '', '', '', '', 'doc-202411301-25x367'),
 (44, 1, 1, 1, '01-Dec-2024', 1732994892, '', '', '', '', '', '', '', 'doc-202411301-4Du893'),
-(45, 1, 1, 1, '01-Dec-2024', 1732995932, '', '', 'aaa', 'x', 'b', 'c', 'd', 'doc-202411301-L3Z745');
+(45, 1, 1, 1, '01-Dec-2024', 1732995932, '', '', 'aaa', 'x', 'b', 'c', 'd', 'doc-202411301-L3Z745'),
+(46, 1, 1, 1, '28-Feb-2025', 1740730072, '', '', 'High Fever with running nose and severe sorethroat', 'Lastly detected on 27 August 2024', 'Checked forehead, nose and throat', '-', 'Need to take panadol', 'doc-202502281-185087');
 
 -- --------------------------------------------------------
 
@@ -407,10 +425,12 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`i_id`, `i_name`, `i_description`, `i_code`, `i_clinic`, `i_quantity`, `i_type`, `i_price`, `i_key`, `i_user`, `i_sku`, `i_tag`, `i_cost`) VALUES
-(5, 'Ubat 1', 'Ubat 1', '', 1, 203, 'product', 150, 'item_6572eded67c1f', 1, '', '', 100),
+(5, 'Ubat 1', 'Ubat 1', 'HKK3243', 1, 203, 'product', 150, 'item_6572eded67c1f', 1, 'HFGH243', '', 100),
 (6, 'Ubat 2', 'Ubat 2', '', 1, 200, 'product', 30, 'item_6572eded67c1g', 1, '', '', 25),
 (7, 'Ubat 3', 'Ubat 3', '', 1, 200, 'product', 50, 'item_6572eded67c1h', 1, '', '', 0),
-(8, 'aaaa', 'gggaaa', 'bbbrrreee', 1, 0, 'package', 160, 'package_6604515c233d7', 1, 'rrr', '', 0);
+(8, 'aaaa', 'gggaaa', 'bbbrrreee', 1, 0, 'package', 160, 'package_6604515c233d7', 1, 'rrr', '', 0),
+(9, 'Ubat 6', 'Highly efficient in curing diseases', 'GJGF3245325', 1, 30, 'product', 570, 'item_67c13bbc8c6a3', 1, 'GFHJ4534', '', 790),
+(10, 'Package 7', '-', 'JN003', 1, 0, 'package', 0, 'package_67c140c2df8ef', 1, 'TYH456456', '', 0);
 
 -- --------------------------------------------------------
 
@@ -437,7 +457,23 @@ CREATE TABLE `item_inventory` (
 INSERT INTO `item_inventory` (`ii_id`, `ii_item`, `ii_date`, `ii_time`, `ii_quantity`, `ii_description`, `ii_cost`, `ii_user`, `ii_clinic`) VALUES
 (6, 5, '08-Dec-2023', 1702052429, 200, 'Try beli', 0.5, 1, 1),
 (7, 5, '25-Mar-2024', 1711373623, 1, '', 100, 1, 1),
-(8, 5, '25-Mar-2024', 1711373702, 2, '', 123123, 1, 1);
+(8, 5, '25-Mar-2024', 1711373702, 2, '', 123123, 1, 1),
+(9, 6, '28-Feb-2025', 1740735618, 0, '', 0, 1, 1),
+(10, 7, '28-May-2025', 1740737288, 0, '', 0, 1, 1),
+(11, 7, '28-May-2025', 1740737290, 0, '', 0, 1, 1),
+(12, 7, '28-May-2025', 1740737290, 0, '', 0, 1, 1),
+(13, 7, '28-May-2025', 1740737290, 0, '', 0, 1, 1),
+(14, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(15, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(16, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(17, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(18, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(19, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(20, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(21, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(22, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(23, 7, '28-May-2025', 1740737291, 0, '', 0, 1, 1),
+(24, 9, '28-Feb-2025', 1740672000, 30, '-', 650, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -505,7 +541,8 @@ CREATE TABLE `package_item` (
 
 INSERT INTO `package_item` (`pi_id`, `pi_name`, `pi_price`, `pi_item`, `pi_package`, `pi_quantity`) VALUES
 (11, 'Drive Shaftaaa', 150, 5, 8, 1),
-(12, 'Break Padaaa', 30, 6, 8, 1);
+(12, 'Break Padaaa', 30, 6, 8, 1),
+(13, 'Ubat 6', 570, 9, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -537,7 +574,21 @@ CREATE TABLE `purchases` (
 INSERT INTO `purchases` (`p_id`, `p_client`, `p_doc`, `p_date`, `p_time`, `p_key`, `p_clinic`, `p_user`, `p_paid`, `p_total`, `p_status`, `p_remark`, `p_summary`, `p_type`) VALUES
 (5, 1, 'abc1234', '08-Dec-2023', 1702052429, 'purchase_6572eded5ca1f', 1, 1, 50, 100, 'partial', 'test pur', 'Panadol A x200<br />', 'invoice'),
 (6, 1, 'HIT-20240001', '25-Mar-2024', 1711373623, 'purchase_660128d72cc6b', 1, 1, 0, 0, 'paid', '', 'Drive Shaft x1<br />', 'invoice'),
-(7, 2, 'HIT-20240001', '25-Mar-2024', 1711373701, 'purchase_66012925eb187', 1, 1, 0, 0, 'paid', '', 'Drive Shaft x2<br />', 'invoice');
+(7, 2, 'HIT-20240001', '25-Mar-2024', 1711373701, 'purchase_66012925eb187', 1, 1, 0, 0, 'paid', '', 'Drive Shaft x2<br />', 'invoice'),
+(8, 1, 'BJM2323', '28-May-2025', 1740737288, 'purchase_67c136a8c53ea', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(9, 1, 'BJM2323', '28-May-2025', 1740737290, 'purchase_67c136aa6de0f', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(10, 1, 'BJM2323', '28-May-2025', 1740737290, 'purchase_67c136aac4fb9', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(11, 1, 'BJM2323', '28-May-2025', 1740737290, 'purchase_67c136aaca77b', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(12, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136ab1f332', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(13, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136ab234ae', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(14, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136ab56a34', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(15, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136ab5b117', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(16, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136ab883d3', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(17, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136ab8cbc4', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(18, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136abb56ea', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(19, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136abb9c63', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(20, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136abe50a2', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice'),
+(21, 1, 'BJM2323', '28-May-2025', 1740737291, 'purchase_67c136abe97b6', 1, 1, 350, 450, 'partial', 'dfgdfg', '', 'invoice');
 
 -- --------------------------------------------------------
 
@@ -673,7 +724,8 @@ INSERT INTO `record_prescription` (`rp_id`, `rp_item`, `rp_quantity`, `rp_remark
 (166, 5, '1', '150', 42, '150', 1732994651),
 (167, 6, '1', '30', 42, '30', 1732994651),
 (168, 7, '20', '1000', 42, '50', 1732994651),
-(169, 5, '1', '150', 44, '150', 1732994892);
+(169, 5, '1', '150', 44, '150', 1732994892),
+(170, 5, '1', '150', 46, '150', 1740730072);
 
 -- --------------------------------------------------------
 
@@ -696,7 +748,8 @@ INSERT INTO `roles` (`r_id`, `r_name`, `r_menu`, `r_status`) VALUES
 (1, 'Admin', '', 1),
 (2, 'User', '', 1),
 (3, 'Customer', '', 1),
-(4, 'Staff', '', 1);
+(4, 'Staff', '', 1),
+(10, 'Chong', '', 1);
 
 -- --------------------------------------------------------
 
@@ -721,6 +774,19 @@ CREATE TABLE `sales` (
   `s_type` varchar(50) NOT NULL,
   `s_customer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`s_id`, `s_client`, `s_doc`, `s_date`, `s_time`, `s_key`, `s_clinic`, `s_user`, `s_paid`, `s_total`, `s_status`, `s_remark`, `s_summary`, `s_type`, `s_customer`) VALUES
+(28, 1, 'HIT-20250023', '28-Feb-2025', 1740735618, 'sale_67c1302239308', 1, 1, 500, 50, 'paid', '', '', 'invoice', 0),
+(29, 1, 'HIT-20250002', '28-Feb-2025', 1740736268, 'sale_67c132ac1613c', 1, 1, 250, 700, 'partial', '', '', 'debit_note', 0),
+(30, 1, 'HIT-20250003', '28-Aug-2024', 1740736868, 'sale_67c1350426f22', 1, 1, 320, 680, 'partial', 'fghfh', '', 'debit_note', 0),
+(31, 1, 'HIT-20250004', '07-Mar-2025', 1741355877, 'sale_67caa7054dbb7', 1, 1, 0, 0, 'paid', '', '', 'debit_note', 0),
+(47, 1, 'HIT-20250005', '07-Mar-2025', 1741357170, 'sale_67caac1291067', 1, 1, 0, 0, 'paid', '', '', 'debit_note', 0),
+(48, 1, 'HIT-20250006', '07-Mar-2025', 1741357195, 'sale_67caac2b4e465', 1, 1, 0, 0, 'paid', '', '', 'debit_note', 0),
+(49, 1, 'HIT-20250007', '10-Mar-2025', 1741618415, 'sale_67cea88fbc0de', 1, 1, 0, 0, 'paid', '', '', 'debit_note', 0);
 
 -- --------------------------------------------------------
 
@@ -809,7 +875,9 @@ INSERT INTO `users` (`u_id`, `u_name`, `u_email`, `u_password`, `u_key`, `u_full
 (1, 'Mr Hery', 'admin@admin', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'aaaa', 'Ahmad Khairi Aiman', '123123456', '124 Jalan Cekal 14', '', '0187824900', 1, 1, 1, '', '', '', '0', 'abc123'),
 (12, 'Dr Hery', 'intelhost2u@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'bbbb', '', '324234', 'adsads', '', '123123', 0, 2, 0, '', '', '', '648be4c442285-broomx00wide.JPG', '69925a39ebeb43fc7ef5402b1a762d2760d7256eca910bd50f2b54f281476469'),
 (13, 'staff1', 'staff1@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'cccc', '', '', '', '', '', 0, 4, 0, '', '', '', '', 'def9c215a731e79c1210a16d989ecad181b241a70cae881bad3859fd4d766f1e'),
-(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'dddd', '', '', '', '', '', 0, 2, 0, '', '', '', '648c1614affd3-logo-heryit.png', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef');
+(14, 'Dr Ahmed', 'ahmed@gmail.com', 'cda8206eb90ff0ff143e5ee404d980102b37b7de52774b414bca3cc69d2ef6e3', 'dddd', '', '', '', '', '', 0, 2, 0, '', '', '', '648c1614affd3-logo-heryit.png', '165e82a12eee08ad7356decb9f4a5203dbc191e658638bd354227ca16455d1ef'),
+(15, 'Abu Musa', 'abumusa@gmail.com', '17aad1b88a44dfc77d79d9d68ddcd02795287453acc2054de7b9a012e173bd70', '', '', '903533575555', 'Gelang Patah', '', '014278938734', 0, 2, 0, '', '', '', '67c122b35760b-james.jpg', 'd1a5abcb131c7d171c0ab1fc2ae23c086c8f877011253b422f8e8076060d662a'),
+(16, 'Michael Chan', 'michaelchan@gmail.com', 'a09ee65be5f4ae285de1b3fb44e68697edbe8f3f32d0456ba995a17c2cd4e2e2', '', '', '950603594444', 'No, 15, Jalan Nusa Bestari', '', '0158964848', 0, 4, 0, '', '', '', '', '746d875f0403e0c1233952bf701e5db992aeb486ed7d719fe9d5e91e0680be89');
 
 -- --------------------------------------------------------
 
@@ -1021,13 +1089,13 @@ ALTER TABLE `account_categories`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `appointment_status`
 --
 ALTER TABLE `appointment_status`
-  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `as_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `cashaccounts`
@@ -1039,13 +1107,13 @@ ALTER TABLE `cashaccounts`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `clinics`
 --
 ALTER TABLE `clinics`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `clinic_customer`
@@ -1057,19 +1125,19 @@ ALTER TABLE `clinic_customer`
 -- AUTO_INCREMENT for table `clinic_user`
 --
 ALTER TABLE `clinic_user`
-  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `c_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `customer_record`
 --
 ALTER TABLE `customer_record`
-  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `cr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -1081,13 +1149,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `i_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `item_inventory`
 --
 ALTER TABLE `item_inventory`
-  MODIFY `ii_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ii_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -1099,13 +1167,13 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `package_item`
 --
 ALTER TABLE `package_item`
-  MODIFY `pi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `pi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `purchase_item`
@@ -1129,19 +1197,19 @@ ALTER TABLE `record_file`
 -- AUTO_INCREMENT for table `record_prescription`
 --
 ALTER TABLE `record_prescription`
-  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `rp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `r_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `r_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `sale_item`
@@ -1159,7 +1227,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
