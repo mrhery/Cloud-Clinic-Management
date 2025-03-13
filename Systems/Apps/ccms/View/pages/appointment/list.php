@@ -75,7 +75,7 @@ if (empty($show)) {
 				<span class="fa fa-arrow-left"></span>
 			</a>
 			
-			<input type="number" name="page" class="form-control text-center pagination-input" value="<?= $page ?>" /> / <?= $npage ?>
+			<input type="number" name="page" class="form-control text-center pagination-input" value="<?= $page ?>" style="width: 60px;" /> / <?= $npage ?>
 			<input type="hidden" value="<?= $show ?>" name="show" />
 			<input type="hidden" value="<?= $search ?>" name="search" />
 			

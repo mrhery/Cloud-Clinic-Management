@@ -18,6 +18,34 @@
 .ic-list-item:hover {
 	background-color: black;
 }
+
+.timepicker {
+            position: relative;
+            display: inline-block;
+        }
+        .timepicker input {
+            width: 80px;
+            padding: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            width: 100px;
+            z-index: 10;
+        }
+        .dropdown div {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .dropdown div:hover {
+            background: #e0e0e0;
+        }
 </style>
 
 
@@ -96,7 +124,51 @@
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
 							Time:
-							<input type="time" step="1800" required /><br /><br />
+							<div class="timepicker">
+        <input type="text" id="timeInput" readonly>
+        <div class="dropdown" id="timeDropdown"></div>
+    </div>
+
+    <script>
+        const timeInput = document.getElementById('timeInput');
+        const timeDropdown = document.getElementById('timeDropdown');
+
+        function generateTimes() {
+            let times = [];
+            for (let hour = 3; hour <= 4; hour++) {
+                for (let min = 0; min < 60; min += 15) {
+                    let formattedTime = `${hour}:${min === 0 ? '00' : min}pm`;
+                    times.push(formattedTime);
+                }
+            }
+            return times;
+        }
+
+        function populateDropdown() {
+            const times = generateTimes();
+            timeDropdown.innerHTML = '';
+            times.forEach(time => {
+                let div = document.createElement('div');
+                div.textContent = time;
+                div.addEventListener('click', () => {
+                    timeInput.value = time;
+                    timeDropdown.style.display = 'none';
+                });
+                timeDropdown.appendChild(div);
+            });
+        }
+
+        timeInput.addEventListener('click', () => {
+            populateDropdown();
+            timeDropdown.style.display = 'block';
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!timeInput.contains(event.target) && !timeDropdown.contains(event.target)) {
+                timeDropdown.style.display = 'none';
+            }
+        });
+    </script><br /><br />
 							
 							Attendee:
 							<select class="form-control" name="pic">

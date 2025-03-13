@@ -74,8 +74,12 @@ switch($show){
         ?>
         <div class="row">
             <div class="col-md-12">
+            <div class="d-flex justify-content-between">
+            <a href="<?= PORTAL ?>appointments" class="btn btn btn-primary mr-2">
+			<span class="fa fa-arrow-left"></span> Back
+		</a>
                 <button class="btn btn-primary" onclick="printDocument()">Print</button>
-
+            </div>
                 <h3 class="text-center">List <?= ucfirst($show) ?> Records</h3>
                 <table class="table dataTable table-hover">
                     <thead>

@@ -30,23 +30,11 @@ $appointment_list = DB::conn()->query("SELECT * FROM appointments WHERE a_status
 
 // Fetch doctors
 $doctor_list = DB::conn()->query("SELECT * FROM users")->results();
-$doctor_map = [];
-foreach ($doctor_list as $doctor) {
-    $doctor_map[$doctor->u_id] = $doctor->u_name;
-}
+
 
 // Fetch customers
 $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
-$customer_map = [];
-foreach ($customer_list as $customer) {
-    $customer_map[$customer->c_id] = $customer->c_name;
-}
 
-// Assign names to appointments
-foreach ($appointment_list as $appointment) {
-    $appointment->ap_name = $customer_map[$appointment->a_clinic] ?? 'Unknown';
-    $appointment->doctor_name = $doctor_map[$appointment->a_user] ?? 'Unknown';
-}
 ?>
 
 <!-- <style>
@@ -121,45 +109,64 @@ foreach ($appointment_list as $appointment) {
         <!-- Scrollable container -->
       
         <?php
-        $counter = 0;
+$counter = 0;
 
-        foreach ($sales_dashboard as $sale) {
-            if ($counter >= 3) break;
-            $status_classes = ($sale->s_status == 1) ? "bg-success text-white" : "bg-dark text-white";
-        ?>
-        
-        <div class="card mb-3 shadow" style="min-height: 110px; display: flex;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-7">
-                        Doc No: <b><?= $sale->s_doc ?></b><br />
-                        Patient: 
-                        <?php
-                        $c = customers::getBy(["c_id" => $sale->s_client]);
-                        if(count($c) > 0){
-                            $c = $c[0];
-                        ?>
-                            <strong><?= $c->c_name ?></strong><br />
-                        <?php
-                        } else {
-                            unset($c);
-                            echo "-";
-                        }
-                        ?>   
-                        Total: <?= number_format($sale->s_total, 2) ?>
-                    </div>
+foreach ($sales_dashboard as $sale) {
+    if ($counter >= 3) break;
 
-                    <div class="col-5 text-end">
-                        <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
-                        Status: <span class="badge <?= $status_classes ?>"> <?= $sale->s_status ?></span>
-                    </div>
+    
+    $sale_status = $sale->s_status;
+    $status_class = "bg-success text-white"; // Default class
+    $status_text = "Paid"; // Default text
+    switch ($sale_status) {
+        case 1:
+        case "Paid":
+            $status_class = "bg-success text-white";
+            $status_text = "Paid";
+            break;
+        case 0:
+        case "Partial":
+            $status_class = "bg-danger text-white";
+            $status_text = "Partial";
+            break;
+    }
+?>
+<div class="card mb-3 shadow" style="min-height: 110px; display: flex;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-7">
+                Doc No: <b><?= $sale->s_doc ?></b><br />
+                Patient: 
+                <?php
+                $c = customers::getBy(["c_id" => $sale->s_client]);
+                if(count($c) > 0){
+                    $c = $c[0];
+                ?>
+                    <strong><?= $c->c_name ?></strong><br />
+                <?php
+                } else {
+                    unset($c);
+                    echo "-";
+                }
+                ?>   
+                Total: <?= number_format($sale->s_total, 2) ?>
+            </div>
+
+            <div class="col-5 text-end">
+                <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
+                <div>
+                    Status:
+                    <span class="badge <?= $status_class ?>"> <?= $status_text ?></span>
                 </div>
             </div>
         </div>
-        <?php 
-        $counter++; 
-        } 
-        ?>
+    </div>
+</div>
+<?php 
+$counter++; 
+} 
+?>
+
         
         <?php if (count($sales_dashboard) > 3): ?>
             <div style="text-align: center; padding: 5px;">
@@ -184,13 +191,15 @@ foreach ($appointment_list as $appointment) {
 
     foreach ($appointment_list as $appointment) {
         if ($counter >= 3) break;
-
-        $appointment_name = isset($appointment->a_customer->c_name) ? htmlspecialchars($appointment->a_customer->c_name) : "Mr.Hery";
-        $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "-";
-        $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
-        $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
-        $status = isset($appointment->a_status) ? $appointment->a_status : 0;
-        $appointment_phone = isset($appointment->a_customer->c_phone) ? htmlspecialchars($appointment->a_customer->c_phone) : '1234567890';
+        $c = customers::getBy(["c_id" => $appointment->a_customer])[0];
+        $u = users::getBy(["u_id" => $appointment->a_attendee])[0] ?? null;
+        // $appointment_name = isset($appointment->a_customer->c_name) ? htmlspecialchars($appointment->a_customer->c_name) : "Mr.Hery";
+        // $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "Dr.Hery";
+        // $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
+        // $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
+        // $status = isset($appointment->a_status) ? $appointment->a_status : 0;
+        // $appointment_phone = isset($appointment->a_customer->c_phone) ? htmlspecialchars($appointment->a_customer->c_phone) : '1234567890';
+        // $appointment_ic = isset($appointment->a_customer->c_ic) ? htmlspecialchars($appointment->a_customer->c_ic) : '123123';
 
         $status_classes = [
             1 => "bg-success text-white",
@@ -209,20 +218,41 @@ foreach ($appointment_list as $appointment) {
                 <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-start position-relative">
                     <div class="h-100 d-flex flex-column justify-content-center" 
                         style="border-right: 2px solid black; margin-right: 50px;"> <!-- Reduce margin -->
-                        <div><strong>Date:</strong> <?= date("d M Y", strtotime($appointment->a_date)) ?></div>
+                        <div><strong>Date:</strong> <?= date("d M Y", strtotime($appointment->a_bookedDate)) ?></div>
                         <div><strong>Time:</strong> <?= $appointment->a_bookedTime ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 p-1 d-flex flex-column justify-content-start text-start">
-                    <div><strong>Patient:</strong> <?= $appointment_name ?></div>
-                    <div><strong>Doctor:</strong> <?= $doctor_name ?></div>
+                    <div><strong>Patient:</strong> <?=$c->c_name?></div>
+                    <div><strong>Doctor:</strong> <?= $u ? htmlspecialchars($u->u_name) : "" ?></div>
                     <div>
                         <strong>Status:</strong>
-                        <span class="badge <?= $status_classes[$status] ?>"><?= $status_text[$status] ?></span>
+                        <?php
+                            switch ($appointment->a_status) {
+                                case "1":
+                                ?>
+                                    <span class="badge badge-success">Approved</span>
+                                <?php
+                                break;
+                                
+                                case "0":
+                                ?>
+                                    <span class="badge badge-warning">Pending</span>
+                                <?php
+                                break;
+                                
+                                case "2":
+                                ?>
+                                    <span class="badge badge-dark">Cancelled</span>
+                                <?php
+                                break;
+                            }
+                        ?>
                     </div>
                 </div>
                 <div class="col-md-4 p-1 d-flex flex-column align-items-start">
-                    <div><strong>Phone No:</strong> <?= htmlspecialchars($appointment_phone) ?></div>
+                    <div><strong>Phone No:</strong> <?= $c->c_phone ?></div>
+                    <div><strong>IC No:</strong> <?= $c->c_ic ?></div>
                 </div>
             </div>
         </div>
@@ -241,80 +271,92 @@ foreach ($appointment_list as $appointment) {
 <div id="salesPopup" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closePopup()">&times;</span>
-        <div class="col-md-6 d-flex flex-column align-items-start" style="height: 100vh;"> 
-    <!-- Ensure the column takes full height -->
-    <div style="position: sticky; top: 0; z-index: 10; padding: 10px; text-align: center; width: 100%;">
-        <h1 style="font-size: 20px;">Daily Sales</h1>
-    </div>
-    
-    <div style="max-height: 700px; padding-right: 10px; overflow-y: auto; width: 100%;"> 
-        <!-- Scrollable container -->
-      
-        <?php
-        $counter = 0;
+        <div class="col-md-6 d-flex flex-column align-items-start" style="height: 100vh; width: 100%;"> 
+            <div style="position: sticky; top: 0; z-index: 10; padding: 10px; text-align: center; width: 100%; background: white;">
+                <h1 style="font-size: 20px;">Daily Sales</h1>
+            </div>
+            
+            <div style="max-height: calc(100vh - 100px); overflow-y: auto; width: 100%;"> 
+                <!-- Scrollable container -->
+              
+                <?php
+                $counter = 0;
 
-        foreach ($sales_dashboard as $sale) {
-           
-            $status_classes = ($sale->s_status == 1) ? "bg-success text-white" : "bg-dark text-white";
-        ?>
-        
-        <div class="card mb-3 shadow" style="min-height: 110px; display: flex;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-7">
-                        Doc No: <b><?= $sale->s_doc ?></b><br />
-                        Patient: 
-                        <?php
-                        $c = customers::getBy(["c_id" => $sale->s_client]);
-                        if(count($c) > 0){
-                            $c = $c[0];
-                        ?>
-                            <strong><?= $c->c_name ?></strong><br />
-                        <?php
-                        } else {
-                            unset($c);
-                            echo "-";
-                        }
-                        ?>   
-                        Total: <?= number_format($sale->s_total, 2) ?>
-                    </div>
+                foreach ($sales_dashboard as $sale) {
+                    $status_classes = [
+                        1 => "bg-success text-white",
+                        0 => "bg-danger text-white",
+                        "Paid" => "bg-success text-white",
+                        "Partial" => "bg-danger text-white"
+                    ];
+                
+                    $status_text = [
+                        1 => "Paid",
+                        0 => "Partial",
+                        "Paid" => "Paid",
+                        "Partial" => "Partial"
+                    ];
+                    $status_class = isset($status_classes[$sale->s_status]) ? $status_classes[$sale->s_status] : "bg-success text-white";
+                    $status_label = isset($status_text[$sale->s_status]) ? $status_text[$sale->s_status] : "Paid";
+                ?>
+                 
+                <div class="card mb-3 shadow" style="min-height: 110px; display: flex;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-7">
+                                Doc No: <b><?= $sale->s_doc ?></b><br />
+                                Patient: 
+                                <?php
+                                $c = customers::getBy(["c_id" => $sale->s_client]);
+                                if(count($c) > 0){
+                                    $c = $c[0];
+                                ?>
+                                    <strong><?= $c->c_name ?></strong><br />
+                                <?php
+                                } else {
+                                    unset($c);
+                                    echo "-";
+                                }
+                                ?>   
+                                Total: <?= number_format($sale->s_total, 2) ?>
+                            </div>
 
-                    <div class="col-5 text-end">
-                        <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
-                        Status: <span class="badge <?= $status_classes ?>"> <?= $sale->s_status ?></span>
+                            <div class="col-5 text-end">
+                                <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
+                                Status: <span class="badge <?= $status_class ?>"> <?= $status_label ?></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <?php } ?>
             </div>
         </div>
-        <?php 
-       
-        } 
-        ?>
     </div>
 </div>
 
 <div id="appointmentPopup" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closePopup1()">&times;</span>
-        <div class="col-md-6 d-flex flex-column" style="height: 100vh;"> <!-- Reduce the height here -->
-
-    <div style="position: sticky; top: 0; z-index: 10; padding: 10px; text-align: center; width: 100%;">
+        <div class="col-md-6 d-flex flex-column align-items-start" style="height: 100vh; width: 100%;"> 
+        <div style="position: sticky; top: 0; z-index: 10; padding: 10px; text-align: center; width: 100%; background: white;">
     <h2 style="font-size: 18px; margin-bottom: 5px;">Appointment List</h2> <!-- Reduce font size -->
 </div>
 
-<div style="max-height: 700px;"> <!-- Reduce max-height here -->
+<div style="max-height: calc(100vh - 100px); overflow-y: auto; width: 100%;">  <!-- Reduce max-height here -->
     <?php
     $counter = 0;
 
     foreach ($appointment_list as $appointment) {
-       
-
-        $appointment_name = isset($appointment->a_customer->c_name) ? htmlspecialchars($appointment->a_customer->c_name) : "Mr.Hery";
-        $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "-";
-        $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
-        $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
-        $status = isset($appointment->a_status) ? $appointment->a_status : 0;
-        $appointment_phone = isset($appointment->a_customer->c_phone) ? htmlspecialchars($appointment->a_customer->c_phone) : '1234567890';
+     
+        $c = customers::getBy(["c_id" => $appointment->a_customer])[0];
+        $u = users::getBy(["u_id" => $appointment->a_attendee])[0] ?? null;
+        // $appointment_name = isset($appointment->a_customer->c_name) ? htmlspecialchars($appointment->a_customer->c_name) : "Mr.Hery";
+        // $doctor_name = isset($appointment->doctor_name) ? htmlspecialchars($appointment->doctor_name) : "Dr.Hery";
+        // $appointment_date = isset($appointment->a_date) ? date("Y-m-d", strtotime($appointment->a_date)) : "-";
+        // $booked_time = isset($appointment->a_bookedTime) ? $appointment->a_bookedTime : "-";
+        // $status = isset($appointment->a_status) ? $appointment->a_status : 0;
+        // $appointment_phone = isset($appointment->a_customer->c_phone) ? htmlspecialchars($appointment->a_customer->c_phone) : '1234567890';
+        // $appointment_ic = isset($appointment->a_customer->c_ic) ? htmlspecialchars($appointment->a_customer->c_ic) : '123123';
 
         $status_classes = [
             1 => "bg-success text-white",
@@ -333,30 +375,54 @@ foreach ($appointment_list as $appointment) {
                 <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-start position-relative">
                     <div class="h-100 d-flex flex-column justify-content-center" 
                         style="border-right: 2px solid black; margin-right: 50px;"> <!-- Reduce margin -->
-                        <div><strong>Date:</strong> <?= date("d M Y", strtotime($appointment->a_date)) ?></div>
+                        <div><strong>Date:</strong> <?= date("d M Y", strtotime($appointment->a_bookedDate)) ?></div>
                         <div><strong>Time:</strong> <?= $appointment->a_bookedTime ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 p-1 d-flex flex-column justify-content-start text-start">
-                    <div><strong>Patient:</strong> <?= $appointment_name ?></div>
-                    <div><strong>Doctor:</strong> <?= $doctor_name ?></div>
+                    <div><strong>Patient:</strong> <?=$c->c_name?></div>
+                    <div><strong>Doctor:</strong> <?= $u ? htmlspecialchars($u->u_name) : "" ?></div>
                     <div>
                         <strong>Status:</strong>
-                        <span class="badge <?= $status_classes[$status] ?>"><?= $status_text[$status] ?></span>
+                        <?php
+                            switch ($appointment->a_status) {
+                                case "1":
+                                ?>
+                                    <span class="badge badge-success">Approved</span>
+                                <?php
+                                break;
+                                
+                                case "0":
+                                ?>
+                                    <span class="badge badge-warning">Pending</span>
+                                <?php
+                                break;
+                                
+                                case "2":
+                                ?>
+                                    <span class="badge badge-dark">Cancelled</span>
+                                <?php
+                                break;
+                            }
+                        ?>
                     </div>
                 </div>
                 <div class="col-md-4 p-1 d-flex flex-column align-items-start">
-                    <div><strong>Phone No:</strong> <?= htmlspecialchars($appointment_phone) ?></div>
+                    <div><strong>Phone No:</strong> <?= $c->c_phone ?></div>
+                    <div><strong>IC No:</strong> <?= $c->c_ic ?></div>
                 </div>
             </div>
         </div>
     </div>
     <?php 
-       
+        
     } 
     ?>
    </div> <!-- Closing the max-height div -->
+    </div>
 </div>
+
+
 
 
 <script>
@@ -378,6 +444,7 @@ window.onclick = function(event) {
 }
 </script>
 
+
 <script>
     function openPopup1() {
     document.getElementById("appointmentPopup").style.display = "block";
@@ -397,9 +464,11 @@ window.onclick = function(event) {
 }
 </script>
 
+
+
 <style>
     /* Modal Styling */
-.modal {
+    .modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -407,26 +476,32 @@ window.onclick = function(event) {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto; /* Allow scrolling */
+    background-color: rgba(0,0,0,0.4);
 }
 
-/* Modal Content */
+/* Ensure modal content covers full screen */
 .modal-content {
     background-color: white;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
-    border-radius: 8px;
-    width: 50%;
-    text-align: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #888;
+    width: 80%;
+    max-height: 80vh; /* Limit height to allow scrolling */
+    overflow-y: auto; /* Enable scrolling */
 }
 
-/* Close Button */
+/* Optional: Close button styling */
 .close {
-    color: red;
-    float: right;
-    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
     cursor: pointer;
+}
+
+.col-md-6 {
+    width: 100%;
 }
 
 </style>
