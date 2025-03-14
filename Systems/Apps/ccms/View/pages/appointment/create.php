@@ -19,32 +19,19 @@
 	background-color: black;
 }
 
-.timepicker {
-            position: relative;
-            display: inline-block;
+.time-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
         }
-        .timepicker input {
-            width: 80px;
-            padding: 5px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .dropdown {
-            display: none;
-            position: absolute;
-            background: white;
+        .time-box {
+            padding: 10px;
             border: 1px solid #ccc;
-            max-height: 150px;
-            overflow-y: auto;
-            width: 100px;
-            z-index: 10;
-        }
-        .dropdown div {
-            padding: 5px;
-            cursor: pointer;
-        }
-        .dropdown div:hover {
-            background: #e0e0e0;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+            text-align: center;
+            min-width: 60px;
         }
 </style>
 
@@ -120,57 +107,7 @@
 				<div class="card-body p-2">
 					<div class="row">
 						<div class="col-md-6">
-							<div id="calendar"></div>
-							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
-							
-							Time:
-							<div class="timepicker">
-        <input type="text" id="timeInput" readonly>
-        <div class="dropdown" id="timeDropdown"></div>
-    </div>
-
-    <script>
-        const timeInput = document.getElementById('timeInput');
-        const timeDropdown = document.getElementById('timeDropdown');
-
-        function generateTimes() {
-            let times = [];
-            for (let hour = 3; hour <= 4; hour++) {
-                for (let min = 0; min < 60; min += 15) {
-                    let formattedTime = `${hour}:${min === 0 ? '00' : min}pm`;
-                    times.push(formattedTime);
-                }
-            }
-            return times;
-        }
-
-        function populateDropdown() {
-            const times = generateTimes();
-            timeDropdown.innerHTML = '';
-            times.forEach(time => {
-                let div = document.createElement('div');
-                div.textContent = time;
-                div.addEventListener('click', () => {
-                    timeInput.value = time;
-                    timeDropdown.style.display = 'none';
-                });
-                timeDropdown.appendChild(div);
-            });
-        }
-
-        timeInput.addEventListener('click', () => {
-            populateDropdown();
-            timeDropdown.style.display = 'block';
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!timeInput.contains(event.target) && !timeDropdown.contains(event.target)) {
-                timeDropdown.style.display = 'none';
-            }
-        });
-    </script><br /><br />
-							
-							Attendee:
+						Attendee:
 							<select class="form-control" name="pic">
 								<option value="0">Unset</option>
 							<?php
@@ -182,7 +119,38 @@
 								<?php
 								}
 							?>
+							</select>
+							<div id="calendar"></div>
+							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
+							
+							Time:
+							<select class="form-control" name="time" id="timepicker">
+								<option value="">Select Time</option>
+								<?php
+									$start_time = strtotime("08:00 AM");
+									$end_time = strtotime("06:00 PM");
+									while ($start_time <= $end_time) {
+										$time_label = date("h:i A", $start_time);
+										echo "<option value='$time_label'>$time_label</option>";
+										$start_time = strtotime("+30 minutes", $start_time);
+									}
+								?>
 							</select><br />
+
+							<!-- <div class="col-md-6"> -->
+						Clinic:
+						<select class="form-control" name="owner">
+							<?php
+							foreach (users::getBy(["u_admin" => 0]) as $u) {
+							?>
+								<option value="<?= $u->u_id ?>"><?= $u->u_name ?></option>
+							<?php
+							}
+							?>
+						</select>
+						<br />
+					<!-- </div> -->
+				
 						</div>
 						
 						<div class="col-md-6">
