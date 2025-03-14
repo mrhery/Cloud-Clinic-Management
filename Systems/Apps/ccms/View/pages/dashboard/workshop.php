@@ -277,7 +277,7 @@ $counter++;
                         See more 
                 </button>
             </div>
-        <?php endif; ?>
+    <?php endif; ?>
     </div>
 </div>
 </div>
@@ -337,12 +337,12 @@ $counter++;
                                 <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
                                 Status:  
                                 <?php
-    if ($sale->s_status == 0) {
-        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
-    } else {
-        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-    } 
-    ?>
+                                    if ($sale->s_status == 0) {
+                                        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
+                                    } else {
+                                        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
+                                    } 
+                                    ?>
                             </div>
                         </div>
                     </div>
