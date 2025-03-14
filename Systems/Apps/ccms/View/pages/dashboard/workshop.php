@@ -125,12 +125,12 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
 
         
         $status_classes = [
-            1 => "bg-warning text-dark",
-            0 => "bg-success text-white"
+            1 => "bg-success text-white",
+            0 => "bg-warning text-dark"
         ];
         $status_text = [
-            1 => "Partial",
-            0 => "Paid"
+            1 => "Paid",
+            0 => "Partial"
         ];
 ?>
 <div class="card mb-2" style="min-height: 110px; display: flex;">
@@ -160,9 +160,9 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
                     Status:
                     <?php
     if ($sale->s_status == 0) {
-        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-    } else {
         echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
+    } else {
+        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
     } 
     ?>
                 </div>
@@ -337,12 +337,12 @@ $counter++;
                                 <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
                                 Status:  
                                 <?php
-                                    if ($sale->s_status == "1") {
-                                        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-                                    } else {
-                                        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
-                                    } 
-                                 ?>
+    if ($sale->s_status == 0) {
+        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
+    } else {
+        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
+    } 
+    ?>
                             </div>
                         </div>
                     </div>
