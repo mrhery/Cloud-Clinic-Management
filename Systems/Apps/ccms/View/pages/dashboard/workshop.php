@@ -1,14 +1,5 @@
 <?php
 // Sales total calculation
-$r = (Session::get("admin") ? appointments::getBy(["a_bookedDate" => date("Y-m-d")]) : appointments::getBy(["a_bookedDate" => date("Y-m-d"), "a_clinic" => Session::get("clinic")->c_id]));
-
-if(count($r) < 1){
-    ?>
-    <div class="text-center">
-        <i>No records</i>
-    </div>
-    <?php
-    }
 $sales_total = 0;
 $sales_total_paid = 0;
 $sales_dashboard = DB::conn()->query("SELECT * FROM sales WHERE s_client = '" . Session::get("clinic")->c_id . "'")->results();
@@ -197,19 +188,13 @@ $counter++;
 
 <div style="max-height: 700px;"> <!-- Reduce max-height here -->
     <?php
-    $counter = 0;
+    // $counter = 0;
 
     foreach ($appointment_list as $appointment) {
-        if ($counter >= 3) break;
-        $c = customers::getBy(["c_id" => $appointment->a_customer])[0];
-        $u = users::getBy(["u_id" => $appointment->a_attendee])[0] ?? null;
+        // if ($counter >= 3) break;
+     
 
-
-        $formatted_date = "-";
-        if (!empty($appointment->a_bookedDate) && strtotime($appointment->a_bookedDate) !== false) {
-            $formatted_date = date("d M Y", strtotime($appointment->a_bookedDate));
-        }
-
+        
         $status_classes = [
             1 => "bg-success text-white",
             2 => "bg-danger text-white",
@@ -227,13 +212,39 @@ $counter++;
                 <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-start position-relative">
                     <div class="h-100 d-flex flex-column justify-content-center" 
                         style="border-right: 2px solid black; margin-right: 50px;"> <!-- Reduce margin -->
-                        <div>Date: <?= $formatted_date ?></div>
-                        <div>Time: <?= $appointment->a_bookedTime ?></div>
+                        <div>Date: <?= date("d M Y", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?></div>
+                        <div>Time: <?= date("H:i:s\ ", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 p-1 d-flex flex-column justify-content-start text-start">
-                    <div>Patient: <?=$c->c_name?> (<?= $c->c_ic ?>)</div>
-                    <div>Doctor: <?= $u ? htmlspecialchars($u->u_name) : "" ?></div>
+                    <div>Patient:  
+                        <?php
+                $c = customers::getBy(["c_id" => $appointment->a_customer]);
+                if(count($c) > 0){
+                    $c = $c[0];
+                ?>
+                    <?= $c->c_name ?> (<?= $c->c_ic ?>)<br />
+                <?php
+                } else {
+                    unset($c);
+                    echo "-";
+                }
+                ?> </div>
+
+                    <div>Doctor: 
+                    <?php
+                $u = users::getBy(["u_id" => $appointment->a_attendee]);
+                if(count($u) > 0){
+                    $u = $u[0];
+                ?>
+                    <?= $u->u_name ?> <br />
+                <?php
+                } else {
+                    unset($u);
+                    echo "Unset";
+                }
+                ?>
+                    </div>
                     <div>
                         Status:
                         <?php
@@ -266,18 +277,18 @@ $counter++;
         </div>
     </div>
     <?php 
-        $counter++;
+        // $counter++;
     } 
     ?>
    </div> <!-- Closing the max-height div -->
 
-   <?php if (count($sales_dashboard) > 3): ?>
+
             <div style="text-align: center; padding: 5px;">
                 <button data-toggle="modal" data-target="#appointmentPopup" class="btn btn-sm btn-primary" title="">
                         See more 
                 </button>
             </div>
-    <?php endif; ?>
+    
     </div>
 </div>
 </div>
@@ -359,60 +370,73 @@ $counter++;
 	</div>
 
     <div class="modal fade" id="appointmentPopup">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="appointmentPopupLabel">Appointment List</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
-                <?php 
-                // Debugging: Check if appointment_list contains data
-                if (empty($appointment_list) || !is_array($appointment_list)) { 
-                    echo '<p class="text-center text-muted">No appointments found.</p>';
-                } else {
-                    foreach ($appointment_list as $appointment) {
-                        // Validate customer and user data
-                        $customerData = customers::getBy(["c_id" => $appointment->a_customer]);
-                        $userData = users::getBy(["u_id" => $appointment->a_attendee]);
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span class="fa fa-file-o"></span> Appointment List
+					</h4>
+					
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				
+				<div class="modal-body">
+                <div style="max-height: calc(100vh - 100px); overflow-y: auto; width: 100%;"> 
+                <!-- Scrollable container -->
+              
+                <?php
+                $counter = 0;
 
-                        $c = (!empty($customerData) && is_array($customerData)) ? $customerData[0] : null;
-                        $u = (!empty($userData) && is_array($userData)) ? $userData[0] : null;
+                foreach ($appointment_list as $appointment) {
 
-                        // Ensure date format is valid
-                        $formatted_date = !empty($appointment->a_bookedDate) ? date("d M Y", strtotime($appointment->a_bookedDate)) : "-";
+                    $customer = customers::getBy(["c_id" => $appointment->a_customer]);
+                    $user = users::getBy(["u_id" => $appointment->a_attendee]);
+
+                    $status_classes = [
+                        1 => "bg-success text-white",
+                        2 => "bg-danger text-white",
+                        0 => "bg-warning text-dark"
+                    ];
+                    $status_text = [
+                        1 => "Approved",
+                        2 => "Cancelled",
+                        0 => "Pending"
+                    ];
+                  
                 ?>
-                <div class="card mb-2 p-2">
-                    <div class="card-body p-2">
+                 
+                <div class="card mb-3" style="min-height: 110px; display: flex;">
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 p-1 text-start">
-                                <div><strong>Date:</strong> <?= htmlspecialchars($formatted_date) ?></div>
-                                <div><strong>Time:</strong> <?= !empty($appointment->a_bookedTime) ? htmlspecialchars($appointment->a_bookedTime) : "-" ?></div>
+                            <div class="col-7">
+                                Date: <?= date("d M Y", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?><br />
+                                Time: <?= date("H:i:s\ ", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?>
                             </div>
-                            <div class="col-md-4 p-1 text-start">
-                                <div><strong>Patient:</strong> <?= $c ? htmlspecialchars($c->c_name) . " (" . htmlspecialchars($c->c_ic) . ")" : "Unknown" ?></div>
-                                <div><strong>Doctor:</strong> <?= $u ? htmlspecialchars($u->u_name) : "Dr. Hery" ?></div>
-                                <div><strong>Status:</strong> 
-                                    <span class="badge <?= $appointment->a_status == 1 ? 'badge-success' : ($appointment->a_status == 2 ? 'badge-dark' : 'badge-warning') ?>">
-                                        <?= $appointment->a_status == 1 ? "Approved" : ($appointment->a_status == 2 ? "Cancelled" : "Pending") ?>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 p-1 text-start">
-                                <div><strong>Phone No:</strong> <?= $c ? htmlspecialchars($c->c_phone) : "-" ?></div>
+
+                            <div class="col-8 text-center">
+                                <span>Patient: <?=$c->c_name?> (<?= $c->c_ic ?>)</span><br />
+                                Status:  
+                                <?php
+                                    if ($sale->s_status == 0) {
+                                        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
+                                    } else {
+                                        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
+                                    } 
+                                    ?>
                             </div>
                         </div>
                     </div>
                 </div>
-                <?php } } ?>
+                <?php } ?>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
    
 
@@ -461,7 +485,6 @@ window.onclick = function(event) {
 
 <style>
 
-/* Optional: Close button styling */
 .close {
     position: absolute;
     top: 10px;
