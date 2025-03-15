@@ -188,13 +188,10 @@ $counter++;
 
 <div style="max-height: 700px;"> <!-- Reduce max-height here -->
     <?php
-    // $counter = 0;
+    
 
     foreach ($appointment_list as $appointment) {
-        // if ($counter >= 3) break;
-     
-
-        
+       
         $status_classes = [
             1 => "bg-success text-white",
             2 => "bg-danger text-white",
@@ -405,28 +402,76 @@ $counter++;
                   
                 ?>
                  
-                <div class="card mb-3" style="min-height: 110px; display: flex;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-7">
-                                Date: <?= date("d M Y", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?><br />
-                                Time: <?= date("H:i:s\ ", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?>
-                            </div>
-
-                            <div class="col-8 text-center">
-                                <span>Patient: <?=$c->c_name?> (<?= $c->c_ic ?>)</span><br />
-                                Status:  
-                                <?php
-                                    if ($sale->s_status == 0) {
-                                        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
-                                    } else {
-                                        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-                                    } 
-                                    ?>
-                            </div>
-                        </div>
+                 <div class="card mb-2" style="padding: 8px;"> <!-- Reduce margin and padding -->
+        <div class="card-body p-2"> <!-- Reduce padding -->
+            <div class="row">
+                <div class="col-md-4 p-1 d-flex flex-column justify-content-center text-start position-relative">
+                    <div class="h-100 d-flex flex-column justify-content-center" 
+                        style="border-right: 2px solid black; margin-right: 50px;"> <!-- Reduce margin -->
+                        <div>Date: <?= date("d M Y", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?></div>
+                        <div>Time: <?= date("H:i:s\ ", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?></div>
                     </div>
                 </div>
+                <div class="col-md-4 p-1 d-flex flex-column justify-content-start text-start">
+                    <div>Patient:  
+                        <?php
+                $c = customers::getBy(["c_id" => $appointment->a_customer]);
+                if(count($c) > 0){
+                    $c = $c[0];
+                ?>
+                    <?= $c->c_name ?> (<?= $c->c_ic ?>)<br />
+                <?php
+                } else {
+                    unset($c);
+                    echo "-";
+                }
+                ?> </div>
+
+                    <div>Doctor: 
+                    <?php
+                $u = users::getBy(["u_id" => $appointment->a_attendee]);
+                if(count($u) > 0){
+                    $u = $u[0];
+                ?>
+                    <?= $u->u_name ?> <br />
+                <?php
+                } else {
+                    unset($u);
+                    echo "Unset";
+                }
+                ?>
+                    </div>
+                    <div>
+                        Status:
+                        <?php
+                            switch ($appointment->a_status) {
+                                case "1":
+                                ?>
+                                    <span class="badge badge-success">Approved</span>
+                                <?php
+                                break;
+                                
+                                case "0":
+                                ?>
+                                    <span class="badge badge-warning">Pending</span>
+                                <?php
+                                break;
+                                
+                                case "2":
+                                ?>
+                                    <span class="badge badge-dark">Cancelled</span>
+                                <?php
+                                break;
+                            }
+                        ?>
+                    </div>
+                </div>
+                <div class="col-md-4 p-1 d-flex flex-column align-items-start">
+                    <div>Phone No: <?= $c->c_phone ?></div>
+                </div>
+            </div>
+        </div>
+    </div>
                 <?php } ?>
             </div>
 				</div>
