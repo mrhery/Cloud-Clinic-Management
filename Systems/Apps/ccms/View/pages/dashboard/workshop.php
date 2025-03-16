@@ -180,13 +180,13 @@ $counter++;
 
 
     <!-- Appointments Section -->
-    <div class="col-md-6 d-flex flex-column" style="height: 100vh;"> <!-- Reduce the height here -->
+    <div class="col-md-6 d-flex flex-column" style="min-height: 100vh;"> <!-- Reduce the height here -->
 
     <div style="position: sticky; top: 0; z-index: 10; padding: 10px; text-align: center; width: 100%;">
     <h2 style="font-size: 18px; margin-bottom: 5px;">Appointment List</h2> <!-- Reduce font size -->
 </div>
 
-<div style="max-height: 700px;"> <!-- Reduce max-height here -->
+<div style="max-height: 1000px; overflow-y: auto;"> <!-- Reduce max-height here -->
     <?php
     
 
