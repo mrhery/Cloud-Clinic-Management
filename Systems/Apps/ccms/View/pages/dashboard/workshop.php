@@ -269,7 +269,7 @@ $counter++;
                 </div>
             </div>
             <div class="col-md-4 p-1 text-start">
-                <div>Phone No: <?= isset($c->c_phone) ? $c->c_phone : "-" ?></div>
+                <div>Phone No: <?=($c->c_phone) ?></div>
             </div>
         </div>
     </div>
@@ -468,7 +468,7 @@ $counter++;
                 </div>
             </div>
             <div class="col-md-4 p-1 text-start">
-                <div>Phone No: <?= isset($c->c_phone) ? $c->c_phone : "-" ?></div>
+                <div>Phone No: <?=  $c->c_phone ?></div>
             </div>
         </div>
     </div>
