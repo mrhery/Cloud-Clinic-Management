@@ -34,7 +34,14 @@
             min-width: 60px;
         }
 </style>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 
+<!-- Timepicker Js -->
+<script src="dist/wickedpicker.min.js"></script>
+
+<!-- Timepicker CSS -->
+<link rel="stylesheet" href="dist/wickedpicker.min.css">
 
 <h3>Create appointment</h3>
 <form autocomplete="off" method="POST">
