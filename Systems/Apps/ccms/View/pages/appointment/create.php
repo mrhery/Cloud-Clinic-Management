@@ -130,11 +130,11 @@
 								<?php
 								}
 							?>
-							</select>
+							</select><br />
 							
-						Attendee:
+						Doctor:
 							<select class="form-control" name="pic">
-								<option value="0">Unset</option>
+								<option value="0">Dr.Ahmed</option>
 							<?php
 								$q = DB::conn()->query("SELECT * FROM users WHERE u_id IN (SELECT cu_user FROM clinic_user WHERE cu_clinic = ?) AND u_admin = 0", [Session::get("clinic")->c_id])->results();
 								

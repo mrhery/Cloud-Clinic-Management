@@ -109,21 +109,11 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
         <!-- Scrollable container -->
       
     <?php
-    $counter = 0;
+        $counter = 0;
 
-    foreach ($sales_dashboard as $sale) {
-        if ($counter >= 3) break;
-
-        
-        $status_classes = [
-            1 => "bg-success text-white",
-            0 => "bg-warning text-dark"
-        ];
-        $status_text = [
-            1 => "Paid",
-            0 => "Partial"
-        ];
-?>
+        foreach ($sales_dashboard as $sale) {
+            if ($counter >= 3) break;
+    ?>
 <div class="card mb-2" style="min-height: 110px; display: flex;">
     <div class="card-body p-2">
         <div class="row">
@@ -150,11 +140,13 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
                 <div>
                     Status:
                     <?php
-                        if ($sale->s_status == 0) {
+                        if ($status == "paid") {
+                            echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
+                        } else if ($status == "partial"){
                             echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
                         } else {
-                            echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-                        } 
+                            echo 'Unpaid';
+                        }
                     ?>
                 </div>
             </div>
@@ -337,7 +329,7 @@ $counter++;
                                     } else if ($status == "partial"){
                                         echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
                                     } else {
-                                        echo 'Unknown';
+                                        echo 'Unpaid';
                                     }
                                     ?>
                                 </div>
