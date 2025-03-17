@@ -55,7 +55,7 @@ if(count($a) > 0){
 		
 		<div class="col-md-12 text-center">
 			<button class="btn btn-success">
-				<span class="fa fa-save"></span> Confirm & Save Appointment
+				<span class="fa fa-save"></span> Update
 			</button>
 			
 		<?php

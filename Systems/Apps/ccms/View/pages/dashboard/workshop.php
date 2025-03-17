@@ -85,7 +85,7 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
                 <span class="fa fa-dashboard"></span> Patients
             </div>
             <div class="card-body text-center p-2">
-                <h4><?= count($sales_dashboard) ?></h4>
+                <h4><?= count($customer_list) ?></h4>
             </div>
             <div class="card-footer">
                 <a href="<?= PORTAL ?>Users/customers/add/" class="btn btn-info btn-sm btn-block">
@@ -289,80 +289,76 @@ $counter++;
 </div>
 
 <div class="modal fade" id="salesPopup">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">
-						<span class="fa fa-file-o"></span> Daily Sales
-					</h4>
-					
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				
-				<div class="modal-body">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span class="fa fa-file-o"></span> Daily Sales
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
                 <div style="max-height: calc(100vh - 100px); overflow-y: auto; width: 100%;"> 
-                <!-- Scrollable container -->
-              
-                <?php
-                $counter = 0;
-
-                foreach ($sales_dashboard as $sale) {
-                    $status_classes = [
-                        1 => "bg-success text-white",
-                        0 => "bg-warning text-dark"
-                    ];
-                    $status_text = [
-                        1 => "Paid",
-                        0 => "Partial"
-                    ];
-                  
-                ?>
-                 
-                <div class="card mb-3" style="min-height: 110px; display: flex;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-7">
-                                Doc No: <?= $sale->s_doc ?><br />
-                                Patient: 
-                                <?php
-                                $c = customers::getBy(["c_id" => $sale->s_client]);
-                                if(count($c) > 0){
-                                    $c = $c[0];
-                                ?>
-                                    <?= $c->c_name ?><br />
-                                <?php
-                                } else {
-                                    unset($c);
-                                    echo "-";
-                                }
-                                ?>   
-                                Total: <?= number_format($sale->s_total, 2) ?>
-                            </div>
-
-                            <div class="col-5 text-end">
-                                <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
-                                Status:  
-                                <?php
-                                    if ($sale->s_status == 0) {
+                    <?php
+                    if (!empty($sales_dashboard)) {
+                        echo "<!-- Debug: Total Sales Found - " . count($sales_dashboard) . " -->";
+                        foreach ($sales_dashboard as $sale) {
+                            // Debugging output
+                            echo "<!-- Debug: Raw Status - " . var_export($sale->s_status, true) . " -->";
+                            
+                            // Ensure status is correctly interpreted
+                            $status = (string) trim($sale->s_status);
+                    ?>
+                    <div class="card mb-3" style="min-height: 110px; display: flex;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-7">
+                                    Doc No: <?= htmlspecialchars($sale->s_doc) ?><br />
+                                    Patient: 
+                                    <?php
+                                    $c = customers::getBy(["c_id" => $sale->s_client]);
+                                    if (!empty($c)) {
+                                        $c = $c[0];
+                                    ?>
+                                        <?= htmlspecialchars($c->c_name) ?><br />
+                                    <?php
+                                    } else {
+                                        echo "-";
+                                    }
+                                    ?>   
+                                    Total: <?= number_format($sale->s_total, 2) ?>
+                                </div>
+                                <div class="col-5 text-end">
+                                    <span>Date: <?= date("d M Y", strtotime($sale->s_date)) ?></span><br />
+                                    Status:  
+                                    <?php
+                                    if ($status == "paid") {
+                                        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
+                                    } else if ($status == "partial"){
                                         echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
                                     } else {
-                                        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-                                    } 
+                                        echo 'Unknown';
+                                    }
                                     ?>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <?php 
+                        }
+                    } else {
+                        echo "<p>No sales data available.</p>";
+                    }
+                    ?>
                 </div>
-                <?php } ?>
             </div>
-				</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <div class="modal fade" id="appointmentPopup">
 		<div class="modal-dialog modal-lg">
@@ -524,7 +520,16 @@ window.onclick = function(event) {
 }
 </script>
 
-
+<script>
+document.getElementById("seeMore").addEventListener("click", function() {
+    fetch("<?= PORTAL ?>ajax/get-full-sales-list.php")
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("salesTable").getElementsByTagName('tbody')[0].innerHTML = data;
+        document.getElementById("seeMore").style.display = "none";
+    });
+});
+</script>
 
 <style>
 
