@@ -150,12 +150,12 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
                 <div>
                     Status:
                     <?php
-    if ($sale->s_status == 0) {
-        echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
-    } else {
-        echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
-    } 
-    ?>
+                        if ($sale->s_status == 0) {
+                            echo '<span class="badge bg-warning text-dark d-inline-block">Partial</span>';
+                        } else {
+                            echo '<span class="badge bg-success text-white d-inline-block">Paid</span>';
+                        } 
+                    ?>
                 </div>
             </div>
         </div>
@@ -164,9 +164,7 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
 <?php 
 $counter++; 
 } 
-?>
-
-        
+?>   
         <?php if (count($sales_dashboard) > 3): ?>
             <div style="text-align: center; padding: 5px;">
                 <button data-toggle="modal" data-target="#salesPopup" class="btn btn-sm btn-primary" title="">
@@ -180,7 +178,7 @@ $counter++;
 
 
     <!-- Appointments Section -->
-    <div class="col-md-6 d-flex flex-column" style="min-height: 100vh;"> <!-- Reduce the height here -->
+    <div class="col-md-6 d-flex flex-column" style="height: 100vh;"> <!-- Reduce the height here -->
 
     <div style="position: sticky; top: 0; z-index: 10; padding: 10px; text-align: center; width: 100%;">
     <h2 style="font-size: 18px; margin-bottom: 5px;">Appointment List</h2> <!-- Reduce font size -->
@@ -189,7 +187,6 @@ $counter++;
 <div style="max-height: 1000px; overflow-y: auto;"> <!-- Reduce max-height here -->
     <?php
     
-
     foreach ($appointment_list as $appointment) {
        
         $status_classes = [
@@ -206,7 +203,7 @@ $counter++;
    <div class="card mb-2" style="padding: 8px;">
     <div class="card-body p-2">
         <div class="row align-items-start"> <!-- Align items to the top -->
-            <div class="col-md-4 p-1 text-start position-relative">
+            <div class="col-md-4 p-1 text-start">
                 <div class="h-100" 
                     style="border-right: 2px solid black; margin-right: 50px;">
                     <div>Date: <?= date("d M Y", strtotime($appointment->a_bookedDate . " " . $appointment->a_bookedTime)) ?></div>
@@ -269,7 +266,7 @@ $counter++;
                 </div>
             </div>
             <div class="col-md-4 p-1 text-start">
-                <div>Phone No: <?=($c->c_phone) ?></div>
+                <div>Phone No: <?= $c->c_phone ?></div>
             </div>
         </div>
     </div>
