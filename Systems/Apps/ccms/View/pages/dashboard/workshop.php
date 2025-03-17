@@ -113,6 +113,7 @@ $customer_list = DB::conn()->query("SELECT * FROM customers")->results();
 
         foreach ($sales_dashboard as $sale) {
             if ($counter >= 3) break;
+            $status = $sale->s_status; 
     ?>
 <div class="card mb-2" style="min-height: 110px; display: flex;">
     <div class="card-body p-2">
