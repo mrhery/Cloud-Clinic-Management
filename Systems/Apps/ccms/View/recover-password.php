@@ -35,13 +35,13 @@ new Controller(["recover-password"]);
     margin: auto;
     padding: 15px;
     position: absolute;
-    top: -5px; /* Adjust this value to position it closer to the top */
+    top: 69px; /* Adjust this value to position it closer to the top */
     left: 50%;
     transform: translateX(-50%);
 }
 </style>
 
 <div class="lena-shape-bg">
-	<img src="<?= PORTAL ?>assets/img/bottom-shape-2.svg" style="height:190px;" />
+	<img src="<?= PORTAL ?>assets/img/bottom-shape-2.svg" />
 </div>
 
