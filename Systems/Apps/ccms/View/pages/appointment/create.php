@@ -1,52 +1,46 @@
-<style>
-#ic-search-list {
-	display: none;
-	position: absolute;
-	background-color: #363636;
-	width: 95%;
-	overflow-y: auto;
-	z-index: 1;
-}
+<head>
+	<!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="assets/timepicker.css">
+	<!-- <link rel="stylesheet" type="text/css" href="assets/custom-fixes.css"> -->
+    
+    <style>
+        #ic-search-list {
+            display: none;
+            position: absolute;
+            background-color: #363636;
+            width: 95%;
+            overflow-y: auto;
+            z-index: 1;
+        }
 
-.ic-list-item {
-	color: white;
-	padding: 10px;
-	cursor: pointer;
-	font-size: 9pt;
-}
+        .ic-list-item {
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 9pt;
+        }
 
-.ic-list-item:hover {
-	background-color: black;
-}
+        .ic-list-item:hover {
+            background-color: black;
+        }
 
-.time-container {
-            display: flex;
-            flex-wrap: wrap;
+        .time-picker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            padding: 10px;
+            max-width: 400px;
+            margin: 20px auto;
         }
-        .time-box {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f4f4f4;
-            text-align: center;
-            min-width: 60px;
-        }
-</style>
+    </style>
+</head>
 
 
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css">
 
-    <!-- jQuery UI Timepicker Addon -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="assets/timepicker.css"> -->
 
-
+<body>
 <h3>Create appointment</h3>
 <form autocomplete="off" method="POST">
 	<div id="accordion" class="mb-3">
@@ -148,21 +142,20 @@
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
-							Time:
-							<select class="form-control" name="time">
-							
-							<?php
-								$booked_times = [];
-								$selected_date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
-								$q = DB::conn()->query("SELECT a_bookedTime FROM appointments WHERE a_bookedDate = ?", [$selected_date])->results();
-								
-								foreach($q as $s){
-								?>
-								<option value="<?= $s->a_ukey ?>"><?= $s->a_bookedTime ?></option>
-								<?php
-								}
-							?>
-							</select><br />
+							<div class="bootstrap-timepicker">
+								<div class="form-group">
+										<label>Time picker:</label>
+				
+										<div class="input-group input-group-lg">
+										<input type="datetime-local" class="form-control timepicker">
+				
+										<div class="input-group-addon">
+												<span class="glyphicon glyphicon-time"></span>
+										</div>
+										</div>
+								</div>
+							</div>
+							<input type="hidden" name="selected_time" id="selected_time" value="">
 				
 						</div>
 						
@@ -312,7 +305,12 @@
 		</button>
 	</div>
 </form>
+</body>
 
+<script src="assets/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/timepicker.js"></script>
+<script>console.log($.fn.tooltip.Constructor.VERSION);</script>
 <script>
 	$(document).on("keyup", "#search-ic", function(){
 	var skey = $(this).val();
@@ -411,5 +409,13 @@ var calendar = prepareCalendar("#calendar", {
 });
 calendar.manipulate();
 </script>
+<script>
+$(function(){
+        $('.timepicker').timepicker({
+        showInputs: false
+    })
+});
+</script>
+
 
 
