@@ -1,9 +1,4 @@
-<head>
-	<!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" type="text/css" href="assets/timepicker.css">
-	<!-- <link rel="stylesheet" type="text/css" href="assets/custom-fixes.css"> -->
-    
-    <style>
+	<style>
         #ic-search-list {
             display: none;
             position: absolute;
@@ -24,15 +19,25 @@
             background-color: black;
         }
 
-        .time-picker {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-width: 400px;
+		.timepicker-container {
+            max-width: 300px;
             margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .btn-container {
+            margin-top: 10px;
+        }
+        .selected-time {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
-</head>
+
 
 
 
@@ -142,20 +147,34 @@
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
-							<div class="bootstrap-timepicker">
-								<div class="form-group">
-										<label>Time picker:</label>
-				
-										<div class="input-group input-group-lg">
-										<input type="datetime-local" class="form-control timepicker">
-				
-										<div class="input-group-addon">
-												<span class="glyphicon glyphicon-time"></span>
+							<div class="timepicker-container">
+								<label><strong>Enter Time</strong></label>
+									<div class="form-row">
+										<div class="col">
+											<select id="hour" class="form-control">
+												<!-- Hours will be populated dynamically -->
+											</select>
 										</div>
+										<div class="col">
+											<select id="minute" class="form-control">
+												<option value="00">00</option>
+												<option value="30">30</option>
+											</select>
 										</div>
-								</div>
+										<div class="col">
+											<select id="ampm" class="form-control">
+												<option value="AM">AM</option>
+												<option value="PM">PM</option>
+											</select>
+										</div>
+									</div>
+									<div class="btn-container">
+										<button id="now" class="btn btn-primary">Now</button>
+										<button id="clear" class="btn btn-danger">Clear</button>
+									</div>
+								
+								<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
 							</div>
-							<input type="hidden" name="selected_time" id="selected_time" value="">
 				
 						</div>
 						
@@ -307,10 +326,7 @@
 </form>
 </body>
 
-<script src="assets/jquery.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/timepicker.js"></script>
-<script>console.log($.fn.tooltip.Constructor.VERSION);</script>
+
 <script>
 	$(document).on("keyup", "#search-ic", function(){
 	var skey = $(this).val();
@@ -410,11 +426,56 @@ var calendar = prepareCalendar("#calendar", {
 calendar.manipulate();
 </script>
 <script>
-$(function(){
-        $('.timepicker').timepicker({
-        showInputs: false
-    })
-});
+        $(document).ready(function () {
+            // Populate hours from 8 to 10 PM
+            for (let i = 8; i <= 10; i++) {
+                $("#hour").append(`<option value="${i}">${i}</option>`);
+            }
+            for (let i = 1; i < 11; i++) {
+                $("#hour").append(`<option value="${i + 12}">${i}</option>`);
+            }
+            
+            // Update selected time
+            function updateTime() {
+                let hour = $('#hour').val();
+                let minute = $('#minute').val();
+                let ampm = $('#ampm').val();
+                $("#selectedTime").text(`${hour}:${minute} ${ampm}`);
+            }
+            $("select").change(updateTime);
+
+            // Set to current time
+		$('#now').click(function (event) {
+			event.preventDefault(); // Prevents form submission if inside a form
+
+			let now = new Date();
+			let hours = now.getHours();
+			let minutes = now.getMinutes() >= 30 ? '30' : '00';
+			let ampm = hours >= 12 ? 'PM' : 'AM';
+
+			hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
+
+			// Ensure dropdown selections match the required 08:00 AM format
+			$('#hour').val('8');  // Set hour dropdown to 8
+			$('#minute').val('00');  // Set minutes to 00
+			$('#ampm').val('AM');  // Set AM/PM to AM
+
+			// Update displayed selected time
+			$("#selectedTime").text("08:00 AM");
+		});
+            // Clear selection
+			$('#clear').click(function (event) {
+				event.preventDefault(); // Prevents unintended navigation
+
+				// Reset dropdowns
+				$('#hour').prop('selectedIndex', 0);
+				$('#minute').prop('selectedIndex', 0);
+				$('#ampm').prop('selectedIndex', 0);
+
+				// Clear displayed selected time
+				$('#selectedTime').text('--:-- --');
+			});
+		});
 </script>
 
 
