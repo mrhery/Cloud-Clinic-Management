@@ -171,7 +171,7 @@
 										<button id="clear" class="btn btn-danger">Clear</button>
 									</div>
 									<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
-									<input type="hidden" name="time" id="time" class="form-control"value="<?= time('h:i A', strtotime($a->a_bookedTime)) ?>" />
+									<input type="hidden" name="a_bookedTime" id="a_bookedTime"  class="form-control" />
 								</div>
 				
 						</div>
