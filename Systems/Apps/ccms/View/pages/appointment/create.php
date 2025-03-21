@@ -148,12 +148,10 @@
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
 							<div class="timepicker-container">
-								<label><strong>Enter Time</strong></label>
+									<label><strong>Enter Time</strong></label>
 									<div class="form-row">
 										<div class="col">
-											<select id="hour" class="form-control">
-												<!-- Hours will be populated dynamically -->
-											</select>
+											<select id="hour" class="form-control"></select>
 										</div>
 										<div class="col">
 											<select id="minute" class="form-control">
@@ -172,9 +170,9 @@
 										<button id="now" class="btn btn-primary">Now</button>
 										<button id="clear" class="btn btn-danger">Clear</button>
 									</div>
-								
-								<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
-							</div>
+									<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
+									<input type="hidden" name="time" id="time" class="form-control" />
+								</div>
 				
 						</div>
 						
@@ -426,56 +424,61 @@ var calendar = prepareCalendar("#calendar", {
 calendar.manipulate();
 </script>
 <script>
-        $(document).ready(function () {
-            // Populate hours from 8 to 10 PM
-            for (let i = 8; i <= 10; i++) {
-                $("#hour").append(`<option value="${i}">${i}</option>`);
-            }
-            for (let i = 1; i < 11; i++) {
-                $("#hour").append(`<option value="${i + 12}">${i}</option>`);
-            }
-            
-            // Update selected time
-            function updateTime() {
-                let hour = $('#hour').val();
-                let minute = $('#minute').val();
-                let ampm = $('#ampm').val();
-                $("#selectedTime").text(`${hour}:${minute} ${ampm}`);
-            }
-            $("select").change(updateTime);
+$(document).ready(function () {
+    // Populate hours from 1 to 12 without leading zeros
+    for (let i = 1; i <= 12; i++) {
+        $("#hour").append(`<option value="${i}">${i}</option>`);
+    }
 
-            // Set to current time
-		$('#now').click(function (event) {
-			event.preventDefault(); // Prevents form submission if inside a form
+    // Update selected time function
+    function updateTime() {
+        let hour = $('#hour').val();
+        let minute = $('#minute').val();
+        let ampm = $('#ampm').val();
 
-			let now = new Date();
-			let hours = now.getHours();
-			let minutes = now.getMinutes() >= 30 ? '30' : '00';
-			let ampm = hours >= 12 ? 'PM' : 'AM';
+        // Format hour with leading zero for display if needed
+        let formattedHour = String(hour).padStart(2, '0');
 
-			hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
+        $("#selectedTime").text(`${hour}:${minute} ${ampm}`);
+        $("#time").val(`${formattedHour}:${minute} ${ampm}`); // Store formatted time
+    }
 
-			// Ensure dropdown selections match the required 08:00 AM format
-			$('#hour').val('8');  // Set hour dropdown to 8
-			$('#minute').val('00');  // Set minutes to 00
-			$('#ampm').val('AM');  // Set AM/PM to AM
+    $("select").change(updateTime);
 
-			// Update displayed selected time
-			$("#selectedTime").text("08:00 AM");
-		});
-            // Clear selection
-			$('#clear').click(function (event) {
-				event.preventDefault(); // Prevents unintended navigation
+    // Set to current time
+    $('#now').click(function (event) {
+        event.preventDefault(); // Prevents form submission if inside a form
 
-				// Reset dropdowns
-				$('#hour').prop('selectedIndex', 0);
-				$('#minute').prop('selectedIndex', 0);
-				$('#ampm').prop('selectedIndex', 0);
+        let now = new Date();
+        let hours24 = now.getHours();
+        let minutes = now.getMinutes();
+        let ampm = hours24 >= 12 ? 'PM' : 'AM';
 
-				// Clear displayed selected time
-				$('#selectedTime').text('--:-- --');
-			});
-		});
+        // Convert 24-hour format to 12-hour format
+        let hours12 = hours24 % 12 || 12; // 0 or 12 should be converted to 12 AM/PM
+        minutes = minutes >= 30 ? '30' : '00'; // Round minutes to 00 or 30
+
+        // Update dropdown values
+        $('#hour').val(hours12);
+        $('#minute').val(minutes);
+        $('#ampm').val(ampm);
+
+        // Manually trigger change to update display
+        updateTime();
+    });
+
+    // Clear selection
+    $('#clear').click(function (event) {
+        event.preventDefault(); // Prevents unintended navigation
+
+        $('#hour').prop('selectedIndex', 0);
+        $('#minute').prop('selectedIndex', 0);
+        $('#ampm').prop('selectedIndex', 0);
+
+        $('#selectedTime').text('--:-- --');
+        $('#time').val('');
+    });
+});
 </script>
 
 

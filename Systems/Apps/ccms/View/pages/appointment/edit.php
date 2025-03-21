@@ -1,3 +1,22 @@
+<style>
+		.timepicker-container {
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .btn-container {
+            margin-top: 10px;
+        }
+        .selected-time {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 
 <?php
 $a = appointments::getBy(["a_ukey" => url::get(2)]);
@@ -40,7 +59,36 @@ if(count($a) > 0){
 			<input type="date" name="date" class="form-control" value="<?= date("Y-m-d", strtotime($a->a_date)) ?>" /><br />
 			
 			Time:
-			<input type="time" name="time" class="form-control" value="<?= date("H:i", $a->a_time) ?>" /><br />
+			<div class="timepicker-container">
+				<label><strong>Enter Time</strong></label>
+				<div class="form-row">
+					<div class="col">
+						<select id="hour" class="form-control" name="hour">
+							<!-- Hours will be populated dynamically -->
+						</select>
+					</div>
+					<div class="col">
+						<select id="minute" class="form-control" name="minute">
+							<option value="00">00</option>
+							<option value="30">30</option>
+						</select>
+					</div>
+					<div class="col">
+						<select id="ampm" class="form-control" name="ampm">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+				</div>
+				<div class="btn-container">
+					<button id="now" class="btn btn-primary">Now</button>
+					<button id="clear" class="btn btn-danger">Clear</button>
+				</div>
+				<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
+			</div>
+
+			<input type="hidden" name="time" id="time" value="<?= date('h:i A', strtotime($a->a_time)) ?>" />
+
 			
 			Status:
 			<select class="form-control" name="status">
@@ -125,3 +173,49 @@ if(count($a) > 0){
 	new Alert("error", "Selected appointment is not exists.");
 }
 ?>
+<script>
+		$(document).ready(function () {
+    // Populate hours from 1 to 12
+    for (let i = 1; i <= 12; i++) {
+        $("#hour").append(`<option value="${i}">${i}</option>`);
+    }
+
+    // Update selected time
+    function updateTime() {
+        let hour = $('#hour').val();
+        let minute = $('#minute').val();
+        let ampm = $('#ampm').val();
+        $("#selectedTime").text(`${hour}:${minute} ${ampm}`);
+    }
+    $("select").change(updateTime);
+
+    // Set to current time
+    $('#now').click(function (event) {
+        event.preventDefault(); // Prevents form submission if inside a form
+
+        let now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes() >= 30 ? '30' : '00';
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+
+        hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
+
+        $('#hour').val(hours);
+        $('#minute').val(minutes);
+        $('#ampm').val(ampm);
+
+        $("#selectedTime").text(`${hours}:${minutes} ${ampm}`);
+    });
+
+    // Clear selection
+    $('#clear').click(function (event) {
+        event.preventDefault(); // Prevents unintended navigation
+
+        $('#hour').prop('selectedIndex', 0);
+        $('#minute').prop('selectedIndex', 0);
+        $('#ampm').prop('selectedIndex', 0);
+
+        $('#selectedTime').text('--:-- --');
+    });
+});
+</script>
