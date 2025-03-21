@@ -171,7 +171,7 @@
 										<button id="clear" class="btn btn-danger">Clear</button>
 									</div>
 									<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
-									<input type="hidden" name="time" id="time" class="form-control" />
+									<input type="hidden" name="time" id="time" class="form-control"value="<?= time('h:i A', strtotime($a->a_bookedTime)) ?>" />
 								</div>
 				
 						</div>
@@ -431,17 +431,25 @@ $(document).ready(function () {
     }
 
     // Update selected time function
-    function updateTime() {
-        let hour = $('#hour').val();
-        let minute = $('#minute').val();
-        let ampm = $('#ampm').val();
+	function updateTime() {
+    let hour = parseInt($('#hour').val(), 10);
+    let minute = $('#minute').val();
+    let ampm = $('#ampm').val();
 
-        // Format hour with leading zero for display if needed
-        let formattedHour = String(hour).padStart(2, '0');
-
-        $("#selectedTime").text(`${hour}:${minute} ${ampm}`);
-        $("#time").val(`${formattedHour}:${minute} ${ampm}`); // Store formatted time
+    // Convert 12-hour format to 24-hour format
+    if (ampm === 'PM' && hour !== 12) {
+        hour += 12;
+    } else if (ampm === 'AM' && hour === 12) {
+        hour = 0;
     }
+
+    // Format hour and minute with leading zeros
+    let formattedHour = String(hour).padStart(2, '0');
+    let formattedMinute = String(minute).padStart(2, '0');
+
+    $("#selectedTime").text(`${formattedHour}:${formattedMinute}`);
+    $("#time").val(`${formattedHour}:${formattedMinute}`); // Store in 24-hour format
+}
 
     $("select").change(updateTime);
 
