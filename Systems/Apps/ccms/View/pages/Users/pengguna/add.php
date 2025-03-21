@@ -16,7 +16,7 @@ Controller::alert();
 			<input type="email" placeholder="Email" name="email" class="form-control" /><br />
 			
 			Phone:
-			<input type="text" placeholder="Phone" name="phone" class="form-control" /><br />
+			<input type="text" placeholder="Phone" name="phone" class="form-control"  pattern="\d{10,11}"/><br />
 			
 			Address:
 			<textarea type="text" placeholder="Address" name="alamat" rows="3" class="form-control"></textarea><br />
