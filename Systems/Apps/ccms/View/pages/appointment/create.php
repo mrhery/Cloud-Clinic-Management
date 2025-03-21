@@ -147,7 +147,8 @@
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
-							<div class="timepicker-container">
+							<form id="timeForm" method="POST" action="save_time.php">
+								<div class="timepicker-container">
 									<label><strong>Enter Time</strong></label>
 									<div class="form-row">
 										<div class="col">
@@ -167,12 +168,14 @@
 										</div>
 									</div>
 									<div class="btn-container">
-										<button id="now" class="btn btn-primary">Now</button>
-										<button id="clear" class="btn btn-danger">Clear</button>
+										<button type="button" id="now" class="btn btn-primary">Now</button>
+										<button type="button" id="clear" class="btn btn-danger">Clear</button>
 									</div>
 									<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
-									<input type="hidden" name="a_bookedTime" id="a_bookedTime"  class="form-control" />
+									<input type="hidden" name="a_bookedTime" id="a_bookedTime" />
+									<button type="submit" class="btn btn-success">Submit</button>
 								</div>
+							</form>
 				
 						</div>
 						
@@ -488,6 +491,32 @@ $(document).ready(function () {
     });
 });
 </script>
+<script>
+    document.getElementById("timeForm").addEventListener("submit", function (event) {
+        let hour = document.getElementById("hour").value;
+        let minute = document.getElementById("minute").value;
+        let ampm = document.getElementById("ampm").value;
+
+        if (!hour || !minute || !ampm) {
+            alert("Please select a valid time.");
+            event.preventDefault();
+            return;
+        }
+
+        let time = hour + ":" + minute + " " + ampm;
+        document.getElementById("a_bookedTime").value = time;
+    });
+
+    // Populate hour dropdown
+    let hourSelect = document.getElementById("hour");
+    for (let i = 1; i <= 12; i++) {
+        let option = document.createElement("option");
+        option.value = i < 10 ? "0" + i : i;
+        option.textContent = i;
+        hourSelect.appendChild(option);
+    }
+</script>
+
 
 
 
