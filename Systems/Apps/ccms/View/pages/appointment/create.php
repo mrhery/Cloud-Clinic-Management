@@ -44,6 +44,9 @@
 
 <!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="assets/timepicker.css"> -->
+<?php
+Controller::alert();
+?>
 
 <body>
 <h3>Create appointment</h3>
@@ -148,34 +151,33 @@
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
 							<form id="timeForm" method="POST" action="save_time.php">
-								<div class="timepicker-container">
-									<label><strong>Enter Time</strong></label>
-									<div class="form-row">
-										<div class="col">
-											<select id="hour" class="form-control"></select>
-										</div>
-										<div class="col">
-											<select id="minute" class="form-control">
-												<option value="00">00</option>
-												<option value="30">30</option>
-											</select>
-										</div>
-										<div class="col">
-											<select id="ampm" class="form-control">
-												<option value="AM">AM</option>
-												<option value="PM">PM</option>
-											</select>
-										</div>
+							<div class="timepicker-container">
+								<label><strong>Enter Time</strong></label>
+								<div class="form-row">
+									<div class="col">
+										<select id="hour" class="form-control"></select>
 									</div>
-									<div class="btn-container">
-										<button type="button" id="now" class="btn btn-primary">Now</button>
-										<button type="button" id="clear" class="btn btn-danger">Clear</button>
+									<div class="col">
+										<select id="minute" class="form-control">
+											<option value="00">00</option>
+											<option value="30">30</option>
+										</select>
 									</div>
-									<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
-									<input type="hidden" name="a_bookedTime" id="a_bookedTime" />
-									<button type="submit" class="btn btn-success">Submit</button>
+									<div class="col">
+										<select id="ampm" class="form-control">
+											<option value="AM">AM</option>
+											<option value="PM">PM</option>
+										</select>
+									</div>
 								</div>
-							</form>
+								<div class="btn-container">
+									<button type="button" id="now" class="btn btn-primary">Now</button>
+									<button type="button" id="clear" class="btn btn-danger">Clear</button>
+								</div>
+								<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
+								<input type="hidden" name="a_bookedTime" id="a_bookedTime" />
+							</div>
+						</form>
 				
 						</div>
 						
@@ -490,31 +492,6 @@ $(document).ready(function () {
         $('#time').val('');
     });
 });
-</script>
-<script>
-    document.getElementById("timeForm").addEventListener("submit", function (event) {
-        let hour = document.getElementById("hour").value;
-        let minute = document.getElementById("minute").value;
-        let ampm = document.getElementById("ampm").value;
-
-        if (!hour || !minute || !ampm) {
-            alert("Please select a valid time.");
-            event.preventDefault();
-            return;
-        }
-
-        let time = hour + ":" + minute + " " + ampm;
-        document.getElementById("a_bookedTime").value = time;
-    });
-
-    // Populate hour dropdown
-    let hourSelect = document.getElementById("hour");
-    for (let i = 1; i <= 12; i++) {
-        let option = document.createElement("option");
-        option.value = i < 10 ? "0" + i : i;
-        option.textContent = i;
-        hourSelect.appendChild(option);
-    }
 </script>
 
 
