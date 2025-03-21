@@ -427,8 +427,7 @@ var calendar = prepareCalendar("#calendar", {
 	}
 });
 calendar.manipulate();
-</script>
-<script>
+
 $(document).ready(function () {
     // Populate hours from 1 to 12 without leading zeros
     for (let i = 1; i <= 12; i++) {
@@ -493,6 +492,7 @@ $(document).ready(function () {
     });
 });
 </script>
+
 
 
 
