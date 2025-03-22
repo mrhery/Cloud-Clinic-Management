@@ -80,7 +80,7 @@ Controller::alert();
 						<div class="col-md-6">
 							<input type="hidden" name="c_id" />
 							Name:
-							<input type="text" class="form-control" name="name" placeholder="Name" autofill="off" /><br />
+							<input type="text" class="form-control" name="name" placeholder="Name" autofill="off" value="<?= Input::get("name") ?>" /><br />
 							
 							IC / Passport:
 							<input type="text" class="form-control" name="ic" placeholder="IC / Passport" value="<?= Input::get("ic") ?>" /><br />
@@ -491,6 +491,19 @@ $(document).ready(function () {
         $('#selectedTime').text('--:-- --');
         $('#time').val('');
     });
+});
+
+$(document).on("click", ".ic-list-item", function(){
+    var customerId = $(this).data("id");
+    var customerName = $(this).text().split(" (")[0]; // Extracts name
+    var customerIC = $(this).text().match(/\(([^)]+)\)/)[1]; // Extracts IC from parentheses
+
+    // Assign values to text fields
+    $("input[name='name']").val(customerName);
+    $("input[name='ic']").val(customerIC);
+
+    // Hide search list
+    $("#ic-search-list").hide();
 });
 </script>
 
