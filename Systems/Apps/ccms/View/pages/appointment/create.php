@@ -136,16 +136,17 @@ Controller::alert();
 							
 							Doctor:
 							<select class="form-control" name="pic">
-								<option value="0">Unset</option>
-							<?php
-								$q = DB::conn()->query("SELECT * FROM users WHERE u_id IN (SELECT cu_user FROM clinic_user WHERE cu_clinic = ?) AND u_admin = 0", [Session::get("clinic")->c_id])->results();
-								
-								foreach($q as $s){
-								?>
-								<option value="<?= $s->u_key ?>"><?= $s->u_name ?></option>
 								<?php
-								}
-							?>
+									foreach (roles::list() as $role) {
+										if ($role->r_name == "Doctor") { // Filter only Doctor role
+								?>
+											<option value="<?= $role->r_id ?>">
+												<?= $role->r_name ?>
+											</option>
+								<?php
+										}
+									}
+								?>
 							</select>
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
@@ -336,7 +337,7 @@ Controller::alert();
 	$("#ic-search-list").show();
 	
 	$.ajax({
-		url: PORTAL + "webservice/customers",
+		url: PORTAL + "webservice/customers/search",
 		method: "POST",
 		data: {
 			action: "search",
