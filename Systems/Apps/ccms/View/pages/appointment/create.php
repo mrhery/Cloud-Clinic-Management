@@ -333,34 +333,33 @@ Controller::alert();
 
 <script>
 	$(document).on("keyup", "#search-ic", function(){
-	var skey = $(this).val();
-	$("#ic-search-list").show();
-	
-	$.ajax({
-		url: PORTAL + "webservice/customers/search",
-		method: "POST",
-		data: {
-			action: "search",
-			skey: skey
-		},
-		dataType: "text"
-	}).done(function(res){
-		// console.log(res);
-		var o = JSON.parse(res);
-		
-		if(o.status == "success"){
-			$("#ic-search-list").html("");
-			
-			o.data.forEach(function(c){
-				$("#ic-search-list").append('\
-					<div class="ic-list-item" data-id="'+ c.id +'">\
-						<strong>'+ c.name +' ('+ c.ic +')</strong><br />\
-						'+ c.phone +' <br /> '+ c.email +'\
-					</div>\
-				');
-			});
-		}
-	});
+    var skey = $(this).val();
+    $("#ic-search-list").show();
+
+    $.ajax({
+        url: PORTAL + "webservice/customers/search",
+        method: "POST",
+        data: {
+            action: "search",
+            skey: skey
+        },
+        dataType: "text"
+    }).done(function(res){
+        var o = JSON.parse(res);
+
+        if(o.status == "success"){
+            $("#ic-search-list").html("");
+
+            o.data.forEach(function(c){
+                $("#ic-search-list").append(`
+                    <div class="ic-list-item" data-id="${c.id}">
+                        <strong>${c.name} (${c.ic})</strong><br />
+                        ${c.phone} <br /> ${c.email}
+                    </div>
+                `);
+            });
+        }
+    });
 });
 
 
@@ -481,30 +480,30 @@ $(document).ready(function () {
     });
 
     // Clear selection
-    $('#clear').click(function (event) {
-        event.preventDefault(); // Prevents unintended navigation
+		$('#clear').click(function (event) {
+			event.preventDefault(); // Prevents unintended navigation
 
-        $('#hour').prop('selectedIndex', 0);
-        $('#minute').prop('selectedIndex', 0);
-        $('#ampm').prop('selectedIndex', 0);
+			$('#hour').prop('selectedIndex', 0);
+			$('#minute').prop('selectedIndex', 0);
+			$('#ampm').prop('selectedIndex', 0);
 
-        $('#selectedTime').text('--:-- --');
-        $('#time').val('');
-    });
+			$('#selectedTime').text('--:-- --');
+			$('#time').val('');
+		});
 });
 
-$(document).on("click", ".ic-list-item", function(){
-    var customerId = $(this).data("id");
-    var customerName = $(this).text().split(" (")[0]; // Extracts name
-    var customerIC = $(this).text().match(/\(([^)]+)\)/)[1]; // Extracts IC from parentheses
+		$(document).on("click", ".ic-list-item", function(){
+			var customerId = $(this).data("id");
+			var customerName = $(this).text().split(" (")[0]; // Extracts name
+			var customerIC = $(this).text().match(/\(([^)]+)\)/)[1]; // Extracts IC from parentheses
 
-    // Assign values to text fields
-    $("input[name='name']").val(customerName);
-    $("input[name='ic']").val(customerIC);
+			// Assign values to text fields
+			$("input[name='name']").val(customerName);
+			$("input[name='ic']").val(customerIC);
 
-    // Hide search list
-    $("#ic-search-list").hide();
-});
+			// Hide search list
+			$("#ic-search-list").hide();
+		});
 </script>
 
 
