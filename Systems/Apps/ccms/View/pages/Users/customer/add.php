@@ -17,6 +17,10 @@
 .ic-list-item:hover {
 	background-color: black;
 }
+
+.radio-spacing {
+    margin-right: 20px; /* Adjust spacing */
+}
 </style>
 
 <div class="card">
@@ -43,7 +47,7 @@
 
 		<div class="col-md-6">
 			Phone:
-			<input type="text" placeholder="+60 ..." name="phone" class="form-control" /> <br>
+			<input type="text" placeholder="Phone" name="phone" class="form-control"  pattern="\d{10,11}"/><br />
 		</div>
 
 		<div class="col-md-6">
@@ -56,6 +60,22 @@
 			<textarea type="text" placeholder="Address" name="address" rows="3" class="form-control" value=""> </textarea>
 			<br>
 		</div>
+		<div class="col-md-6">
+			<label>Citizenship Status:</label>
+			<div class="form-check d-flex align-items-center justify-content-start ms-1"> <!-- Moves right -->
+				<div class="d-flex align-items-center me-4" style="margin-right: 28px;"> <!-- Increased spacing -->
+					<input class="form-check-input me-2" type="checkbox" name="citizenship" id="citizen" value="citizen" required>
+					<label class="form-check-label" for="citizen">Citizen</label>
+				</div>
+				<div class="d-flex align-items-center">
+					<input class="form-check-input me-2" type="checkbox" name="citizenship" id="non_citizen" value="non_citizen" required>
+					<label class="form-check-label" for="non_citizen">Non-Citizen</label>
+				</div>
+			</div>
+		</div>
+		
+
+
 
 		<div class="col-md-12 text-center">
 			<button class="btn btn-sm btn-primary">
