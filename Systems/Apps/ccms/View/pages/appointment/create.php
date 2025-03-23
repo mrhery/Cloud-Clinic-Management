@@ -318,48 +318,52 @@ Controller::alert();
 	</div> 
 
 	<div class="text-center">
-	<?php
-		Controller::form("appointment", [
-			"action"	=> "create"
-		]);
-	?>
-		<button class="btn btn-success">
-			<span class="fa fa-rocket"></span> Submit
-		</button>
+		<?php
+			Controller::form("appointment", [
+				"action"	=> "create"
+			]);
+		?>
+		<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
+			<span class="fa fa-rocket"></span> Preview
+		</a>
 	</div>
 </form>
 </body>
 
 
 <script>
-	$(document).on("keyup", "#search-ic", function(){
-    var skey = $(this).val();
-    $("#ic-search-list").show();
+	let searchTimeout;
+$(document).on("keyup", "#search-ic", function() {
+    clearTimeout(searchTimeout);
+    let skey = $(this).val();
+    
+    if (skey.length < 3) { // Reduce unnecessary calls
+        $("#ic-search-list").hide();
+        return;
+    }
 
-    $.ajax({
-        url: PORTAL + "webservice/customers/search",
-        method: "POST",
-        data: {
-            action: "search",
-            skey: skey
-        },
-        dataType: "text"
-    }).done(function(res){
-        var o = JSON.parse(res);
-
-        if(o.status == "success"){
-            $("#ic-search-list").html("");
-
-            o.data.forEach(function(c){
-                $("#ic-search-list").append(`
-                    <div class="ic-list-item" data-id="${c.id}">
-                        <strong>${c.name} (${c.ic})</strong><br />
-                        ${c.phone} <br /> ${c.email}
-                    </div>
-                `);
-            });
-        }
-    });
+    searchTimeout = setTimeout(() => {
+        $("#ic-search-list").show();
+        $.ajax({
+            url: PORTAL + "webservice/customers/search",
+            method: "POST",
+            data: { action: "search", skey: skey },
+            dataType: "text"
+        }).done(function(res) {
+            let o = JSON.parse(res);
+            if (o.status === "success") {
+                $("#ic-search-list").html("");
+                o.data.forEach(function(c) {
+                    $("#ic-search-list").append(`
+                        <div class="ic-list-item" data-id="${c.id}">
+                            <strong>${c.name} (${c.ic})</strong><br />
+                            ${c.phone} <br /> ${c.email}
+                        </div>
+                    `);
+                });
+            }
+        });
+    }, 300); // 300ms delay before sending request
 });
 
 

@@ -63,6 +63,10 @@ if(count($c) > 0){
 							
 							Email:
 							<input type="email" class="form-control" name="email" placeholder="example@abc.com" value="<?= $c->c_email ?>" disabled /><br />
+
+							IC:
+							<input type="ic" class="form-control" name="ic" placeholder="Enter Identification Card No" value="<?= $c->c_ic ?>" disabled /><br />
+
 						<?php
 							}else{
 								// do nothing
