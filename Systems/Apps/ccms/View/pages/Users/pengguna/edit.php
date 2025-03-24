@@ -22,7 +22,7 @@ if (count($u) > 0) {
 				<input type="email" placeholder="Email" name="email" class="form-control" value="<?= $u->u_email ?>" /><br />
 				
 				Phone:
-				<input type="text" placeholder="Phone" name="phone" class="form-control" value="<?= $u->u_phone ?>" pattern="\d{10,11}"/><br />
+				<input type="text" placeholder="Phone" name="phone" class="form-control" value="<?= $u->u_phone ?>" maxlength="11" pattern="\d{10,11}"/><br />
 				
 				Address:
 				<textarea type="text" placeholder="Address" name="alamat" rows="3" class="form-control" value=""><?= $u->u_alamat ?></textarea><br />
