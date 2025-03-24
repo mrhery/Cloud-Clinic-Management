@@ -16,13 +16,13 @@ if (count($u) > 0) {
 				<input type="text" placeholder="Name" name="name" class="form-control" value="<?= $u->u_name ?>" /><br />
 				
 				IC:
-				<input type="text" placeholder="IC No." name="ic" class="form-control" value="<?= $u->u_ic ?>" /><br />
+				<input type="text" placeholder="IC No." name="ic" class="form-control" value="<?= $u->u_ic ?>" maxlength="12" pattern="\d{12}"/><br />
 				
 				Email:
 				<input type="email" placeholder="Email" name="email" class="form-control" value="<?= $u->u_email ?>" /><br />
 				
 				Phone:
-				<input type="text" placeholder="Phone" name="phone" class="form-control" value="<?= $u->u_phone ?>" /><br />
+				<input type="text" placeholder="Phone" name="phone" class="form-control" value="<?= $u->u_phone ?>" pattern="\d{10,11}"/><br />
 				
 				Address:
 				<textarea type="text" placeholder="Address" name="alamat" rows="3" class="form-control" value=""><?= $u->u_alamat ?></textarea><br />

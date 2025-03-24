@@ -26,7 +26,7 @@ Controller::alert();
 					<div class="row">
 						<div class="col-md-6">
 							Name:
-							<input type="text" placeholder="Business Name" name="name" class="form-control" value="<?= $c->c_name ?>" /> <br />
+							<input type="text" placeholder="Business Name" name="name" class="form-control" value="<?= $c->c_name ?>" disabled readonly/> <br />
 						</div>
 
 						<div class="col-md-6">
@@ -36,7 +36,7 @@ Controller::alert();
 
 						<div class="col-md-6">
 							Phone:
-							<input type="text" placeholder="Phone" name="phone" class="form-control" value="<?= $c->c_phone ?>" /> <br />
+							<input type="text" placeholder="Phone" name="phone" class="form-control" value="<?= $c->c_phone ?>" maxlength="10" pattern="\d{9,10}" /> <br />
 						</div>
 
 						<div class="col-md-6">

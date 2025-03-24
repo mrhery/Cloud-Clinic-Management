@@ -33,7 +33,7 @@ Controller::alert();
 
 						<div class="col-md-6">
 							Phone:
-							<input type="text" placeholder="Phone" name="phone" class="form-control" /> <br />
+							<input type="text" placeholder="Phone" name="phone" class="form-control" maxlength="10" pattern="\d{9,10}"/> <br />
 						</div>
 
 						<div class="col-md-6">

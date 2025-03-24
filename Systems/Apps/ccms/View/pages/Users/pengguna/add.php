@@ -10,13 +10,13 @@ Controller::alert();
 			<input type="text" placeholder="Name" name="name" class="form-control" /><br />
 			
 			IC:
-			<input type="text" placeholder="IC No." name="ic" class="form-control" /><br />
+			<input type="text" placeholder="IC No." name="ic" class="form-control" maxlength="12" pattern="\d{12}"/><br />
 			
 			Email:
 			<input type="email" placeholder="Email" name="email" class="form-control" /><br />
 			
 			Phone:
-			<input type="text" placeholder="Phone" name="phone" class="form-control"  pattern="\d{10,11}"/><br />
+			<input type="text" placeholder="Phone" name="phone" class="form-control" maxlength="11" pattern="\d{10,11}"/><br />
 			
 			Address:
 			<textarea type="text" placeholder="Address" name="alamat" rows="3" class="form-control"></textarea><br />
