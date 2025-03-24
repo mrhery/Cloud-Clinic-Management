@@ -26,7 +26,7 @@ Controller::alert();
 					<div class="row">
 						<div class="col-md-6">
 							Name:
-							<input type="text" placeholder="Business Name" name="name" class="form-control" value="<?= $c->c_name ?>" disabled readonly/> <br />
+							<input type="text" placeholder="Business Name" name="name" class="form-control" value="<?= $c->c_name ?>" disabled/> <br />
 						</div>
 
 						<div class="col-md-6">
