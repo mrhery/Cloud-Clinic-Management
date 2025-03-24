@@ -1,42 +1,76 @@
-	<style>
-        #ic-search-list {
-            display: none;
-            position: absolute;
-            background-color: #363636;
-            width: 95%;
-            overflow-y: auto;
-            z-index: 1;
-        }
+<style>
+			#ic-search-list {
+				display: none;
+				position: absolute;
+				background-color: #363636;
+				width: 95%;
+				overflow-y: auto;
+				z-index: 1;
+			}
 
-        .ic-list-item {
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 9pt;
-        }
+			.ic-list-item {
+				color: white;
+				padding: 10px;
+				cursor: pointer;
+				font-size: 9pt;
+			}
 
-        .ic-list-item:hover {
-            background-color: black;
-        }
+			.ic-list-item:hover {
+				background-color: black;
+			}
 
-		.timepicker-container {
-            max-width: 300px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .btn-container {
-            margin-top: 10px;
-        }
-        .selected-time {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-    </style>
+			.btn-container {
+				margin-top: 10px;
+			}
+
+			.timepicker-container { 
+				width: 450px; /* Adjust as needed */
+				height: 390px; /* Increase height */
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				justify-content: center; /* Center content vertically */
+				align-items: center; /* Center content horizontally */
+				margin: 0 auto; /* Center within the parent container */
+			}
+
+			.timepicker {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				padding: 20px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				background-color: #f9f9f9;
+				min-height: 200px;
+			}
+
+			.timepicker div {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				min-width: 60px; /* Increase minimum width */
+			}
+
+			.timepicker span {
+				font-size: 22px; /* Increase font size */
+				font-weight: bold;
+			}
+
+			.arrow {
+				cursor: pointer;
+				font-size: 30px; /* Increase arrow size */
+				user-select: none;
+			}
+
+			.selected-time {
+				margin-top: 20px; /* Increase spacing */
+				font-weight: bold;
+				font-size: 18px;
+			}
+      
+</style>
 
 
 
@@ -151,34 +185,28 @@ Controller::alert();
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
-							<form id="timeForm" method="POST" action="save_time.php">
 							<div class="timepicker-container">
-								<label><strong>Enter Time</strong></label>
-								<div class="form-row">
-									<div class="col">
-										<select id="hour" class="form-control"></select>
+								<label><strong>Timepicker</strong></label>
+								<div class="timepicker">
+									<div>
+										<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
+										<span id="hour">11</span>
+										<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
 									</div>
-									<div class="col">
-										<select id="minute" class="form-control">
-											<option value="00">00</option>
-											<option value="30">30</option>
-										</select>
+									<span>:</span>
+									<div>
+										<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
+										<span id="minute">32</span>
+										<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
 									</div>
-									<div class="col">
-										<select id="ampm" class="form-control">
-											<option value="AM">AM</option>
-											<option value="PM">PM</option>
-										</select>
+									<div>
+										<div class="arrow" onclick="changeTime('ampm', 1)">▲</div>
+										<span id="ampm">PM</span>
+										<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
 									</div>
 								</div>
-								<div class="btn-container">
-									<button type="button" id="now" class="btn btn-primary">Now</button>
-									<button type="button" id="clear" class="btn btn-danger">Clear</button>
-								</div>
-								<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
-								<input type="hidden" name="a_bookedTime" id="a_bookedTime" />
+								<!-- <div class="selected-time">Selected Time: <span id="selectedTime">11:32 PM</span></div> -->
 							</div>
-						</form>
 				
 						</div>
 						
@@ -432,69 +460,42 @@ var calendar = prepareCalendar("#calendar", {
 });
 calendar.manipulate();
 
-$(document).ready(function () {
-    // Populate hours from 1 to 12 without leading zeros
-    for (let i = 1; i <= 12; i++) {
-        $("#hour").append(`<option value="${i}">${i}</option>`);
+function changeTime(type, delta) {
+    let hourElem = document.getElementById("hour");
+    let minuteElem = document.getElementById("minute");
+    let ampmElem = document.getElementById("ampm");
+    let selectedTimeElem = document.getElementById("selectedTime");
+
+    let hour = parseInt(hourElem.innerText);
+    let minute = parseInt(minuteElem.innerText);
+    let ampm = ampmElem.innerText;
+
+    if (type === "hour") {
+        hour += delta;
+        if (hour < 1) hour = 12; // Wrap around
+        if (hour > 12) hour = 1;  // Wrap around
+    } else if (type === "minute") {
+        minute += delta * 30;
+        if (minute >= 60) {
+            minute = 0;
+            hour += 1;
+        } else if (minute < 0) {
+            minute = 30;
+            hour -= 1;
+        }
+        if (hour < 1) hour = 12;
+        if (hour > 12) hour = 1;
+    } else if (type === "ampm") {
+        ampm = (ampm === "AM") ? "PM" : "AM";
     }
 
-    // Update selected time function
-	function updateTime() {
-    let hour = parseInt($('#hour').val(), 10);
-    let minute = $('#minute').val();
-    let ampm = $('#ampm').val();
-
-    // Convert 12-hour format to 24-hour format
-    if (ampm === 'PM' && hour !== 12) {
-        hour += 12;
-    } else if (ampm === 'AM' && hour === 12) {
-        hour = 0;
-    }
-
-    // Format hour and minute with leading zeros
-    let formattedHour = String(hour).padStart(2, '0');
-    let formattedMinute = String(minute).padStart(2, '0');
-
-    $("#selectedTime").text(`${formattedHour}:${formattedMinute}`);
-    $("#time").val(`${formattedHour}:${formattedMinute}`); // Store in 24-hour format
+    hourElem.innerText = hour;
+    minuteElem.innerText = minute.toString().padStart(2, '0');
+    ampmElem.innerText = ampm;
+    selectedTimeElem.innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
 }
 
-    $("select").change(updateTime);
 
-    // Set to current time
-    $('#now').click(function (event) {
-        event.preventDefault(); // Prevents form submission if inside a form
-
-        let now = new Date();
-        let hours24 = now.getHours();
-        let minutes = now.getMinutes();
-        let ampm = hours24 >= 12 ? 'PM' : 'AM';
-
-        // Convert 24-hour format to 12-hour format
-        let hours12 = hours24 % 12 || 12; // 0 or 12 should be converted to 12 AM/PM
-        minutes = minutes >= 30 ? '30' : '00'; // Round minutes to 00 or 30
-
-        // Update dropdown values
-        $('#hour').val(hours12);
-        $('#minute').val(minutes);
-        $('#ampm').val(ampm);
-
-        // Manually trigger change to update display
-        updateTime();
-    });
-
-    // Clear selection
-		$('#clear').click(function (event) {
-			event.preventDefault(); // Prevents unintended navigation
-
-			$('#hour').prop('selectedIndex', 0);
-			$('#minute').prop('selectedIndex', 0);
-			$('#ampm').prop('selectedIndex', 0);
-
-			$('#selectedTime').text('--:-- --');
-			$('#time').val('');
-		});
-});
 
 		$(document).on("click", ".ic-list-item", function(){
 			var customerId = $(this).data("id");

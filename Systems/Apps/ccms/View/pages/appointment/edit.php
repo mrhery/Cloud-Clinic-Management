@@ -1,21 +1,38 @@
 <style>
-		.timepicker-container {
-            max-width: 300px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .btn-container {
-            margin-top: 10px;
-        }
-        .selected-time {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
+		 .timepicker-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 750px;
+			background: #f9f9f9;
+			padding: 15px;
+			border-radius: 8px;
+			border: 1px solid #ccc;
+			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+		.timepicker {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+		}
+		.timepicker div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			font-size: 20px;
+		}
+		.arrow {
+			cursor: pointer;
+			font-size: 18px;
+			padding: 2px;
+		}
+		.selected-time {
+			margin-top: 10px;
+			font-weight: bold;
+			font-size: 18px;
+		}
     </style>
 
 <?php
@@ -60,34 +77,29 @@ if(count($a) > 0){
 			
 			Time:
 			<div class="timepicker-container">
-				<label><strong>Enter Time</strong></label>
-				<div class="form-row">
-					<div class="col">
-						<select id="hour" class="form-control" name="hour">
-							<!-- Hours will be populated dynamically -->
-						</select>
+				<label><strong>Timepicker</strong></label>
+				<div class="timepicker">
+					<div>
+					<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
+					<span id="hour">11</span>
+					<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
 					</div>
-					<div class="col">
-						<select id="minute" class="form-control" name="minute">
-							<option value="00">00</option>
-							<option value="30">30</option>
-						</select>
+					<span>:</span>
+					<div>
+					<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
+					<span id="minute">32</span>
+					<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
 					</div>
-					<div class="col">
-						<select id="ampm" class="form-control" name="ampm">
-							<option value="AM">AM</option>
-							<option value="PM">PM</option>
-						</select>
+					<div>
+					<div class="arrow" onclick="changeTime('ampm', 1)">▲</div>
+					<span id="ampm">PM</span>
+					<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
 					</div>
 				</div>
-				<div class="btn-container">
-					<button id="now" class="btn btn-primary">Now</button>
-					<button id="clear" class="btn btn-danger">Clear</button>
-				</div>
-				<div class="selected-time">Selected Time: <span id="selectedTime">--:-- --</span></div>
+				<!-- <div class="selected-time">Selected Time: <span id="selectedTime">11:32 PM</span></div> -->
 			</div>
 
-			<input type="hidden" name="time" id="time" value="<?= date('h:i A', strtotime($a->a_time)) ?>" />
+			<input type="hidden" name="time" id="time" value="<?= date('h:i A', strtotime($a->a_time)) ?>" /><br />
 
 			
 			Status:
@@ -174,48 +186,23 @@ if(count($a) > 0){
 }
 ?>
 <script>
-		$(document).ready(function () {
-    // Populate hours from 1 to 12
-    for (let i = 1; i <= 12; i++) {
-        $("#hour").append(`<option value="${i}">${i}</option>`);
+	  function changeTime(type, value) {
+    let hour = parseInt(document.getElementById('hour').innerText);
+    let minute = parseInt(document.getElementById('minute').innerText);
+    let ampm = document.getElementById('ampm').innerText;
+    
+    if (type === 'hour') {
+      hour = (hour + value) % 12 || 12;
+    } else if (type === 'minute') {
+      minute = (minute + value + 60) % 60;
+    } else if (type === 'ampm') {
+      ampm = ampm === 'AM' ? 'PM' : 'AM';
     }
-
-    // Update selected time
-    function updateTime() {
-        let hour = $('#hour').val();
-        let minute = $('#minute').val();
-        let ampm = $('#ampm').val();
-        $("#selectedTime").text(`${hour}:${minute} ${ampm}`);
-    }
-    $("select").change(updateTime);
-
-    // Set to current time
-    $('#now').click(function (event) {
-        event.preventDefault(); // Prevents form submission if inside a form
-
-        let now = new Date();
-        let hours = now.getHours();
-        let minutes = now.getMinutes() >= 30 ? '30' : '00';
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-
-        hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
-
-        $('#hour').val(hours);
-        $('#minute').val(minutes);
-        $('#ampm').val(ampm);
-
-        $("#selectedTime").text(`${hours}:${minutes} ${ampm}`);
-    });
-
-    // Clear selection
-    $('#clear').click(function (event) {
-        event.preventDefault(); // Prevents unintended navigation
-
-        $('#hour').prop('selectedIndex', 0);
-        $('#minute').prop('selectedIndex', 0);
-        $('#ampm').prop('selectedIndex', 0);
-
-        $('#selectedTime').text('--:-- --');
-    });
-});
+    
+    document.getElementById('hour').innerText = hour;
+    document.getElementById('minute').innerText = minute.toString().padStart(2, '0');
+    document.getElementById('ampm').innerText = ampm;
+    document.getElementById('selectedTime').innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+  }
+   
 </script>
