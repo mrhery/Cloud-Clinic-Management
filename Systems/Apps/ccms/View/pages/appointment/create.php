@@ -69,7 +69,6 @@
 				font-weight: bold;
 				font-size: 18px;
 			}
-      
 </style>
 
 
@@ -98,7 +97,7 @@ Controller::alert();
 					<div class="row">
 						<div class="col-md-6">
 							<div class="input-group mb-3">
-								<input type="text" autofocus class="form-control" id="search-ic" name="search-ic" placeholder="Keywords..." autofill="off" />
+								<input type="text" autofocus class="form-control" id="search-ic" name="search-ic" placeholder="Keywords..."/>
 								
 								<div class="input-group-append">
 									<button class="btn btn-outline-primary" id="btn-customer-search" type="button"><span class="fa fa-search"></span> Search</button>
@@ -114,7 +113,7 @@ Controller::alert();
 						<div class="col-md-6">
 							<input type="hidden" name="c_id" />
 							Name:
-							<input type="text" class="form-control" name="name" placeholder="Name" autofill="off" value="<?= Input::get("name") ?>" /><br />
+							<input type="text" class="form-control" name="name" placeholder="Name" value="<?= Input::get("name") ?>" /><br />
 							
 							IC / Passport:
 							<input type="text" class="form-control" name="ic" placeholder="IC / Passport" value="<?= Input::get("ic") ?>" /><br />
@@ -169,13 +168,13 @@ Controller::alert();
 							</select><br />
 							
 							Doctor:
-							<select class="form-control" name="pic">
+							<select class="form-control" name="pic"> 
 								<?php
-									foreach (roles::list() as $role) {
-										if ($role->r_name == "Doctor") { // Filter only Doctor role
+									foreach (users::list() as $user) {
+										if ($user->u_role == 2) { // Check if user role is Doctor
 								?>
-											<option value="<?= $role->r_id ?>">
-												<?= $role->r_name ?>
+											<option value="<?= $user->u_id ?>">
+												<?= $user->u_name ?>
 											</option>
 								<?php
 										}

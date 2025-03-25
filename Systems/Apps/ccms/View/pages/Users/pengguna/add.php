@@ -16,7 +16,7 @@ Controller::alert();
 			<input type="email" placeholder="Email" name="email" class="form-control" /><br />
 			
 			Phone:
-			<input type="text" placeholder="Phone" name="phone" class="form-control" maxlength="11" pattern="\d{10,11}"/><br />
+			<input type="text" placeholder="Phone" name="phone" class="form-control" id="phone" maxlength="11" pattern="\d{10,11}" oninput="validatePhone(this)" /><br />
 			
 			Address:
 			<textarea type="text" placeholder="Address" name="alamat" rows="3" class="form-control"></textarea><br />
@@ -65,3 +65,22 @@ Controller::alert();
 		</div>
 	</div>
 </form>
+<script>
+function validatePhone(input) {
+    let value = input.value;
+    
+    // Ensure only numbers are entered
+    value = value.replace(/\D/g, '');
+
+    // Check the prefix and adjust the max length
+    if (value.startsWith('011')) {
+        input.maxLength = 11; // 011 should have 11 digits
+    } else if (/^01[2-9]/.test(value)) {
+        input.maxLength = 10; // 012, 013, 014, etc. should have 10 digits
+    } else {
+        input.maxLength = 11; // Default case, prevent excessive input
+    }
+
+    input.value = value; // Update input field with filtered value
+}
+</script>

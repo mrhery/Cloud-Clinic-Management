@@ -62,13 +62,13 @@
 		</div>
 		<div class="col-md-6">
 			<label>Citizenship Status:</label>
-			<div class="form-check d-flex align-items-center justify-content-start ms-1"> <!-- Moves right -->
-				<div class="d-flex align-items-center me-4" style="margin-right: 28px;"> <!-- Increased spacing -->
-					<input class="form-check-input me-2" type="checkbox" name="citizenship" id="citizen" value="citizen" required>
+			<div class="form-check d-flex align-items-center justify-content-start ms-1">
+				<div class="d-flex align-items-center me-4" style="margin-right: 28px;">
+					<input class="form-check-input me-2" type="radio" name="citizenship" id="citizen" value="citizen" required>
 					<label class="form-check-label" for="citizen">Citizen</label>
 				</div>
 				<div class="d-flex align-items-center">
-					<input class="form-check-input me-2" type="checkbox" name="citizenship" id="non_citizen" value="non_citizen" required>
+					<input class="form-check-input me-2" type="radio" name="citizenship" id="non_citizen" value="non_citizen" required>
 					<label class="form-check-label" for="non_citizen">Non-Citizen</label>
 				</div>
 			</div>
