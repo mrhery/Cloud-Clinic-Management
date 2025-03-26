@@ -80,20 +80,20 @@ if(count($a) > 0){
 				<label><strong>Timepicker</strong></label>
 				<div class="timepicker">
 					<div>
-						<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
-						<span id="hour">11</span>
-						<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
+					<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
+					<span id="hour">11</span>
+					<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
 					</div>
 					<span>:</span>
 					<div>
-						<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
-						<span id="minute">32</span>
-						<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
+					<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
+					<span id="minute">32</span>
+					<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
 					</div>
 					<div>
-						<div class="arrow" onclick="changeTime('ampm', 1)">▲</div>
-						<span id="ampm">PM</span>
-						<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
+					<div class="arrow" onclick="changeTime('ampm', 1)">▲</div>
+					<span id="ampm">PM</span>
+					<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
 					</div>
 				</div>
 				<!-- <div class="selected-time">Selected Time: <span id="selectedTime">11:32 PM</span></div> -->
@@ -190,18 +190,19 @@ function changeTime(type, value) {
     let hour = parseInt(document.getElementById('hour').innerText);
     let minute = parseInt(document.getElementById('minute').innerText);
     let ampm = document.getElementById('ampm').innerText;
-
+    
     if (type === 'hour') {
-        hour = (hour + value + 11) % 12 + 1; // Ensure 1-12 cycle
+      hour = (hour + value) % 12 || 12;
     } else if (type === 'minute') {
-        minute = (minute + value + 60) % 60;
+      minute = (minute + value + 60) % 60;
     } else if (type === 'ampm') {
-        ampm = ampm === 'AM' ? 'PM' : 'AM';
+      ampm = ampm === 'AM' ? 'PM' : 'AM';
     }
-
+    
     document.getElementById('hour').innerText = hour;
     document.getElementById('minute').innerText = minute.toString().padStart(2, '0');
     document.getElementById('ampm').innerText = ampm;
     document.getElementById('selectedTime').innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
-}
+  }
+   
 </script>

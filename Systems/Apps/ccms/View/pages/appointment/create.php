@@ -192,7 +192,7 @@ Controller::alert();
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
-							<div class="timepicker-container" style="text-align: center; margin-top: 10px;">
+							<div class="timepicker-container">
 								<label><strong>Timepicker</strong></label>
 								<div class="timepicker">
 									<div>
@@ -212,13 +212,10 @@ Controller::alert();
 										<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
 									</div>
 								</div>
+								<!-- <div class="selected-time">Selected Time: <span id="selectedTime">11:32 PM</span></div> -->
 							</div>
-							<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
-										<span class="fa fa-rocket"></span> Preview
-									</a>
+				
 						</div>
-
-						
 						
 						<div class="col-md-6">
 							<table class="table table-hover table-fluid">
@@ -361,8 +358,8 @@ Controller::alert();
 				"action"	=> "create"
 			]);
 		?>
-		<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success">
-			<span class="fa fa-rocket"></span> Submit
+		<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
+			<span class="fa fa-rocket"></span> Preview
 		</a>
 	</div>
 </form>
@@ -478,23 +475,40 @@ var calendar = prepareCalendar("#calendar", {
 });
 calendar.manipulate();
 
-    function changeTime(type, value) {
-        let hourElem = document.getElementById("hour");
-        let minuteElem = document.getElementById("minute");
-        let ampmElem = document.getElementById("ampm");
+function changeTime(type, delta) {
+    let hourElem = document.getElementById("hour");
+    let minuteElem = document.getElementById("minute");
+    let ampmElem = document.getElementById("ampm");
+    let selectedTimeElem = document.getElementById("selectedTime");
 
-        if (type === "hour") {
-            let hour = parseInt(hourElem.innerText);
-            hour = (hour + value + 12) % 12 || 12;
-            hourElem.innerText = hour;
-        } else if (type === "minute") {
-            let minute = parseInt(minuteElem.innerText);
-            minute = (minute + value + 60) % 60;
-            minuteElem.innerText = minute < 10 ? "0" + minute : minute;
-        } else if (type === "ampm") {
-            ampmElem.innerText = ampmElem.innerText === "AM" ? "PM" : "AM";
+    let hour = parseInt(hourElem.innerText);
+    let minute = parseInt(minuteElem.innerText);
+    let ampm = ampmElem.innerText;
+
+    if (type === "hour") {
+        hour += delta;
+        if (hour < 1) hour = 12; // Wrap around
+        if (hour > 12) hour = 1;  // Wrap around
+    } else if (type === "minute") {
+        minute += delta * 30;
+        if (minute >= 60) {
+            minute = 0;
+            hour += 1;
+        } else if (minute < 0) {
+            minute = 30;
+            hour -= 1;
         }
+        if (hour < 1) hour = 12;
+        if (hour > 12) hour = 1;
+    } else if (type === "ampm") {
+        ampm = (ampm === "AM") ? "PM" : "AM";
     }
+
+    hourElem.innerText = hour;
+    minuteElem.innerText = minute.toString().padStart(2, '0');
+    ampmElem.innerText = ampm;
+    selectedTimeElem.innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+}
 
 
 
