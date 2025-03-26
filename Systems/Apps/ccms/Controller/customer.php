@@ -13,7 +13,6 @@ switch(Input::post("action")){
 					"c_email"		=> Input::post("email"),
 					"c_phone"		=> Input::post("phone"),
 					"c_address"		=> Input::post("address"),
-					"c_email"		=> Input::post("email"),
 					"c_ukey"		=> $ukey
 				]);
 				
