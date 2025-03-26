@@ -8,7 +8,6 @@
 			background: #f9f9f9;
 			padding: 15px;
 			border-radius: 8px;
-			border: 1px solid #ccc;
 			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   }
 		.timepicker {

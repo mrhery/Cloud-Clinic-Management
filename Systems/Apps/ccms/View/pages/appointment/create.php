@@ -23,15 +23,8 @@
 				margin-top: 10px;
 			}
 
-			.timepicker-container { 
-				width: 450px; /* Adjust as needed */
-				height: 390px; /* Increase height */
-				text-align: center;
-				display: flex;
-				flex-direction: column;
-				justify-content: center; /* Center content vertically */
-				align-items: center; /* Center content horizontally */
-				margin: 0 auto; /* Center within the parent container */
+			.timepicker-container {
+   				 margin-top: 5px; /* Reduce space between label and picker */
 			}
 
 			.timepicker {
@@ -191,24 +184,24 @@ Controller::alert();
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
+							Time:
 							<div class="timepicker-container">
-								<label><strong>Timepicker</strong></label>
 								<div class="timepicker">
 									<div>
-										<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
-										<span id="hour">11</span>
-										<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
+									<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
+									<span id="hour">11</span>
+									<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
 									</div>
 									<span>:</span>
 									<div>
-										<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
-										<span id="minute">32</span>
-										<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
+									<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
+									<span id="minute">32</span>
+									<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
 									</div>
 									<div>
-										<div class="arrow" onclick="changeTime('ampm', 1)">▲</div>
-										<span id="ampm">PM</span>
-										<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
+									<div class="arrow" onclick="changeTime('ampm', 1)">▲</div>
+									<span id="ampm">PM</span>
+									<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
 									</div>
 								</div>
 								<!-- <div class="selected-time">Selected Time: <span id="selectedTime">11:32 PM</span></div> -->
