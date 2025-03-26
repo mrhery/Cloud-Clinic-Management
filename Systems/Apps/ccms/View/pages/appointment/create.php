@@ -40,7 +40,6 @@
 				align-items: center;
 				width: 100%;
 				padding: 20px;
-				border: 1px solid #ccc;
 				border-radius: 5px;
 				background-color: #f9f9f9;
 				min-height: 200px;
@@ -490,16 +489,12 @@ function changeTime(type, delta) {
         if (hour < 1) hour = 12; // Wrap around
         if (hour > 12) hour = 1;  // Wrap around
     } else if (type === "minute") {
-        minute += delta * 30;
+        minute += delta * 30; // Increase or decrease by 30 minutes
         if (minute >= 60) {
-            minute = 0;
-            hour += 1;
+            minute = 0;  // Reset minutes but keep hour unchanged
         } else if (minute < 0) {
-            minute = 30;
-            hour -= 1;
+            minute = 30; // Prevent hour from decreasing
         }
-        if (hour < 1) hour = 12;
-        if (hour > 12) hour = 1;
     } else if (type === "ampm") {
         ampm = (ampm === "AM") ? "PM" : "AM";
     }
@@ -509,7 +504,6 @@ function changeTime(type, delta) {
     ampmElem.innerText = ampm;
     selectedTimeElem.innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
 }
-
 
 
 	$(document).on("click", ".ic-list-item", function() {

@@ -77,7 +77,6 @@ if(count($a) > 0){
 			
 			Time:
 			<div class="timepicker-container">
-				<label><strong>Timepicker</strong></label>
 				<div class="timepicker">
 					<div>
 					<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
@@ -186,23 +185,34 @@ if(count($a) > 0){
 }
 ?>
 <script>
-function changeTime(type, value) {
-    let hour = parseInt(document.getElementById('hour').innerText);
-    let minute = parseInt(document.getElementById('minute').innerText);
-    let ampm = document.getElementById('ampm').innerText;
-    
-    if (type === 'hour') {
-      hour = (hour + value) % 12 || 12;
-    } else if (type === 'minute') {
-      minute = (minute + value + 60) % 60;
-    } else if (type === 'ampm') {
-      ampm = ampm === 'AM' ? 'PM' : 'AM';
+function changeTime(type, delta) {
+    let hourElem = document.getElementById("hour");
+    let minuteElem = document.getElementById("minute");
+    let ampmElem = document.getElementById("ampm");
+    let selectedTimeElem = document.getElementById("selectedTime");
+
+    let hour = parseInt(hourElem.innerText);
+    let minute = parseInt(minuteElem.innerText);
+    let ampm = ampmElem.innerText;
+
+    if (type === "hour") {
+        hour += delta;
+        if (hour < 1) hour = 12; // Wrap around
+        if (hour > 12) hour = 1;  // Wrap around
+    } else if (type === "minute") {
+        minute += delta * 30; // Increase or decrease by 30 minutes
+        if (minute >= 60) {
+            minute = 0;  // Reset minutes but keep hour unchanged
+        } else if (minute < 0) {
+            minute = 30; // Prevent hour from decreasing
+        }
+    } else if (type === "ampm") {
+        ampm = (ampm === "AM") ? "PM" : "AM";
     }
-    
-    document.getElementById('hour').innerText = hour;
-    document.getElementById('minute').innerText = minute.toString().padStart(2, '0');
-    document.getElementById('ampm').innerText = ampm;
-    document.getElementById('selectedTime').innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
-  }
-   
+
+    hourElem.innerText = hour;
+    minuteElem.innerText = minute.toString().padStart(2, '0');
+    ampmElem.innerText = ampm;
+    selectedTimeElem.innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+}
 </script>
