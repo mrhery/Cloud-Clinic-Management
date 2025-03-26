@@ -70,3 +70,14 @@ Controller::alert();
 	?>
     </div>
 </div>
+
+<script>
+document.querySelector("form").addEventListener("submit", function(event) {
+    var phoneInput = document.getElementById("phone").value;
+    if (!/^\d{9,10}$/.test(phoneInput)) {
+        document.getElementById("phone-error").style.display = "block"; 
+    } else {
+        document.getElementById("phone-error").style.display = "none";
+    }
+});
+</script>

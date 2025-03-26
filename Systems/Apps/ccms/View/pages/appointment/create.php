@@ -69,6 +69,11 @@
 				font-weight: bold;
 				font-size: 18px;
 			}
+			.input {
+			padding: 5px;
+			text-align: left; /* or center/right as needed */
+			vertical-align: middle;
+			}
 </style>
 
 
@@ -111,12 +116,15 @@ Controller::alert();
 						<div class="col-md-6"></div>
 						
 						<div class="col-md-6">
-							<input type="hidden" name="c_id" />
-							Name:
-							<input type="text" class="form-control" name="name" placeholder="Name" value="<?= Input::get("name") ?>" /><br />
-							
-							IC / Passport:
-							<input type="text" class="form-control" name="ic" placeholder="IC / Passport" value="<?= Input::get("ic") ?>" /><br />
+							<div class="form-group">
+								<label for="name">Name:</label>
+								<input type="text" class="form-control text-left" name="name" id="name" placeholder="Name" value="<?= Input::get("name") ?>" />
+							</div>
+
+							<div class="form-group">
+								<label for="ic">IC / Passport:</label>
+								<input type="text" class="form-control text-left" name="ic" id="ic" placeholder="IC / Passport" value="<?= Input::get("ic") ?>" />
+							</div>
 						</div>
 						
 						<!-- <div class="col-md-6">						
@@ -184,7 +192,7 @@ Controller::alert();
 							<div id="calendar"></div>
 							<input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d") ?>" required />
 							
-							<div class="timepicker-container">
+							<div class="timepicker-container" style="text-align: center; margin-top: 10px;">
 								<label><strong>Timepicker</strong></label>
 								<div class="timepicker">
 									<div>
@@ -204,10 +212,13 @@ Controller::alert();
 										<div class="arrow" onclick="changeTime('ampm', -1)">▼</div>
 									</div>
 								</div>
-								<!-- <div class="selected-time">Selected Time: <span id="selectedTime">11:32 PM</span></div> -->
 							</div>
-				
+							<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
+										<span class="fa fa-rocket"></span> Preview
+									</a>
 						</div>
+
+						
 						
 						<div class="col-md-6">
 							<table class="table table-hover table-fluid">
@@ -350,8 +361,8 @@ Controller::alert();
 				"action"	=> "create"
 			]);
 		?>
-		<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
-			<span class="fa fa-rocket"></span> Preview
+		<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success">
+			<span class="fa fa-rocket"></span> Submit
 		</a>
 	</div>
 </form>
@@ -361,15 +372,15 @@ Controller::alert();
 <script>
 	let searchTimeout;
 $(document).on("keyup", "#search-ic", function() {
-    clearTimeout(searchTimeout);
-    let skey = $(this).val();
+	clearTimeout(searchTimeout);
+    let skey = $(this).val().trim();
     
     if (skey.length < 3) { // Reduce unnecessary calls
         $("#ic-search-list").hide();
         return;
     }
 
-    searchTimeout = setTimeout(() => {
+	searchTimeout = setTimeout(() => {
         $("#ic-search-list").show();
         $.ajax({
             url: PORTAL + "webservice/customers/search",
@@ -377,22 +388,30 @@ $(document).on("keyup", "#search-ic", function() {
             data: { action: "search", skey: skey },
             dataType: "text"
         }).done(function(res) {
-            let o = JSON.parse(res);
-            if (o.status === "success") {
-                $("#ic-search-list").html("");
-                o.data.forEach(function(c) {
-                    $("#ic-search-list").append(`
-                        <div class="ic-list-item" data-id="${c.id}">
-                            <strong>${c.name} (${c.ic})</strong><br />
-                            ${c.phone} <br /> ${c.email}
-                        </div>
-                    `);
-                });
+            try {
+                let o = JSON.parse(res);
+                $("#ic-search-list").html(""); // Clear previous results
+                
+                if (o.status === "success" && o.data && Array.isArray(o.data) && o.data.length > 0) {
+                    o.data.forEach(function(c) {
+                        $("#ic-search-list").append(`
+                            <div class="ic-list-item" data-id="${c.id}">
+                                <strong>${c.name} (${c.ic})</strong><br />
+                                ${c.phone} <br /> ${c.email}
+                            </div>
+                        `);
+                    });
+                } else {
+                    $("#ic-search-list").html('<div class="ic-list-item">No results found</div>');
+                }
+            } catch (error) {
+                console.error("Invalid JSON response", error);
             }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
         });
-    }, 300); // 300ms delay before sending request
+    }, 300);
 });
-
 
 var calendar = prepareCalendar("#calendar", {
 	singleDate: true,
@@ -459,55 +478,37 @@ var calendar = prepareCalendar("#calendar", {
 });
 calendar.manipulate();
 
-function changeTime(type, delta) {
-    let hourElem = document.getElementById("hour");
-    let minuteElem = document.getElementById("minute");
-    let ampmElem = document.getElementById("ampm");
-    let selectedTimeElem = document.getElementById("selectedTime");
+    function changeTime(type, value) {
+        let hourElem = document.getElementById("hour");
+        let minuteElem = document.getElementById("minute");
+        let ampmElem = document.getElementById("ampm");
 
-    let hour = parseInt(hourElem.innerText);
-    let minute = parseInt(minuteElem.innerText);
-    let ampm = ampmElem.innerText;
-
-    if (type === "hour") {
-        hour += delta;
-        if (hour < 1) hour = 12; // Wrap around
-        if (hour > 12) hour = 1;  // Wrap around
-    } else if (type === "minute") {
-        minute += delta * 30;
-        if (minute >= 60) {
-            minute = 0;
-            hour += 1;
-        } else if (minute < 0) {
-            minute = 30;
-            hour -= 1;
+        if (type === "hour") {
+            let hour = parseInt(hourElem.innerText);
+            hour = (hour + value + 12) % 12 || 12;
+            hourElem.innerText = hour;
+        } else if (type === "minute") {
+            let minute = parseInt(minuteElem.innerText);
+            minute = (minute + value + 60) % 60;
+            minuteElem.innerText = minute < 10 ? "0" + minute : minute;
+        } else if (type === "ampm") {
+            ampmElem.innerText = ampmElem.innerText === "AM" ? "PM" : "AM";
         }
-        if (hour < 1) hour = 12;
-        if (hour > 12) hour = 1;
-    } else if (type === "ampm") {
-        ampm = (ampm === "AM") ? "PM" : "AM";
     }
 
-    hourElem.innerText = hour;
-    minuteElem.innerText = minute.toString().padStart(2, '0');
-    ampmElem.innerText = ampm;
-    selectedTimeElem.innerText = `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
-}
 
 
+	$(document).on("click", ".ic-list-item", function() {
+		var customerId = $(this).data("id");
+		var customerName = $(this).text().split(" (")[0].trim();
+		var matchIC = $(this).text().match(/\(([^)]+)\)/);
+		var customerIC = matchIC ? matchIC[1] : "";
 
-		$(document).on("click", ".ic-list-item", function(){
-			var customerId = $(this).data("id");
-			var customerName = $(this).text().split(" (")[0]; // Extracts name
-			var customerIC = $(this).text().match(/\(([^)]+)\)/)[1]; // Extracts IC from parentheses
+		$("input[name='name']").val(customerName);
+		$("input[name='ic']").val(customerIC);
 
-			// Assign values to text fields
-			$("input[name='name']").val(customerName);
-			$("input[name='ic']").val(customerIC);
-
-			// Hide search list
-			$("#ic-search-list").hide();
-		});
+		$("#ic-search-list").hide();
+	});
 </script>
 
 

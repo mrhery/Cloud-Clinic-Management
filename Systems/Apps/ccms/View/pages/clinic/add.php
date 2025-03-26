@@ -33,7 +33,9 @@ Controller::alert();
 
 						<div class="col-md-6">
 							Phone:
-							<input type="text" placeholder="Phone" name="phone" class="form-control" maxlength="10" pattern="\d{9,10}"/> <br />
+							<input type="text" placeholder="Phone" name="phone" id="phone" class="form-control" maxlength="10" pattern="\d{9,10}" required/>
+							<br />
+							<span id="phone-error" style="color: red; display: none;">Phone number must be 9-10 digits</span>
 						</div>
 
 						<div class="col-md-6">
@@ -81,3 +83,14 @@ Controller::alert();
 	?>
     </div>
 </div>
+
+<script>
+document.querySelector("form").addEventListener("submit", function(event) {
+    var phoneInput = document.getElementById("phone").value;
+    if (!/^\d{9,10}$/.test(phoneInput)) {
+        document.getElementById("phone-error").style.display = "block"; 
+    } else {
+        document.getElementById("phone-error").style.display = "none";
+    }
+});
+</script>
