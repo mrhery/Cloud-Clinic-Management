@@ -22,7 +22,7 @@ if (Session::get("admin")) {
 
 					<div class="col-md-6">
 						Phone:
-						<input type="text" placeholder="Phone" name="phone" class="form-control" pattern="\d{8,11}" required oninput="validatePhone(this)"/> <br />
+						<input type="text" placeholder="Phone" name="phone" class="form-control" pattern="\d{7,11}" required oninput="validatePhone(this)"/> <br />
 					</div>
 
 					<div class="col-md-6">
@@ -78,7 +78,7 @@ function validatePhone(input) {
     } else if (/^01[2-9]/.test(value)) {
         input.setAttribute("maxlength", "10"); // Other 01X numbers must have 10 digits
     } else if (/^\d{8}$/.test(value)) {
-        input.setAttribute("maxlength", "8"); // Allow exactly 8-digit numbers
+        input.setAttribute("maxlength", "7"); // Allow exactly 8-digit numbers
     } else {
         input.setAttribute("maxlength", "11"); // Default case
     }
