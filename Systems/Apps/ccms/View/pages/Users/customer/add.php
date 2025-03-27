@@ -44,10 +44,11 @@
                     <input type="email" placeholder="Email" name="email" class="form-control" required /> <br>
                 </div>
 
-                <div class="col-md-6">
-                    Phone:
-                    <input type="text" placeholder="Phone" name="phone" class="form-control" pattern="\d{10,11}" required /><br />
-                </div>
+				<div class="col-md-6">
+					Phone:
+					<input type="text" placeholder="Phone" name="phone" class="form-control" pattern="\d{11,12}" required oninput="validatePhone(this)" /><br />
+				</div>
+
 
                 <div class="col-md-6">
                     IC:
@@ -91,3 +92,26 @@
         </form>
     </div>
 </div>
+<script>
+function validatePhone(input) {
+    let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+
+    // Check prefix and set the max length accordingly
+    if (value.startsWith('011')) {
+        input.setAttribute("maxlength", "11"); // 011 numbers must have 11 digits
+    } else if (/^01[2-9]/.test(value)) {
+        input.setAttribute("maxlength", "10"); // Other 01X numbers must have 10 digits
+    } else {
+        input.setAttribute("maxlength", "11"); // Default case
+    }
+
+    // Ensure input is trimmed to the correct length
+    if (value.startsWith('011') && value.length > 11) {
+        value = value.substring(0, 11);
+    } else if (/^01[2-9]/.test(value) && value.length > 10) {
+        value = value.substring(0, 10);
+    }
+
+    input.value = value; // Update the field
+}
+</script>

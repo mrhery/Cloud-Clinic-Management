@@ -78,21 +78,18 @@ if (count($u) > 0) {
 
 	<script>
 function validatePhone(input) {
-    let value = input.value;
-    
-    // Ensure only numbers are entered
-    value = value.replace(/\D/g, '');
+	let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
 
-    // Check the prefix and adjust the max length
-    if (value.startsWith('011')) {
-        input.maxLength = 11; // 011 should have 11 digits
-    } else if (/^01[2-9]/.test(value)) {
-        input.maxLength = 10; // 012, 013, 014, etc. should have 10 digits
-    } else {
-        input.maxLength = 11; // Default case, prevent excessive input
-    }
+// Set correct max length
+if (value.startsWith('011')) {
+	input.setAttribute("maxlength", "11"); // Ensure 011-prefixed numbers have 11 digits
+} else if (/^01[2-9]/.test(value)) {
+	input.setAttribute("maxlength", "10"); // Ensure other 01X-prefixed numbers have 10 digits
+} else {
+	input.setAttribute("maxlength", "11"); // Default case
+}
 
-    input.value = value; // Update input field with filtered value
+input.value = value; // Update the field with numeric value only
 }
 </script>
 

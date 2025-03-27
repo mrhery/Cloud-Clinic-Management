@@ -31,7 +31,7 @@ if(count($c) > 0){
 
 				<div class="col-md-12">
 					Phone:
-					<input type="text" placeholder="+60 ..." name="phone" class="form-control" value="<?= $c->c_phone ?>" /><br />
+					<input type="text" placeholder="+60 ..." name="phone" class="form-control" value="<?= $c->c_phone ?>" pattern="\d{10,11}" required oninput="validatePhone(this)" /><br />
 				</div>
 				
 				<div class="col-md-12">
@@ -99,3 +99,19 @@ if(count($c) > 0){
 	new Alert("error", "Selected customer information is not found.");
 }
 ?>
+<script>
+function validatePhone(input) {
+    let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+
+    // Set correct max length
+    if (value.startsWith('011')) {
+        input.setAttribute("maxlength", "11"); // Ensure 011-prefixed numbers have 11 digits
+    } else if (/^01[2-9]/.test(value)) {
+        input.setAttribute("maxlength", "10"); // Ensure other 01X-prefixed numbers have 10 digits
+    } else {
+        input.setAttribute("maxlength", "11"); // Default case
+    }
+
+    input.value = value; // Update the field with numeric value only
+}
+</script>
