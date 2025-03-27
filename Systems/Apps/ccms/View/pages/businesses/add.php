@@ -22,7 +22,7 @@ if (Session::get("admin")) {
 
 					<div class="col-md-6">
 						Phone:
-						<input type="text" placeholder="Phone" name="phone" class="form-control" /> <br />
+						<input type="text" placeholder="Phone" name="phone" class="form-control" pattern="\d{8,11}" required oninput="validatePhone(this)"/> <br />
 					</div>
 
 					<div class="col-md-6">
@@ -68,3 +68,26 @@ if (Session::get("admin")) {
 	new Alert("error", "Only admin allowed to access this page.");
 }
 ?>
+<script>
+function validatePhone(input) {
+    let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+
+    // Check prefix and set the max length accordingly
+    if (value.startsWith('011')) {
+        input.setAttribute("maxlength", "11"); // 011 numbers must have 11 digits
+    } else if (/^01[2-9]/.test(value)) {
+        input.setAttribute("maxlength", "10"); // Other 01X numbers must have 10 digits
+    } else if (/^\d{8}$/.test(value)) {
+        input.setAttribute("maxlength", "8"); // Allow exactly 8-digit numbers
+    } else {
+        input.setAttribute("maxlength", "11"); // Default case
+    }
+
+    // Ensure input is trimmed to the correct length
+    if (value.length > input.maxLength) {
+        value = value.substring(0, input.maxLength);
+    }
+
+    input.value = value; // Update the field
+}
+</script>
