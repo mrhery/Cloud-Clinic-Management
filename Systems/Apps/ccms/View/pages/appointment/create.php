@@ -233,6 +233,16 @@ Controller::alert();
 							</button>
 						</div>
 					</div>
+					<div class="text-center">
+						<?php
+							Controller::form("appointment", [
+								"action"	=> "preview"
+							]);
+						?>
+						<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
+							<span class="fa fa-rocket"></span> Preview
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -350,8 +360,8 @@ Controller::alert();
 				"action"	=> "create"
 			]);
 		?>
-		<a href="<?= PORTAL ?>pages/appointment/preview/" class="btn btn-success btn-info usp-popup-window">
-			<span class="fa fa-rocket"></span> Preview
+		<a href="<?= PORTAL ?>pages/appointment/" class="btn btn-success">
+			<span class="fa fa-rocket"></span> Submit
 		</a>
 	</div>
 </form>
