@@ -1,76 +1,77 @@
 <style>
-			#ic-search-list {
-				display: none;
-				position: absolute;
-				background-color: #363636;
-				width: 95%;
-				overflow-y: auto;
-				z-index: 1;
-			}
-
-			.ic-list-item {
-				color: white;
-				padding: 10px;
-				cursor: pointer;
-				font-size: 9pt;
-			}
-
-			.ic-list-item:hover {
-				background-color: black;
-			}
-
-			.btn-container {
-				margin-top: 10px;
-			}
-
-			.timepicker-container {
-   				 margin-top: 5px; /* Reduce space between label and picker */
-			}
-
-			.timepicker {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				width: 100%;
-				padding: 20px;
-				border-radius: 5px;
-				background-color: #f9f9f9;
-				min-height: 200px;
-			}
-
-			.timepicker div {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				min-width: 60px; /* Increase minimum width */
-			}
-
-			.timepicker span {
-				font-size: 22px; /* Increase font size */
-				font-weight: bold;
-			}
-
-			.arrow {
-				cursor: pointer;
-				font-size: 30px; /* Increase arrow size */
-				user-select: none;
-			}
-
-			.selected-time {
-				margin-top: 20px; /* Increase spacing */
-				font-weight: bold;
-				font-size: 18px;
-			}
-			.input {
-			padding: 5px;
-			text-align: left; /* or center/right as needed */
-			vertical-align: middle;
-			}
+	#btn-customer-add-patient{
+		margin-left: 10px;
+		color: white;
+	}
+	#ic-search-list {
+		display: none;
+		position: absolute;
+		background-color: #363636;
+		width: 95%;
+		overflow-y: auto;
+		z-index: 1;
+	}
+	
+	.ic-list-item {
+		color: white;
+		padding: 10px;
+		cursor: pointer;
+		font-size: 9pt;
+	}
+	
+	.ic-list-item:hover {
+		background-color: black;
+	}
+	
+	.btn-container {
+		margin-top: 10px;
+	}
+	
+	.timepicker-container {
+		margin-top: 5px; /* Reduce space between label and picker */
+	}
+	
+	.timepicker {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		padding: 20px;
+		border-radius: 5px;
+		background-color: #f9f9f9;
+		min-height: 200px;
+	}
+	
+	.timepicker div {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-width: 60px; /* Increase minimum width */
+	}
+	
+	.timepicker span {
+		font-size: 22px; /* Increase font size */
+		font-weight: bold;
+	}
+	
+	.arrow {
+		cursor: pointer;
+		font-size: 30px; /* Increase arrow size */
+		user-select: none;
+	}
+	
+	.selected-time {
+		margin-top: 20px; /* Increase spacing */
+		font-weight: bold;
+		font-size: 18px;
+	}
+	
+	.input {
+		padding: 5px;
+		text-align: left; /* or center/right as needed */
+		vertical-align: middle;
+	}
 </style>
-
-
-
-
 
 <!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="assets/timepicker.css"> -->
@@ -100,6 +101,7 @@ Controller::alert();
 									<button class="btn btn-outline-primary" id="btn-customer-search" type="button"><span class="fa fa-search"></span> Search</button>
 									<button class="btn btn-outline-danger" id="btn-customer-reset" type="button" style="display: none;"><span class="fa fa-close"></span> Reset</button>
 								</div>
+								<a href="<?= PORTAL ?>Users/customers/add" class="btn btn-primary" id="btn-customer-add-patient" type="button"><span class="fa fa-plus"></span> New Patient</a>
 							</div>
 							
 							<div id="ic-search-list"></div>
@@ -189,13 +191,13 @@ Controller::alert();
 								<div class="timepicker">
 									<div>
 									<div class="arrow" onclick="changeTime('hour', 1)">▲</div>
-									<span id="hour">11</span>
+									<span id="hour">10</span>
 									<div class="arrow" onclick="changeTime('hour', -1)">▼</div>
 									</div>
 									<span>:</span>
 									<div>
 									<div class="arrow" onclick="changeTime('minute', 1)">▲</div>
-									<span id="minute">32</span>
+									<span id="minute">30</span>
 									<div class="arrow" onclick="changeTime('minute', -1)">▼</div>
 									</div>
 									<div>
@@ -369,7 +371,7 @@ Controller::alert();
 
 
 <script>
-	let searchTimeout;
+let searchTimeout;
 $(document).on("keyup", "#search-ic", function() {
 	clearTimeout(searchTimeout);
     let skey = $(this).val().trim();
